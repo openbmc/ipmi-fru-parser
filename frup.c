@@ -117,6 +117,7 @@ enum openbmc_vpd_key_id
   OPENBMC_VPD_KEY_CHASSIS_TYPE = 1, /* not a type/len */
   OPENBMC_VPD_KEY_CHASSIS_PART_NUM,
   OPENBMC_VPD_KEY_CHASSIS_SERIAL_NUM,
+  OPENBMC_VPD_KEY_CHASSIS_MAX = OPENBMC_VPD_KEY_CHASSIS_SERIAL_NUM,
   /* TODO: chassis_custom_fields */
 
   OPENBMC_VPD_KEY_BOARD_MFG_DATE, /* not a type/len */
@@ -125,6 +126,7 @@ enum openbmc_vpd_key_id
   OPENBMC_VPD_KEY_BOARD_SERIAL_NUM,
   OPENBMC_VPD_KEY_BOARD_PART_NUM,
   OPENBMC_VPD_KEY_BOARD_FRU_FILE_ID,
+  OPENBMC_VPD_KEY_BOARD_MAX = OPENBMC_VPD_KEY_BOARD_FRU_FILE_ID,
   /* TODO: board_custom_fields */
 
   OPENBMC_VPD_KEY_PRODUCT_MFR,
@@ -134,6 +136,7 @@ enum openbmc_vpd_key_id
   OPENBMC_VPD_KEY_PRODUCT_SERIAL_NUM,
   OPENBMC_VPD_KEY_PRODUCT_ASSET_TAG,
   OPENBMC_VPD_KEY_PRODUCT_FRU_FILE_ID,
+  OPENBMC_VPD_KEY_PRODUCT_MAX = OPENBMC_VPD_KEY_PRODUCT_FRU_FILE_ID,
   /* TODO: product_custom_fields */
 
   OPENBMC_VPD_KEY_MAX,
@@ -814,6 +817,111 @@ parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
     }
     
     sd_bus_message_append (vpdtbl, "ss", vpd_key_names[i], vpd_info [i].type_length_field); 
+  }
+
+ out:
+  rv = 0;
+ cleanup:
+  return (rv);
+}
+
+int parse_fru_area (const uint8_t area, const void* msgbuf, const uint8_t len, sd_bus_message* vpdtbl)
+{
+  int ret = 0;
+  int rv = -1;
+  int i = 0;
+  ipmi_fru_area_info_t fru_area_info [ IPMI_FRU_AREA_TYPE_MAX ];
+  ipmi_fru_common_hdr_t* chdr = NULL;
+  uint8_t* hdr = NULL;
+
+
+  ipmi_fru_field_t vpd_info [ OPENBMC_VPD_KEY_MAX ];
+
+  /* Chassis */
+  uint8_t chassis_type;
+
+  /* Board */
+  uint32_t mfg_date_time;
+
+  /* Product */
+  unsigned int product_custom_fields_len;
+
+  ASSERT (msgbuf);
+  ASSERT (vpdtbl);
+
+  chdr = (ipmi_fru_common_hdr_t*) msgbuf;
+  hdr  = (uint8_t*) msgbuf;
+
+  fru_area_info [ IPMI_FRU_AREA_INTERNAL_USE ].off = chdr->internal;
+  fru_area_info [ IPMI_FRU_AREA_CHASSIS_INFO ].off = chdr->chassis;
+  fru_area_info [ IPMI_FRU_AREA_BOARD_INFO   ].off = chdr->board;
+  fru_area_info [ IPMI_FRU_AREA_PRODUCT_INFO ].off = chdr->product;
+  fru_area_info [ IPMI_FRU_AREA_MULTI_RECORD ].off = chdr->multirec;
+
+  switch (area)
+  {
+    case IPMI_FRU_AREA_CHASSIS_INFO:
+        ipmi_fru_chassis_info_area (msgbuf,
+            len,
+            &chassis_type,
+            &vpd_info [OPENBMC_VPD_KEY_CHASSIS_PART_NUM],
+            &vpd_info [OPENBMC_VPD_KEY_CHASSIS_SERIAL_NUM],
+            NULL, 0);
+
+          /* Populate VPD Table */
+          for (i=1; i<=OPENBMC_VPD_KEY_CHASSIS_MAX; i++)
+          {
+            if (i==OPENBMC_VPD_KEY_CHASSIS_TYPE)
+            {
+                sd_bus_message_append (vpdtbl, "sy", vpd_key_names[i], chassis_type);
+                continue;
+            }
+            sd_bus_message_append (vpdtbl, "ss", vpd_key_names[i], vpd_info [i].type_length_field); 
+          }
+        break;
+    case IPMI_FRU_AREA_BOARD_INFO:
+            ipmi_fru_board_info_area (msgbuf, 
+                len,
+                NULL,
+                &mfg_date_time,
+                &vpd_info [OPENBMC_VPD_KEY_BOARD_MFR],
+                &vpd_info [OPENBMC_VPD_KEY_BOARD_NAME],
+                &vpd_info [OPENBMC_VPD_KEY_BOARD_SERIAL_NUM],
+                &vpd_info [OPENBMC_VPD_KEY_BOARD_PART_NUM],
+                &vpd_info [OPENBMC_VPD_KEY_BOARD_FRU_FILE_ID],
+                NULL, 0);
+
+          /* Populate VPD Table */
+            for (i=OPENBMC_VPD_KEY_BOARD_MFR; i<=OPENBMC_VPD_KEY_BOARD_MAX; i++)
+            {
+                if (i==OPENBMC_VPD_KEY_BOARD_MFG_DATE)
+                {
+                    sd_bus_message_append (vpdtbl, "sa{y}", vpd_key_names[i], mfg_date_time);
+                    continue;
+                }
+                sd_bus_message_append (vpdtbl, "ss", vpd_key_names[i], vpd_info [i].type_length_field); 
+            }
+            break;
+    case IPMI_FRU_AREA_PRODUCT_INFO:
+            ipmi_fru_product_info_area (msgbuf,
+                len,
+                NULL,
+                &vpd_info [OPENBMC_VPD_KEY_PRODUCT_MFR],
+                &vpd_info [OPENBMC_VPD_KEY_PRODUCT_NAME],
+                &vpd_info [OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM],
+                &vpd_info [OPENBMC_VPD_KEY_PRODUCT_VER],
+                &vpd_info [OPENBMC_VPD_KEY_PRODUCT_SERIAL_NUM],
+                &vpd_info [OPENBMC_VPD_KEY_PRODUCT_ASSET_TAG],
+                &vpd_info [OPENBMC_VPD_KEY_PRODUCT_FRU_FILE_ID],
+                NULL, 0);
+            for (i=OPENBMC_VPD_KEY_PRODUCT_MFR; i<=OPENBMC_VPD_KEY_PRODUCT_MAX; i++)
+            {
+                sd_bus_message_append (vpdtbl, "ss", vpd_key_names[i], vpd_info [i].type_length_field); 
+            }
+            break;
+    defualt:
+    /* TODO: Parse Multi Rec / Internal use area */
+    break;
   }
 
  out:
