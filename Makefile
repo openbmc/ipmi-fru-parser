@@ -1,17 +1,17 @@
-CXX ?= $(CROSS_COMPILE)g++
+CXX ?= $(CROSS_COMPILE)gcc
 
 IPMI_FRU_PARSER_LIB = libifp.so
 IPMI_FRU_PARSER_OBJS = frup.o
 
-INC_FLAGS += $(shell pkg-config --cflags --libs libsystemd) -I. -O2 --std=gnu++11
-#LIB_FLAGS += $(shell pkg-config  --libs libsystemd) -rdynamic
+
+INC_FLAGS += -I. -O2 --std=gnu++11 -DIPMI_FRU_PARSER_DEBUG
+#INC_FLAGS += -I. -O2 --std=gnu++11
 LIB_FLAGS += -rdynamic
-#IPMID_PATH ?= -DHOST_IPMI_LIB_PATH=\"/usr/lib/host-ipmid/\" 
 
 all: $(IPMI_FRU_PARSER_LIB)
 
 %.o: %.c
-	$(CXX) -fpic -c $< $(CXXFLAGS) $(INC_FLAG) $(IPMID_PATH) -o $@
+	$(CXX) -fpic -c $< $(CXXFLAGS) $(INC_FLAGS) $(IPMID_PATH) -o $@
 
 $(IPMI_FRU_PARSER_LIB): $(IPMI_FRU_PARSER_OBJS)
 	$(CXX) $^ -shared $(LDFLAGS) $(LIB_FLAGS) -o $@
