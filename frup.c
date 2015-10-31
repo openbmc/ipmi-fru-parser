@@ -44,6 +44,7 @@
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
+#include <systemd/sd-bus.h>
 
 #define uint8_t unsigned char
 #define uint32_t unsigned int
@@ -79,13 +80,6 @@ return -1; \
 
 #define OPENBMC_VPD_KEY_LEN                            64
 #define OPENBMC_VPD_VAL_LEN                            512
-
-
-extern "C"
-{
-int sd_bus_message_append (void*, const char*, ...);
-typedef struct sd_bus_message sd_bus_message;
-};
 
 struct ipmi_fru_field
 {
