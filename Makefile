@@ -1,20 +1,30 @@
 CXX ?= $(CROSS_COMPILE)gcc
 
-IPMI_FRU_PARSER_LIB = libifp.so
-IPMI_FRU_PARSER_OBJS = frup.o
+FRU_WRITE_AND_PARSER_LIB = libwritefrudata.so
+FRU_WRITE_AND_PARSER_OBJS = frup.o writefrudata.o
 
+INC_FLAGS += $(shell pkg-config --cflags --libs libsystemd) -I. -O2 --std=gnu++14
+LIB_FLAGS += $(shell pkg-config  --libs libsystemd) -rdynamic
 
-INC_FLAGS += -I. -O2 --std=gnu++11 -DIPMI_FRU_PARSER_DEBUG
-#INC_FLAGS += -I. -O2 --std=gnu++11
-LIB_FLAGS += -rdynamic
+DESTDIR ?= /
+SBINDIR ?= /usr/sbin
+INCLUDEDIR ?= /usr/include
+LIBDIR ?= /usr/lib
 
-all: $(IPMI_FRU_PARSER_LIB)
+all: $(FRU_WRITE_AND_PARSER_LIB)
 
 %.o: %.c
 	$(CXX) -fpic -c $< $(CXXFLAGS) $(INC_FLAGS) $(IPMID_PATH) -o $@
 
-$(IPMI_FRU_PARSER_LIB): $(IPMI_FRU_PARSER_OBJS)
+%.o: %.C
+	$(CXX) -fpic -c $< $(CXXFLAGS) $(INC_FLAGS) $(IPMID_PATH) -o $@
+
+$(FRU_WRITE_AND_PARSER_LIB): $(FRU_WRITE_AND_PARSER_OBJS)
 	$(CXX) $^ -shared $(LDFLAGS) $(LIB_FLAGS) -o $@
 
 clean:
-	rm -f $(IPMI_FRU_PARSER_OBJS) $(IPMI_FRU_PARSER_LIB)
+	rm -f $(FRU_WRITE_AND_PARSER_OBJS) $(FRU_WRITE_AND_PARSER_LIB)
+
+install:
+		install -m 0755 -d $(DESTDIR)$(LIBDIR)/host-ipmid
+		install -m 0755 $(FRU_WRITE_AND_PARSER_LIB) $(DESTDIR)$(LIBDIR)/host-ipmid
