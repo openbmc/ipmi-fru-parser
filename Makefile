@@ -11,7 +11,7 @@ OPTFLAGS ?= -O3 -g -pipe
 CFLAGS ?= $(OPTFLAGS)
 CXXFLAGS ?= $(OPTFLAGS)
 CFLAGS += -Wall -flto -fPIC
-CXXFLAGS += --std=gnu++14 -Wall -flto -fPIC -I.
+CXXFLAGS += --std=gnu++14 -Wall -flto -fPIC
 
 __PKG_CONFIG = $(if $1,$(shell pkg-config $2 $1))
 

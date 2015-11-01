@@ -1,4 +1,4 @@
-#include <ipmid-api.h>
+#include <host-ipmid/ipmid-api.h>
 #include <vector>
 #include <stdlib.h>
 #include <dlfcn.h>
@@ -7,6 +7,8 @@
 #include "frup.h"
 #include "writefrudata.H"
 #include <systemd/sd-bus.h>
+#include <unistd.h>
+
 
 void register_netfn_storage_write_fru() __attribute__((constructor));
 

@@ -3,9 +3,18 @@
 
 #include <systemd/sd-bus.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /* Parse an IPMI write fru data message into a dictionary containing name value pair of VPD entries.*/
 int parse_fru (const void* msgbuf, sd_bus_message* vpdtbl);
 int parse_fru_area (const uint8_t area, const void* msgbuf, const uint8_t len, sd_bus_message* vpdtbl);
+
+#ifdef __cplusplus
+}
+#endif
 
 enum ipmi_fru_area_type
 {
