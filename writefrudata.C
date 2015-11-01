@@ -483,14 +483,10 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     uint8_t offset = 0;
     uint16_t len = 0;
     ipmi_ret_t rc = IPMI_CC_INVALID;
-    int validate_rc = 0;
     const char *mode = NULL;
 
     // From the payload, extract the header that has fruid and the offsets
     write_fru_data_t *reqptr = (write_fru_data_t*)request;
-
-    // There is no response data for this command.
-    *data_len = 0;
 
     // Maintaining a temporary file to pump the data
     sprintf(fru_file_name, "%s%02x", "/tmp/ipmifru", reqptr->frunum);
@@ -502,25 +498,23 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     // the data (so didn't need to worry about word/byte boundaries)
     // hence the -1...
     len = ((uint16_t)*data_len) - (sizeof(write_fru_data_t)-1);
+
+    // On error there is no response data for this command.
+    *data_len = 0;
     
 #ifdef __IPMI__DEBUG__
     printf("IPMI WRITE-FRU-DATA for [%s]  Offset = [%d] Length = [%d]\n",
             fru_file_name, offset, len);
 #endif
 
-    // offset would be zero if the cmd payload is targeting a new fru
-    if (offset == 0)
-    {
+
+    if( access( fru_file_name, F_OK ) == -1 ) {
         mode = "wb";
-    } 
-    else 
-    {
-        // offset would be non-zero if the cmd payload is continued for prev
-        // fru
+    } else {
         mode = "rb+";
     }
 
-    if ((fp = fopen(fru_file_name, mode)) != NULL) 
+    if ((fp = fopen(fru_file_name, mode)) != NULL)
     {
         if(fseek(fp, offset, SEEK_SET))
         {
@@ -543,18 +537,17 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
         fprintf(stderr, "Error trying to write to fru file %s\n",fru_file_name);
         return rc;
     }
-    
-    // We received some bytes. It may be full or partial. Run a validator.
-    validate_rc = ipmi_validate_fru_area(reqptr->frunum, fru_file_name);
-    if(validate_rc != -1)
-    {
-        // Success validating _and_ updating the Inventory. We no longer need
-        // this file.
-        remove(fru_file_name);
-    }
 
-    // convert the rc per ipmi spec   
-    rc = (validate_rc != -1) ? IPMI_CC_OK : IPMI_CC_INVALID;
+
+    // If we got here then set the resonse byte
+    // to the number of bytes written
+    memcpy(response, &len, 1);
+    *data_len = 1;
+    rc = IPMI_CC_OK;
+
+    // We received some bytes. It may be full or partial. Send a valid
+    // FRU file to the inventory controller on DBus for the correct number
+    ipmi_validate_fru_area(reqptr->frunum, fru_file_name);
 
     return rc;
 }
