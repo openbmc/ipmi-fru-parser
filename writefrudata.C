@@ -91,18 +91,11 @@ int ipmi_update_inventory(const uint8_t fruid, const uint8_t *fru_data,
     sd_bus_error bus_error = SD_BUS_ERROR_NULL;
 
     // Gets a hook onto either a SYSTEM or SESSION bus
-    sd_bus *bus_type = NULL;
+    sd_bus *bus_type = ipmid_get_sd_bus_connection();
 
     // Req message contains the specifics about which method etc that we want to
     // access on which bus, object
     sd_bus_message *response = NULL;
-
-    rc = sd_bus_open_system(&bus_type);
-    if(rc < 0)
-    {
-        fprintf(stderr,"ERROR: Getting a SYSTEM bus hook\n");
-        return -1;
-    }
 
     // For each FRU area, extract the needed data , get it parsed and update
     // the Inventory.
