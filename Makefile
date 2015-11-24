@@ -66,7 +66,7 @@ install:
 		)
 		$(if $(LIBS),\
 		install -m 0755 -d $(DESTDIR)$(LIBDIR)/host-ipmid && \
-		install -m 0755 $(HOST_LIBS) $(DESTDIR)$(LIBDIR)/host-ipmid \
+		install -m 0755 $(HOST_LIBS) $(DESTDIR)$(LIBDIR)/host-ipmid && \
 		install -m 0755 $(LIBS) $(DESTDIR)$(LIBDIR) \
 		)
 
