@@ -1,4 +1,3 @@
-#include <host-ipmid/ipmid-api.h>
 #include <vector>
 #include <stdlib.h>
 #include <dlfcn.h>
@@ -8,17 +7,15 @@
 #include "writefrudata.H"
 #include <systemd/sd-bus.h>
 #include <unistd.h>
-
-
-void register_netfn_storage_write_fru() __attribute__((constructor));
+#include <host-ipmid/ipmid-api.h>
 
 // Needed to be passed into fru parser alorithm
 typedef std::vector<fru_area_t> fru_area_vec_t;
 
 // OpenBMC System Manager dbus framework
-const char  *bus_name      =  "org.openbmc.managers.System";
-const char  *object_name   =  "/org/openbmc/managers/System";
-const char  *intf_name     =  "org.openbmc.managers.System";
+const char  *sys_bus_name      =  "org.openbmc.managers.System";
+const char  *sys_object_name   =  "/org/openbmc/managers/System";
+const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
 //------------------------------------------------
 // Takes the pointer to stream of bytes and length 
@@ -78,7 +75,7 @@ uint8_t get_fru_area_type(uint8_t area_offset)
 // Inventory
 //------------------------------------------------------------------------
 int ipmi_update_inventory(const uint8_t fruid, const uint8_t *fru_data, 
-                          fru_area_vec_t & area_vec)
+                          fru_area_vec_t & area_vec, sd_bus *bus_type)
 {
     // Now, use this fru dictionary object and connect with FRU Inventory Dbus
     // and update the data for this FRU ID.
@@ -89,9 +86,6 @@ int ipmi_update_inventory(const uint8_t fruid, const uint8_t *fru_data,
 
     // SD Bus error report mechanism.
     sd_bus_error bus_error = SD_BUS_ERROR_NULL;
-
-    // Gets a hook onto either a SYSTEM or SESSION bus
-    sd_bus *bus_type = ipmid_get_sd_bus_connection();
 
     // Req message contains the specifics about which method etc that we want to
     // access on which bus, object
@@ -145,9 +139,9 @@ int ipmi_update_inventory(const uint8_t fruid, const uint8_t *fru_data,
         // We want to call a method "getObjectFromId" on System Bus that is
         // made available over  OpenBmc system services.
         rc = sd_bus_call_method(bus_type,                   // On the System Bus
-                                bus_name,                   // Service to contact
-                                object_name,                // Object path 
-                                intf_name,                  // Interface name
+                                sys_bus_name,               // Service to contact
+                                sys_object_name,            // Object path 
+                                sys_intf_name,              // Interface name
                                 "getObjectFromId",          // Method to be called
                                 &bus_error,                 // object to return error
                                 &response,                  // Response message on success
@@ -240,7 +234,8 @@ int ipmi_update_inventory(const uint8_t fruid, const uint8_t *fru_data,
 // Validates the CRC and if found good, calls fru areas parser and calls
 // Inventory Dbus with the dictionary of Name:Value for updating. 
 //-------------------------------------------------------------------------
-int ipmi_validate_and_update_inventory(const uint8_t fruid, const uint8_t *fru_data)
+int ipmi_validate_and_update_inventory(const uint8_t fruid, const uint8_t *fru_data, 
+                                       sd_bus *bus_type)
 {
     // Used for generic checksum calculation
     uint8_t checksum = 0;
@@ -249,7 +244,7 @@ int ipmi_validate_and_update_inventory(const uint8_t fruid, const uint8_t *fru_d
     uint8_t fru_entry;
 
     // A generic offset locator for any FRU record.
-    uint8_t area_offset = 0;
+    size_t area_offset = 0;
 
     // First 2 bytes in the record.
     uint8_t fru_area_hdr[2] = {0};
@@ -389,7 +384,7 @@ int ipmi_validate_and_update_inventory(const uint8_t fruid, const uint8_t *fru_d
         
     if(!(fru_area_vec.empty()))
     {
-        rc =  ipmi_update_inventory(fruid, fru_data, fru_area_vec);
+        rc =  ipmi_update_inventory(fruid, fru_data, fru_area_vec, bus_type);
     }
  
     // We are done with this FRU write packet. 
@@ -401,7 +396,8 @@ int ipmi_validate_and_update_inventory(const uint8_t fruid, const uint8_t *fru_d
 ///-----------------------------------------------------
 // Accepts the filename and validates per IPMI FRU spec
 //----------------------------------------------------
-int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name)
+int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name, 
+						   sd_bus *bus_type)
 {
     int file_size = 0;
     uint8_t *fru_data = NULL;
@@ -445,7 +441,7 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name)
     }
     fclose(fru_file);
 
-    rc = ipmi_validate_and_update_inventory(fruid, fru_data);
+    rc = ipmi_validate_and_update_inventory(fruid, fru_data, bus_type);
     if(rc == -1)
     {
         printf("ERROR: Validation failed for:[%d]\n",fruid);
@@ -464,89 +460,3 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name)
     return rc;
 }
 
-///-------------------------------------------------------
-// Called by IPMI netfn router for write fru data command
-//--------------------------------------------------------
-ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd, 
-                              ipmi_request_t request, ipmi_response_t response, 
-                              ipmi_data_len_t data_len, ipmi_context_t context)
-{
-    FILE *fp = NULL;
-    char fru_file_name[16] = {0};
-    uint8_t offset = 0;
-    uint16_t len = 0;
-    ipmi_ret_t rc = IPMI_CC_INVALID;
-    const char *mode = NULL;
-
-    // From the payload, extract the header that has fruid and the offsets
-    write_fru_data_t *reqptr = (write_fru_data_t*)request;
-
-    // Maintaining a temporary file to pump the data
-    sprintf(fru_file_name, "%s%02x", "/tmp/ipmifru", reqptr->frunum);
-
-    offset = ((uint16_t)reqptr->offsetms) << 8 | reqptr->offsetls;
-
-    // Length is the number of request bytes minus the header itself.
-    // The header contains an extra byte to indicate the start of
-    // the data (so didn't need to worry about word/byte boundaries)
-    // hence the -1...
-    len = ((uint16_t)*data_len) - (sizeof(write_fru_data_t)-1);
-
-    // On error there is no response data for this command.
-    *data_len = 0;
-    
-#ifdef __IPMI__DEBUG__
-    printf("IPMI WRITE-FRU-DATA for [%s]  Offset = [%d] Length = [%d]\n",
-            fru_file_name, offset, len);
-#endif
-
-
-    if( access( fru_file_name, F_OK ) == -1 ) {
-        mode = "wb";
-    } else {
-        mode = "rb+";
-    }
-
-    if ((fp = fopen(fru_file_name, mode)) != NULL)
-    {
-        if(fseek(fp, offset, SEEK_SET))
-        {
-            perror("Error:");
-            fclose(fp);
-            return rc;
-        }
-    
-        if(fwrite(&reqptr->data, len, 1, fp) != 1)
-        {
-            perror("Error:");
-            fclose(fp);
-            return rc;
-        }
-    
-        fclose(fp);
-    } 
-    else 
-    {
-        fprintf(stderr, "Error trying to write to fru file %s\n",fru_file_name);
-        return rc;
-    }
-
-
-    // If we got here then set the resonse byte
-    // to the number of bytes written
-    memcpy(response, &len, 1);
-    *data_len = 1;
-    rc = IPMI_CC_OK;
-
-    // We received some bytes. It may be full or partial. Send a valid
-    // FRU file to the inventory controller on DBus for the correct number
-    ipmi_validate_fru_area(reqptr->frunum, fru_file_name);
-
-    return rc;
-}
-
-void register_netfn_storage_write_fru()
-{
-    printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n",NETFUN_STORAGE, IPMI_CMD_WRITE_FRU_DATA);
-    ipmi_register_callback(NETFUN_STORAGE, IPMI_CMD_WRITE_FRU_DATA, NULL, ipmi_storage_write_fru_data);
-}
