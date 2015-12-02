@@ -61,7 +61,8 @@ int main(int argc, char **argv)
     {
         // Now that we have the file that contains the eeprom data, go read it and
         // update the Inventory DB.
-        rc = ipmi_validate_fru_area(fruid, eeprom_file.c_str(), bus_type);
+        bool set_present = true;
+        rc = ipmi_validate_fru_area(fruid, eeprom_file.c_str(), bus_type, set_present);
     }
 
     // Cleanup
