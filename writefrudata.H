@@ -16,7 +16,7 @@ enum ipmi_netfn_storage_cmds
 };
 
 // Format of write fru data command
-struct write_fru_data_t 
+struct write_fru_data_t
 {
     uint8_t  frunum;
     uint8_t  offsetls;
@@ -37,14 +37,6 @@ struct common_header
     uint8_t crc;
 }__attribute__((packed));
 
-// Contains key info about a particular area.
-typedef struct
-{
-    uint8_t type;
-    uint8_t *offset;
-    size_t  len;
-}__attribute__((packed)) fru_area_t;
-
 // first byte in header is 1h per IPMI V2 spec.
 #define IPMI_FRU_HDR_BYTE_ZERO   1
 #define IPMI_FRU_INTERNAL_OFFSET offsetof(struct common_header, internal_offset)
@@ -64,5 +56,4 @@ int ipmi_validate_fru_area(const uint8_t, const char *, sd_bus *, const bool);
 #ifdef __cplusplus
 } // extern C
 #endif
-
 #endif

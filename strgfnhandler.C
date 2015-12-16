@@ -11,8 +11,8 @@ sd_bus* ipmid_get_sd_bus_connection(void);
 ///-------------------------------------------------------
 // Called by IPMI netfn router for write fru data command
 //--------------------------------------------------------
-ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd, 
-                              ipmi_request_t request, ipmi_response_t response, 
+ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
+                              ipmi_request_t request, ipmi_response_t response,
                               ipmi_data_len_t data_len, ipmi_context_t context)
 {
     FILE *fp = NULL;
@@ -38,7 +38,7 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 
     // On error there is no response data for this command.
     *data_len = 0;
-    
+
 #ifdef __IPMI__DEBUG__
     printf("IPMI WRITE-FRU-DATA for [%s]  Offset = [%d] Length = [%d]\n",
             fru_file_name, offset, len);
@@ -59,17 +59,17 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
             fclose(fp);
             return rc;
         }
-    
+
         if(fwrite(&reqptr->data, len, 1, fp) != 1)
         {
             perror("Error:");
             fclose(fp);
             return rc;
         }
-    
+
         fclose(fp);
-    } 
-    else 
+    }
+    else
     {
         fprintf(stderr, "Error trying to write to fru file %s\n",fru_file_name);
         return rc;
@@ -82,16 +82,13 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     *data_len = 1;
     rc = IPMI_CC_OK;
 
-	// Get the reference to global sd_bus object
-	sd_bus *bus_type = ipmid_get_sd_bus_connection();
-
-    // Do not need to update present status in the inventory. Its only for
-    // eeprom requirement at this moment. But we may have a need in the future
-    bool set_present = false;
+    // Get the reference to global sd_bus object
+    sd_bus *bus_type = ipmid_get_sd_bus_connection();
 
     // We received some bytes. It may be full or partial. Send a valid
     // FRU file to the inventory controller on DBus for the correct number
-    ipmi_validate_fru_area(reqptr->frunum, fru_file_name, bus_type, set_present);
+    bool bmc_fru = false;
+    ipmi_validate_fru_area(reqptr->frunum, fru_file_name, bus_type, bmc_fru);
 
     return rc;
 }
