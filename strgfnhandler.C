@@ -85,9 +85,13 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 	// Get the reference to global sd_bus object
 	sd_bus *bus_type = ipmid_get_sd_bus_connection();
 
+    // Do not need to update present status in the inventory. Its only for
+    // eeprom requirement at this moment. But we may have a need in the future
+    bool set_present = false;
+
     // We received some bytes. It may be full or partial. Send a valid
     // FRU file to the inventory controller on DBus for the correct number
-    ipmi_validate_fru_area(reqptr->frunum, fru_file_name, bus_type);
+    ipmi_validate_fru_area(reqptr->frunum, fru_file_name, bus_type, set_present);
 
     return rc;
 }
