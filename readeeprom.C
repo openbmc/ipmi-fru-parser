@@ -12,7 +12,7 @@ static void exit_with_error(const char* err, char** argv)
 }
 
 //--------------------------------------------------------------------------
-// This gets called by udev monitor soon after seeing hog plugs for EEPROMS. 
+// This gets called by udev monitor soon after seeing hog plugs for EEPROMS.
 //--------------------------------------------------------------------------
 int main(int argc, char **argv)
 {
@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 
     // Handle to per process system bus
     sd_bus *bus_type = NULL;
-    
+
     // Read the arguments.
     auto cli_options = std::make_unique<ArgumentParser>(argc, argv);
 
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 
     // Get a handle to System Bus
     rc = sd_bus_open_system(&bus_type);
-    if (rc < 0) 
+    if (rc < 0)
     {
         fprintf(stderr, "Failed to connect to system bus: %s\n",strerror(-rc));
     }
@@ -61,8 +61,8 @@ int main(int argc, char **argv)
     {
         // Now that we have the file that contains the eeprom data, go read it and
         // update the Inventory DB.
-        bool set_present = true;
-        rc = ipmi_validate_fru_area(fruid, eeprom_file.c_str(), bus_type, set_present);
+        bool bmc_fru = true;
+        rc = ipmi_validate_fru_area(fruid, eeprom_file.c_str(), bus_type, bmc_fru);
     }
 
     // Cleanup
