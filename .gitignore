@@ -1,0 +1,12 @@
+#### vi files ####
+*.swp
+#### --- vi --- ####
+
+#### CMAKE Files ####
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Makefile
+cmake_install.cmake
+install_manifest.txt
+#### --- CMAKE --- ####
