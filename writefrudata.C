@@ -31,6 +31,7 @@ ipmi_fru::ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
     iv_valid = false;
     iv_data = NULL;
     iv_present = false;
+    iv_len = 0;
 
     if(iv_type == IPMI_FRU_AREA_INTERNAL_USE)
     {
@@ -96,16 +97,18 @@ ipmi_fru::~ipmi_fru()
         iv_data = NULL;
     }
 
-    // If we have not been successful in doing some updates and we are a BMC
-    // fru, then need to set the fault bits.
-    bool valid_dbus = !(iv_bus_name.empty()) &&
-                      !(iv_obj_path.empty()) &&
-                      !(iv_intf_name.empty());
-
-    // Based on bmc_fru, success in updating the FRU inventory we need to set
-    // some special bits.
-    if(iv_bmc_fru && valid_dbus)
+    // For FRUs manged by BMC, We need to set 'present' and 'fault' status.
+    // For FRUs managed by hostboot, 'present' and 'fault' status are set by
+    // ipmi 'set sensor reading' command, we don't care.
+    if(iv_bmc_fru)
     {
+        // Some FRUs may fail to be updated. Get the dbus path again.
+        this->setup_sd_bus_paths();
+        bool valid_dbus = !(iv_bus_name.empty()) &&
+                          !(iv_obj_path.empty()) &&
+                          !(iv_intf_name.empty());
+        if (!valid_dbus)
+            return;
         // Set the Fault bit if we did not successfully process the fru
         const char *fault_bit = iv_valid ? "False" : "True";
 
@@ -152,8 +155,8 @@ ipmi_fru::~ipmi_fru()
         }
         else
         {
-            printf("Present bit set to :[%s] for fruid:[%d]\n",
-                    iv_obj_path.c_str(), iv_fruid);
+            printf("Present bit set to :[%s] for fruid:[%d], Path:[%s]\n",
+                    present_bit, iv_fruid, iv_obj_path.c_str());
         }
 
         sd_bus_error_free(&bus_error);
@@ -184,12 +187,11 @@ int ipmi_fru::setup_sd_bus_paths(void)
                             sys_bus_name,               // Service to contact
                             sys_object_name,            // Object path
                             sys_intf_name,              // Interface name
-                            "getObjectFromId",          // Method to be called
+                            "getFRUObject",             // Method to be called
                             &bus_error,                 // object to return error
                             &response,                  // Response message on success
-                            "ss",                       // input message (string,string)
-                            "FRU_STR",                  // First argument to getObjectFromId
-                            fru_area_name);             // Second Argument
+                            "s",                        // input message (string)
+                            fru_area_name);
 
     if(rc < 0)
     {
@@ -342,6 +344,13 @@ int ipmi_update_inventory(fru_area_vec_t & area_vec)
     // the Inventory.
     for(auto& iter : area_vec)
     {
+        rc = (iter)->setup_sd_bus_paths();
+        if(rc < 0)
+        {
+            fprintf(stderr,"ERROR: cannot get dbus path for fru:[%s_%d]\n",
+                    (iter)->get_name(), (iter)->get_fruid());
+            continue;
+        }
         // Start fresh on each.
         sd_bus_error_free(&bus_error);
         sd_bus_message_unref(response);
@@ -422,14 +431,7 @@ int ipmi_update_inventory(fru_area_vec_t & area_vec)
 ///----------------------------------------------------
 bool remove_invalid_area(const std::unique_ptr<ipmi_fru> &fru_area)
 {
-    // Filter the ones that do not have dbus reference.
-    if((strlen((fru_area)->get_bus_name()) == 0) ||
-       (strlen((fru_area)->get_obj_path()) == 0)  ||
-       (strlen((fru_area)->get_intf_name()) == 0))
-    {
-        return true;
-    }
-    return false;
+    return (fru_area)->get_len() == 0 ? true : false;
 }
 
 ///----------------------------------------------------------------------------------
@@ -449,6 +451,7 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
     for(uint8_t fru_entry = IPMI_FRU_INTERNAL_OFFSET;
             fru_entry < (sizeof(struct common_header) -2); fru_entry++)
     {
+        rc = -1;
         // Actual offset in the payload is the offset mentioned in common header
         // multipled by 8. Common header is always the first 8 bytes.
         area_offset = fru_data[fru_entry] * IPMI_EIGHT_BYTES;
@@ -550,6 +553,17 @@ int ipmi_validate_common_hdr(const uint8_t *fru_data, const size_t data_len)
 //------------------------------------------------------------
 int cleanup_error(FILE *fru_fp, fru_area_vec_t & fru_area_vec)
 {
+    for (auto& iter : fru_area_vec)
+    {
+       // if the fru file exists, the fru is regarded as 'present'
+       if(fru_fp != NULL)
+           (iter)->set_present(true);
+       else
+           (iter)->set_present(false);
+       // error happens, regard fru as 'false'
+       (iter)->set_valid(false);
+    }
+
     if(fru_fp != NULL)
     {
         fclose(fru_fp);
@@ -587,9 +601,10 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
         // Physically being present
         bool present = std::ifstream(fru_file_name);
         fru_area->set_present(present);
+        // When FRU InventoryItem is updated successfully,
+        // 'valid' will be set to true
+        fru_area->set_valid(false);
 
-        // And update the sd_bus paths as well.
-        fru_area->setup_sd_bus_paths();
         fru_area_vec.emplace_back(std::move(fru_area));
     }
 
@@ -643,18 +658,6 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
         printf("SUCCESS: Populated FRU areas for:[%s]\n",fru_file_name);
     }
 
-#ifdef __IPMI_DEBUG__
-    for(auto& iter : fru_area_vec)
-    {
-        printf("FRU ID : [%d]\n",(iter)->get_fruid());
-        printf("AREA NAME : [%s]\n",(iter)->get_name());
-        printf("TYPE : [%d]\n",(iter)->get_type());
-        printf("LEN : [%d]\n",(iter)->get_len());
-        printf("BUS NAME : [%s]\n", (iter)->get_bus_name());
-        printf("OBJ PATH : [%s]\n", (iter)->get_obj_path());
-        printf("INTF NAME :[%s]\n", (iter)->get_intf_name());
-    }
-#endif
 
     // If the vector is populated with everything, then go ahead and update the
     // inventory.
@@ -670,6 +673,19 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
             fprintf(stderr, "Error updating inventory\n");
         }
     }
+
+#ifdef __IPMI_DEBUG__
+    for(auto& iter : fru_area_vec)
+    {
+        printf("FRU ID : [%d]\n",(iter)->get_fruid());
+        printf("AREA NAME : [%s]\n",(iter)->get_name());
+        printf("TYPE : [%d]\n",(iter)->get_type());
+        printf("LEN : [%d]\n",(iter)->get_len());
+        printf("BUS NAME : [%s]\n", (iter)->get_bus_name());
+        printf("OBJ PATH : [%s]\n", (iter)->get_obj_path());
+        printf("INTF NAME :[%s]\n", (iter)->get_intf_name());
+    }
+#endif
 
     // we are done with all that we wanted to do. This will do the job of
     // calling any destructors too.
