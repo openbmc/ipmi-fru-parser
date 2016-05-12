@@ -26,7 +26,7 @@ class ipmi_fru
         std::string iv_name;
 
         // Length of a specific fru area.
-        size_t  iv_len;
+        uint32_t  iv_len;
 
         // Special bit for BMC readable eeprom only.
         bool iv_bmc_fru;
@@ -94,7 +94,7 @@ class ipmi_fru
         }
 
         // Returns the length.
-        size_t get_len() const
+        uint32_t get_len() const
         {
             return iv_len;
         }
