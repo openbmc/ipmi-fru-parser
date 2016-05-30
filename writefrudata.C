@@ -663,7 +663,7 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
                          (fruid, get_fru_area_type(fru_entry), bus_type, bmc_fru);
 
         // Physically being present
-        bool present = std::ifstream(fru_file_name);
+        bool present = (access(fru_file_name, F_OK) != -1) ? true : false;
         fru_area->set_present(present);
 
         // Only setup dbus path for areas defined in BMC.
