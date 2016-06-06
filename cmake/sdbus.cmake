@@ -1,0 +1,16 @@
+find_library(SYSTEMD_LIBRARY systemd)
+if(NOT SYSTEMD_LIBRARY)
+    message(FATAL_ERROR "Cannot find libsystemd.")
+endif(NOT SYSTEMD_LIBRARY)
+
+find_path(SYSTEMD_SDBUS_INCLUDE "systemd/sd-bus.h")
+if(NOT SYSTEMD_SDBUS_INCLUDE)
+    message(FATAL_ERROR "Cannot find sd-bus.h, libsystemd doesn't support?")
+endif(NOT SYSTEMD_SDBUS_INCLUDE)
+include_directories(${SYSTEMD_SDBUS_INCLUDE})
+
+INCLUDE (CheckLibraryExists)
+CHECK_LIBRARY_EXISTS(systemd sd_bus_open SYSTEMD_LIBRARY SYSTEMD_HAVE_SDBUS)
+if(NOT SYSTEMD_HAVE_SDBUS)
+    message(FATAL_ERROR "libsystemd doesn't support sdbus functions.")
+endif(NOT SYSTEMD_HAVE_SDBUS)
