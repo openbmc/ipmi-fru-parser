@@ -770,7 +770,6 @@ ipmi_fru_product_info_area (const void *areabuf,
   return (rv);
 }
 
-
 int _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* vpdtbl)
 {
     int type_length = vpd_key_val[0];
@@ -778,18 +777,61 @@ int _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* v
     int vpd_val_len = type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
     int sdr=0;
 
+    /* Needed to convert each uint8_t byte to a ascii */
+    char bin_byte[3] = {0};
+
+    /*
+     * Max number of characters needed to represent 1 unsigned byte in string
+     * is number of bytes multipled by 2. Extra 3 for 0x and a ending '\0';
+     */
+    char bin_in_ascii_len = vpd_val_len * 2 + 3;
+
+    /* Binary converted to ascii in array */
+    char *bin_in_ascii = (char *)malloc(bin_in_ascii_len);
+
+    /* Each byte read from the area */
+    uint8_t val = 0;
+
+    char *bin_copy = &((char *)bin_in_ascii)[2];
+
     switch (type_code)
     {
         case 0:
-            printf ("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] : Len = [%d] : Val = [%s]\n", vpd_key_names [vpd_key_id], vpd_val_len, &vpd_key_val[1]);
-            sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[vpd_key_id], "ay", vpd_val_len, &vpd_key_val[1]);
-            /*sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[vpd_key_id], "s", &vpd_key_val[1]);*/
+            memset(bin_in_ascii, 0x0, bin_in_ascii_len);
+
+            /* Offset 1 is where actual data starts */
+            for(val = 1; val <= vpd_val_len ; val++)
+            {
+                /* 2 bytes for data and 1 for terminating '\0' */
+                snprintf(bin_byte, 3, "%02x", vpd_key_val[val]);
+
+                /* Its a running string so strip off the '\0' */
+                strncat(bin_copy, bin_byte, 2);
+            }
+
+            /* We need the data represented as 0x...... */
+            if(vpd_val_len > 0)
+            {
+                strncpy(bin_in_ascii, "0x", 2);
+            }
+
+            printf ("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] : Len = [%d] : Val = [%s]\n",
+                    vpd_key_names [vpd_key_id], vpd_val_len, bin_in_ascii);
+            sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[vpd_key_id], "s", bin_in_ascii);
             break;
+
         case 3:
             printf ("_append_to_dict: VPD Key = [%s] : Type Code = [ASCII+Latin] : Len = [%d] : Val = [%s]\n", vpd_key_names [vpd_key_id], vpd_val_len, &vpd_key_val[1]);
             sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[vpd_key_id], "s", &vpd_key_val[1]);
             break;
     }
+
+    if(bin_in_ascii)
+    {
+        free(bin_in_ascii);
+        bin_in_ascii = NULL;
+    }
+
 
     if (sdr < 0)
     {
@@ -944,7 +986,6 @@ parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
   }
  out:
   rv = 0;
- cleanup:
   return (rv);
 }
 
