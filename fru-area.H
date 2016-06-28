@@ -31,6 +31,9 @@ class ipmi_fru
         // Special bit for BMC readable eeprom only.
         bool iv_bmc_fru;
 
+        // Variable for io board workaround
+        bool iv_iob;
+
         // If a FRU is physically present.
         bool iv_present;
 
@@ -58,7 +61,7 @@ class ipmi_fru
     public:
         // constructor
         ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
-                 sd_bus *bus_type, bool bmc_fru = false);
+                 sd_bus *bus_type, bool bmc_fru = false, bool iob = false);
 
         // Destructor
         virtual ~ipmi_fru();
@@ -85,6 +88,11 @@ class ipmi_fru
         inline bool is_bmc_fru() const
         {
             return iv_bmc_fru;
+        }
+
+        inline bool get_iob() const
+        {
+            return iv_iob;
         }
 
         // returns fru id;

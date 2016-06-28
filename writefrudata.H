@@ -51,7 +51,8 @@ struct common_header
 extern "C" {
 #endif
 
-int ipmi_validate_fru_area(const uint8_t, const char *, sd_bus *, const bool);
+int ipmi_validate_fru_area(const uint8_t, const char *, sd_bus *, const bool,
+                            const bool = false);
 
 #ifdef __cplusplus
 } // extern C

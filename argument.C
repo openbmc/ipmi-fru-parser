@@ -53,6 +53,7 @@ const option ArgumentParser::options[] =
     { "eeprom",   required_argument,  NULL, 'e' },
     { "fruid",    required_argument,  NULL, 'f' },
     { "help",     no_argument,        NULL, 'h' },
+    { "iob",      no_argument,        NULL, 'w' }, // ioboard workaround
     { 0, 0, 0, 0},
 };
 
