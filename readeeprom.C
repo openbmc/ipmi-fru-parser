@@ -17,6 +17,7 @@ static void exit_with_error(const char* err, char** argv)
 int main(int argc, char **argv)
 {
     int rc = 0;
+    bool iob = false;
     uint8_t fruid = 0;
 
     // Handle to per process system bus
@@ -34,7 +35,7 @@ int main(int argc, char **argv)
     }
 
     auto fruid_str = (*cli_options)["fruid"];
-    if (eeprom_file == ArgumentParser::empty_string)
+    if (fruid_str == ArgumentParser::empty_string)
     {
         // User has not passed in the appropriate argument value
         exit_with_error("fruid data not found.", argv);
@@ -46,6 +47,12 @@ int main(int argc, char **argv)
     {
         // User has not passed in the appropriate argument value
         exit_with_error("Invalid fruid.", argv);
+    }
+
+    auto iob_str = (*cli_options)["iob"];
+    if (iob_str == ArgumentParser::true_string)
+    {
+        iob = true;
     }
 
     // Finished getting options out, so release the parser.
@@ -62,7 +69,7 @@ int main(int argc, char **argv)
         // Now that we have the file that contains the eeprom data, go read it and
         // update the Inventory DB.
         bool bmc_fru = true;
-        rc = ipmi_validate_fru_area(fruid, eeprom_file.c_str(), bus_type, bmc_fru);
+        rc = ipmi_validate_fru_area(fruid, eeprom_file.c_str(), bus_type, bmc_fru, iob);
     }
 
     // Cleanup

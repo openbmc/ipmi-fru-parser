@@ -23,12 +23,13 @@ const char  *sys_intf_name     =  "org.openbmc.managers.System";
 // Constructor
 //----------------------------------------------------------------
 ipmi_fru::ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
-                   sd_bus *bus_type, bool bmc_fru)
+                   sd_bus *bus_type, bool bmc_fru, bool iob)
 {
     iv_fruid = fruid;
     iv_type = type;
     iv_bmc_fru = bmc_fru;
     iv_bus_type = bus_type;
+    iv_iob = iob;
     iv_valid = false;
     iv_data = NULL;
     iv_present = false;
@@ -442,6 +443,7 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
 {
     size_t area_offset = 0;
     int rc = -1;
+    bool iob = false;
 
     // Now walk the common header and see if the file size has atleast the last
     // offset mentioned by the common_hdr. If the file size is less than the
@@ -469,6 +471,36 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
 
             // Size of this area will be the 2nd byte in the fru area header.
             size_t  area_len = area_hdr[1] * IPMI_EIGHT_BYTES;
+
+            // If area size is 0, skip it
+            if (!area_len)
+            {
+                continue;
+            }
+
+            // Check if the iob workaround has been requested
+            for (auto& iter : fru_area_vec)
+            {
+                iob = iter->get_iob();
+                if (iob)
+                {
+                    break;
+                }
+            }
+            if (iob)
+            {
+                if (fru_entry == IPMI_FRU_BOARD_OFFSET)
+                {
+                    // Adjust board area length to its actual size
+                    area_len -= 3;
+                }
+                else if (fru_entry == IPMI_FRU_PRODUCT_OFFSET)
+                {
+                    // Skip the product area, there's no data there
+                    continue;
+                }
+            }
+
             uint8_t area_data[area_len] = {0};
 
             printf("fru data size:[%d], area offset:[%d], area_size:[%d]\n",
@@ -637,7 +669,7 @@ int get_defined_fru_area(sd_bus *bus_type, const uint8_t fruid,
 // Accepts the filename and validates per IPMI FRU spec
 //----------------------------------------------------
 int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
-                           sd_bus *bus_type, const bool bmc_fru)
+                           sd_bus *bus_type, const bool bmc_fru, const bool iob)
 {
     size_t data_len = 0;
     size_t bytes_read = 0;
@@ -660,7 +692,7 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
     {
         // Create an object and push onto a vector.
         std::unique_ptr<ipmi_fru> fru_area = std::make_unique<ipmi_fru>
-                         (fruid, get_fru_area_type(fru_entry), bus_type, bmc_fru);
+                         (fruid, get_fru_area_type(fru_entry), bus_type, bmc_fru, iob);
 
         // Physically being present
         bool present = access(fru_file_name, F_OK) == 0;
