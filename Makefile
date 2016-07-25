@@ -8,8 +8,10 @@ libstrgfnhandler.so_VERSION = 1
 EXES += phosphor-read-eeprom
 
 phosphor-read-eeprom_OBJS  += readeeprom.o argument.o
+phosphor-read-eeprom_LDLIBS += mapper
 phosphor-read-eeprom_EXTRA_LIBS  += writefrudata
 libstrgfnhandler.so_EXTRA_LIBS  += writefrudata
+libwritefrudata.so_LDLIBS += mapper
 libwritefrudata.so_NEEDED  += libsystemd
 phosphor-read-eeprom_NEEDED  += libsystemd
 
@@ -29,7 +31,7 @@ __EXTRA_LIB_RESOLV = $(if $1,$1)
 
 define __BUILD_EXE
 $1 : $$($1_OBJS) | $$(LIBS) $$(HOST_LIBS)
-		$$(LINK.cpp) -o $$@ $$^ $(call __EXTRA_LIB_RESOLV,$(addprefix -l,$($1_EXTRA_LIBS))) -L. $(call __PKG_CONFIG,$($1_NEEDED),--libs)
+		$$(LINK.cpp) -o $$@ $$^ $(call __EXTRA_LIB_RESOLV,$(addprefix -l,$($1_EXTRA_LIBS))) -L. $(addprefix -l,$($1_LDLIBS)) $(call __PKG_CONFIG,$($1_NEEDED),--libs)
 
 $(eval CXXFLAGS += $(call __PKG_CONFIG,$($1_NEEDED),--cflags))
 
@@ -40,7 +42,7 @@ $(foreach exe,$(EXES),$(eval $(call __BUILD_EXE,$(exe))))
 
 define __BUILD_LIB
 $1 : $$($1_OBJS) | $$(addsuffix .so,$$(addprefix lib,$$($1_EXTRA_LIBS)))
-		$$(LINK.cpp) -fPIC -shared -Wl,-soname,$$@ -o $$(addsuffix .$($1_VERSION), $$@) $$^ $(call __EXTRA_LIB_RESOLV,$(addprefix -l,$($1_EXTRA_LIBS))) -L. $(call __PKG_CONFIG,$($1_NEEDED),--libs)
+		$$(LINK.cpp) -fPIC -shared -Wl,-soname,$$@ -o $$(addsuffix .$($1_VERSION), $$@) $$^ $(call __EXTRA_LIB_RESOLV,$(addprefix -l,$($1_EXTRA_LIBS))) -L. $(addprefix -l,$($1_LDLIBS)) $(call __PKG_CONFIG,$($1_NEEDED),--libs)
 		ln -sf $$(addsuffix .$($1_VERSION), $$@) $1
 
 $(eval CXXFLAGS += $(call __PKG_CONFIG,$($1_NEEDED),--cflags))
