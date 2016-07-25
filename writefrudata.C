@@ -11,11 +11,11 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <mapper.h>
 #include "frup.h"
 #include "fru-area.H"
 
 // OpenBMC System Manager dbus framework
-const char  *sys_bus_name      =  "org.openbmc.managers.System";
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
 const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
@@ -171,13 +171,22 @@ int ipmi_fru::setup_sd_bus_paths(void)
     int rc = 0;
 
     // What we need is BOARD_1, PRODUCT_1, CHASSIS_1 etc..
-    char *inv_bus_name, *inv_obj_path, *inv_intf_name;
+    char *inv_bus_name = NULL, *inv_obj_path, *inv_intf_name;
     char fru_area_name[16] = {0};
+    char *sys_bus_name = NULL;
     sprintf(fru_area_name,"%s%d",iv_name.c_str(), iv_fruid);
 
 #ifdef __IPMI_DEBUG__
     printf("Getting sd_bus for :[%s]\n",fru_area_name);
 #endif
+
+    rc = mapper_get_service(iv_bus_type, sys_object_name, &sys_bus_name);
+    if(rc < 0)
+    {
+        fprintf(stderr, "Failed to get system manager service:[%s]\n",
+                strerror(-rc));
+        goto exit;
+    }
 
     // We want to call a method "getObjectFromId" on System Bus that is
     // made available over  OpenBmc system services.
@@ -198,26 +207,35 @@ int ipmi_fru::setup_sd_bus_paths(void)
     }
     else
     {
-        // Method getObjectFromId returns 3 parameters and all are strings, namely
-        // bus_name , object_path and interface name for accessing that particular
-        // FRU over Inventory SDBUS manager. 'sss' here mentions that format.
-        rc = sd_bus_message_read(response, "(sss)", &inv_bus_name, &inv_obj_path, &inv_intf_name);
+        // Method getObjectFromId returns 2 parameters and all are strings, namely
+        // object_path and interface name for accessing that particular
+        // FRU over Inventory SDBUS manager. 'ss' here mentions that format.
+        rc = sd_bus_message_read(response, "(ss)", &inv_obj_path, &inv_intf_name);
         if(rc < 0)
         {
             fprintf(stderr, "Failed to parse response message:[%s]\n", strerror(-rc));
         }
         else
         {
+            rc = mapper_get_service(iv_bus_type, inv_obj_path, &inv_bus_name);
+            if(rc < 0)
+            {
+                fprintf(stderr, "Failed to get inventory item service:[%s]\n",
+                        strerror(-rc));
+                goto exit;
+            }
             // Update the paths in the area object
             update_dbus_paths(inv_bus_name, inv_obj_path, inv_intf_name);
         }
     }
 
+exit:
 #ifdef __IPMI_DEBUG__
             printf("fru_area=[%s], inv_bus_name=[%s], inv_obj_path=[%s], inv_intf_name=[%s]\n",
                     fru_area_name, inv_bus_name, inv_obj_path, inv_intf_name);
 #endif
 
+    free(sys_bus_name);
     sd_bus_error_free(&bus_error);
     sd_bus_message_unref(response);
 
@@ -578,10 +596,19 @@ int get_defined_fru_area(sd_bus *bus_type, const uint8_t fruid,
     sd_bus_message *response = NULL;
     int rc = 0;
     char *areas = NULL;
+    char *sys_bus_name = NULL;
 
 #ifdef __IPMI_DEBUG__
     printf("Getting fru areas defined in Skeleton for :[%d]\n", fruid);
 #endif
+
+    rc = mapper_get_service(bus_type, sys_object_name, &sys_bus_name);
+    if(rc < 0)
+    {
+        fprintf(stderr, "Failed to get system manager service:[%s]\n",
+                strerror(-rc));
+        goto exit;
+    }
 
     // We want to call a method "getFRUArea" on System Bus that is
     // made available over OpenBmc system services.
@@ -626,6 +653,9 @@ int get_defined_fru_area(sd_bus *bus_type, const uint8_t fruid,
         }
     }
 
+exit:
+
+    free(sys_bus_name);
     sd_bus_error_free(&bus_error);
     sd_bus_message_unref(response);
 
