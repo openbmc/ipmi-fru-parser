@@ -171,7 +171,7 @@ int ipmi_fru::setup_sd_bus_paths(void)
     int rc = 0;
 
     // What we need is BOARD_1, PRODUCT_1, CHASSIS_1 etc..
-    char *inv_bus_name, *inv_obj_path, *inv_intf_name;
+    const char *inv_bus_name, *inv_obj_path, *inv_intf_name;
     char fru_area_name[16] = {0};
     sprintf(fru_area_name,"%s%d",iv_name.c_str(), iv_fruid);
 
@@ -577,7 +577,7 @@ int get_defined_fru_area(sd_bus *bus_type, const uint8_t fruid,
     sd_bus_error bus_error = SD_BUS_ERROR_NULL;
     sd_bus_message *response = NULL;
     int rc = 0;
-    char *areas = NULL;
+    const char *areas = NULL;
 
 #ifdef __IPMI_DEBUG__
     printf("Getting fru areas defined in Skeleton for :[%d]\n", fruid);
