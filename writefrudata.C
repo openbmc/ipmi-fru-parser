@@ -171,7 +171,8 @@ int ipmi_fru::setup_sd_bus_paths(void)
     int rc = 0;
 
     // What we need is BOARD_1, PRODUCT_1, CHASSIS_1 etc..
-    const char *inv_bus_name = NULL, *inv_obj_path = NULL,
+    char *inv_bus_name = NULL;
+    const char *inv_obj_path = NULL,
                *inv_intf_name = NULL;
     char fru_area_name[16] = {0};
     char *sys_bus_name = NULL;
@@ -237,6 +238,7 @@ exit:
 #endif
 
     free(sys_bus_name);
+    free(inv_bus_name);
     sd_bus_error_free(&bus_error);
     sd_bus_message_unref(response);
 
