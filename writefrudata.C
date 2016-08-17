@@ -479,7 +479,7 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
         {
             // Our file size is less than what it needs to be. +2 because we are
             // using area len that is at 2 byte off area_offset
-            fprintf(stderr, "fru file is incomplete. Size:[%d]\n",data_len);
+            fprintf(stderr, "fru file is incomplete. Size:[%zd]\n",data_len);
             return rc;
         }
         else if(area_offset)
@@ -492,14 +492,14 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
             size_t  area_len = area_hdr[1] * IPMI_EIGHT_BYTES;
             uint8_t area_data[area_len] = {0};
 
-            printf("fru data size:[%d], area offset:[%d], area_size:[%d]\n",
+            printf("fru data size:[%zd], area offset:[%zd], area_size:[%zd]\n",
                     data_len, area_offset, area_len);
 
             // See if we really have that much buffer. We have area offset amd
             // from there, the actual len.
             if(data_len < (area_len + area_offset))
             {
-                fprintf(stderr, "Incomplete Fru file.. Size:[%d]\n",data_len);
+                fprintf(stderr, "Incomplete Fru file.. Size:[%zd]\n",data_len);
                 return rc;
             }
 
@@ -510,12 +510,12 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
             rc = verify_fru_data(area_data, area_len);
             if(rc < 0)
             {
-                fprintf(stderr, "Error validating fru area. offset:[%d]\n",area_offset);
+                fprintf(stderr, "Error validating fru area. offset:[%zd]\n",area_offset);
                 return rc;
             }
             else
             {
-                printf("Successfully verified area checksum. offset:[%d]\n",area_offset);
+                printf("Successfully verified area checksum. offset:[%zd]\n",area_offset);
             }
 
             // We already have a vector that is passed to us containing all
@@ -553,7 +553,7 @@ int ipmi_validate_common_hdr(const uint8_t *fru_data, const size_t data_len)
     }
     else
     {
-        fprintf(stderr, "Incomplete fru data file. Size:[%d]\n", data_len);
+        fprintf(stderr, "Incomplete fru data file. Size:[%zd]\n", data_len);
         return rc;
     }
 
@@ -734,7 +734,7 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
     bytes_read = fread(fru_data, data_len, 1, fru_fp);
     if(bytes_read != 1)
     {
-        fprintf(stderr, "Failed reading fru data. Bytes_read=[%d]\n",bytes_read);
+        fprintf(stderr, "Failed reading fru data. Bytes_read=[%zd]\n",bytes_read);
         perror("Error:");
         return cleanup_error(fru_fp, fru_area_vec);
     }
