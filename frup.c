@@ -40,6 +40,7 @@
  *  with Ipmi-fru.  If not, see <http://www.gnu.org/licenses/>.
 \*****************************************************************************/
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
@@ -770,7 +771,7 @@ ipmi_fru_product_info_area (const void *areabuf,
   return (rv);
 }
 
-int _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* vpdtbl)
+void _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* vpdtbl)
 {
     int type_length = vpd_key_val[0];
     int type_code = (type_length & IPMI_FRU_TYPE_LENGTH_TYPE_CODE_MASK) >> IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
@@ -844,11 +845,8 @@ int _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* v
 int
 parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
 {
-  int ret = 0;
   int rv = -1;
   int i = 0;
-  int j = 0;
-  int isprintable = 0;
   ipmi_fru_area_info_t fru_area_info [ IPMI_FRU_AREA_TYPE_MAX ];
   ipmi_fru_common_hdr_t* chdr = NULL;
   uint8_t* hdr = NULL;
@@ -856,7 +854,7 @@ parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
 
 
   ipmi_fru_field_t vpd_info [ OPENBMC_VPD_KEY_MAX ];
-  uint8_t* ipmi_fru_field_str;
+  //uint8_t* ipmi_fru_field_str;
 
   /* Chassis */
   uint8_t chassis_type;
@@ -865,7 +863,7 @@ parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
   uint32_t mfg_date_time;
 
   /* Product */
-  unsigned int product_custom_fields_len;
+  //unsigned int product_custom_fields_len;
 
   ASSERT (msgbuf);
   ASSERT (vpdtbl);
@@ -984,34 +982,30 @@ parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
     /*ipmi_fru_field_str = (unsigned char*) &(vpd_info[i].type_length_field) + 1;*/
     /*sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[i], "s", ipmi_fru_field_str); */
   }
- out:
   rv = 0;
   return (rv);
 }
 
 int parse_fru_area (const uint8_t area, const void* msgbuf, const size_t len, sd_bus_message* vpdtbl)
 {
-  int ret = 0;
   int rv = -1;
   int i = 0;
-  int j = 0;
   int sdr = 0;
-  int isprintable = 0;
 
   /* Chassis */
   uint8_t chassis_type;
   /* Board */
   uint32_t mfg_date_time;
   /* Product */
-  unsigned int product_custom_fields_len;
+  //unsigned int product_custom_fields_len;
 
-  ipmi_fru_area_info_t fru_area_info [ IPMI_FRU_AREA_TYPE_MAX ];
+  //ipmi_fru_area_info_t fru_area_info [ IPMI_FRU_AREA_TYPE_MAX ];
   ipmi_fru_field_t vpd_info [ OPENBMC_VPD_KEY_MAX ];
   char timestr [ OPENBMC_VPD_VAL_LEN ];
 
-  uint8_t* ipmi_fru_field_str=NULL;
-  ipmi_fru_common_hdr_t* chdr = NULL;
-  uint8_t* hdr = NULL;
+  //uint8_t* ipmi_fru_field_str=NULL;
+  //ipmi_fru_common_hdr_t* chdr = NULL;
+  //uint8_t* hdr = NULL;
 
   ASSERT (msgbuf);
   ASSERT (vpdtbl);
@@ -1119,7 +1113,7 @@ int parse_fru_area (const uint8_t area, const void* msgbuf, const size_t len, sd
                 _append_to_dict (i, vpd_info[i].type_length_field, vpdtbl);
             }
             break;
-    defualt:
+    default:
     /* TODO: Parse Multi Rec / Internal use area */
     break;
   }
@@ -1127,8 +1121,6 @@ int parse_fru_area (const uint8_t area, const void* msgbuf, const size_t len, sd
 #if IPMI_FRU_PARSER_DEBUG
     printf ("parse_fru_area : Dictionary Packing Complete\n");
 #endif
- out:
   rv = 0;
- cleanup:
   return (rv);
 }
