@@ -23,8 +23,8 @@ phosphor-read-eeprom_NEEDED  += libsystemd
 OPTFLAGS ?= -O3 -g -pipe -G -K
 CFLAGS ?= $(OPTFLAGS)
 CXXFLAGS ?= $(OPTFLAGS)
-CFLAGS += -Wall -flto -fPIC
-CXXFLAGS += --std=gnu++14 -Wall -flto -fPIC
+CFLAGS += -Wall -Werror -flto -fPIC
+CXXFLAGS += --std=gnu++14 -Wall -Werror -flto -fPIC
 
 __PKG_CONFIG = $(if $1,$(shell pkg-config $2 $1))
 __EXTRA_LIB_RESOLV = $(if $1,$1)
