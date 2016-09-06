@@ -13,8 +13,14 @@ libwritefrudata_la_SOURCES = frup.c writefrudata.cpp
 libwritefrudata_la_LDFLAGS = $(SYSTEMD_LIBS) $(libmapper_LIBS) -version-info 1:0:0 -shared
 libwritefrudata_la_CXXFLAGS = $(SYSTEMD_CFLAGS) $(libmapper_CFLAGS)
 
-libstrgfnhandlerdir = ${libdir}/host-ipmid
+libstrgfnhandlerdir = ${libdir}/ipmid-providers
 libstrgfnhandler_LTLIBRARIES = libstrgfnhandler.la
 libstrgfnhandler_la_SOURCES = strgfnhandler.cpp
 libstrgfnhandler_la_LDFLAGS = -version-info 1:0:0 -shared
 libstrgfnhandler_la_LIBADD = libwritefrudata.la
+
+install-exec-hook:
+	$(MKDIR_P) $(DESTDIR)/$(libdir)/host-ipmid
+	cd $(DESTDIR)/$(libdir)/host-ipmid && \
+	$(LN_S) ../ipmid-providers/libstrgfnhandler.so.1 libstrgfnhandler.so.1
+
