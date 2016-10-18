@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
-#include "argument.H"
-#include "writefrudata.H"
+#include "argument.hpp"
+#include "writefrudata.hpp"
 
 static void exit_with_error(const char* err, char** argv)
 {

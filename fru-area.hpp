@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 #include "frup.h"
-#include "writefrudata.H"
+#include "writefrudata.hpp"
 
 class ipmi_fru;
 typedef std::vector<std::unique_ptr<ipmi_fru>> fru_area_vec_t;

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "writefrudata.H"
+#include "writefrudata.hpp"
 
 void register_netfn_storage_write_fru() __attribute__((constructor));
 

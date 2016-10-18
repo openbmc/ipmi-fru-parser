@@ -13,7 +13,7 @@
 #include <sstream>
 #include <mapper.h>
 #include "frup.h"
-#include "fru-area.H"
+#include "fru-area.hpp"
 
 // OpenBMC System Manager dbus framework
 const char  *sys_object_name   =  "/org/openbmc/managers/System";

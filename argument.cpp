@@ -2,7 +2,7 @@
 #include <iterator>
 #include <algorithm>
 #include <cassert>
-#include "argument.H"
+#include "argument.hpp"
 
 ArgumentParser::ArgumentParser(int argc, char** argv)
 {
