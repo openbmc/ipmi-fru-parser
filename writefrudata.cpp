@@ -12,12 +12,15 @@
 #include <fstream>
 #include <sstream>
 #include <mapper.h>
-#include "frup.h"
+#include "frup.hpp"
 #include "fru-area.hpp"
+#include "inventory-gen.hpp"
 
 // OpenBMC System Manager dbus framework
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
 const char  *sys_intf_name     =  "org.openbmc.managers.System";
+
+extern fruObjectDict fruList;
 
 //----------------------------------------------------------------
 // Constructor
@@ -343,98 +346,114 @@ int verify_fru_data(const uint8_t *data, const size_t len)
 }
 
 //------------------------------------------------------------------------
+// Gets the value of the key from the fru dictionary of the given section.
+// FRU dictionary is parsed fru data for al the sections.
+//------------------------------------------------------------------------
+
+std::string getFRUValue(std::string section, std::string key, fruInfo& fruData)
+{
+
+    auto minIndexValue = 0;
+    auto maxIndexValue = 0;
+    if (section == "BOARD")
+    {
+        minIndexValue = OPENBMC_VPD_KEY_BOARD_MFG_DATE;
+        maxIndexValue = OPENBMC_VPD_KEY_BOARD_MAX;
+    }
+    else if (section == "PRODUCT")
+    {
+        minIndexValue = OPENBMC_VPD_KEY_PRODUCT_MFR;
+        maxIndexValue = OPENBMC_VPD_KEY_PRODUCT_MAX;
+
+    }
+    else if (section == "CHASSIS")
+    {
+        minIndexValue = OPENBMC_VPD_KEY_CHASSIS_TYPE;
+        maxIndexValue = OPENBMC_VPD_KEY_CHASSIS_MAX;
+    }
+    for (int index = minIndexValue ; index < maxIndexValue ; index++)
+    {
+        if (key == fruData[index].first)
+        {
+            return fruData[index].second;
+        }
+
+    }
+    return "";
+
+}
+
+//------------------------------------------------------------------------
 // Takes FRU data, invokes Parser for each fru record area and updates
 // Inventory
 //------------------------------------------------------------------------
-int ipmi_update_inventory(fru_area_vec_t & area_vec)
+int ipmi_update_inventory(fru_area_vec_t& area_vec)
 {
     // Generic error reporter
     int rc = 0;
-
-    // Dictionary object to hold Name:Value pair
-    sd_bus_message *fru_dict = NULL;
-
-    // SD Bus error report mechanism.
-    sd_bus_error bus_error = SD_BUS_ERROR_NULL;
-
-    // Response from sd bus calls
-    sd_bus_message *response = NULL;
+    int fruid = 0;
+    fruInfo fruData;
 
     // For each FRU area, extract the needed data , get it parsed and update
     // the Inventory.
-    for(auto& iter : area_vec)
+    for (auto & iter : area_vec)
     {
-        // Start fresh on each.
-        sd_bus_error_free(&bus_error);
-        sd_bus_message_unref(response);
-        sd_bus_message_unref(fru_dict);
-
-        // Constructor to allow further initializations and customization.
-        rc = sd_bus_message_new_method_call((iter)->get_bus_type(),
-                                            &fru_dict,
-                                            (iter)->get_bus_name(),
-                                            (iter)->get_obj_path(),
-                                            (iter)->get_intf_name(),
-                                            "update");
-        if(rc < 0)
-        {
-            fprintf(stderr,"ERROR: creating a update method call for bus_name:[%s]\n",
-                    (iter)->get_bus_name());
-            break;
-        }
-
-        // A Dictionary ({}) having (string, variant)
-        rc = sd_bus_message_open_container(fru_dict, 'a', "{sv}");
-        if(rc < 0)
-        {
-            fprintf(stderr,"ERROR:[%d] creating a dict container:\n",errno);
-            break;
-        }
-
+        fruid = iter->get_fruid();
         // Fill the container with information
-        rc = parse_fru_area((iter)->get_type(), (void *)(iter)->get_data(), (iter)->get_len(), fru_dict);
-        if(rc < 0)
+        rc = parse_fru_area((iter)->get_type(), (void*)(iter)->get_data(),
+                            (iter)->get_len(), fruData);
+        if (rc < 0)
         {
-            fprintf(stderr,"ERROR parsing FRU records\n");
-            break;
-        }
-
-        sd_bus_message_close_container(fru_dict);
-
-        // Now, Make the actual call to update the FRU inventory database with the
-        // dictionary given by FRU Parser. There is no response message expected for
-        // this.
-        rc = sd_bus_call((iter)->get_bus_type(),     // On the System Bus
-                         fru_dict,                   // With the Name:value dictionary array
-                         0,                          //
-                         &bus_error,                 // Object to return error.
-                         &response);                 // Response message if any.
-
-        if(rc < 0)
-        {
-            fprintf(stderr, "ERROR:[%s] updating FRU inventory for ID:[0x%X]\n",
-                    bus_error.message, (iter)->get_fruid());
-            break;
-        }
-        else if((iter)->is_bmc_fru())
-        {
-            // For FRUs that are accessible by HostBoot, host boot does all of
-            // these.
-            printf("SUCCESS: Updated:[%s_%d] successfully. Setting Valid bit\n",
-                    (iter)->get_name(), (iter)->get_fruid());
-
-            (iter)->set_valid(true);
-        }
-        else
-        {
-            printf("SUCCESS: Updated:[%s_%d] successfully\n",
-                        (iter)->get_name(), (iter)->get_fruid());
+            std::cerr << "ERROR parsing FRU records\n";
+            return rc;
         }
     } // END walking the vector of areas and updating
 
-    sd_bus_error_free(&bus_error);
-    sd_bus_message_unref(response);
-    sd_bus_message_unref(fru_dict);
+    //Here we are just printing the object,interface and the properties.
+    // which needs to be called with the new inventory manager implementation.
+    //TODO:- Call the new Inventory Manager
+
+    auto instanceList = fruList[std::to_string(fruid)];
+    if (instanceList.size() <= 0)
+    {
+        std::cout << "Instances not found for fruid =" << fruid;
+        rc = -1;
+    }
+    for (auto instance : instanceList)
+    {
+        std::cout << "Object:" << instance.first << "\n";
+        for (auto interfaceList : instance.second)
+        {
+            std::cout << "  " << "Interface:" << interfaceList.first << "\n";
+            for (auto properties : interfaceList.second)
+            {
+                std::string section, vpdPropertyName, value;
+                for (auto info : properties.second)
+                {
+                    if (info.first == "Section")
+                    {
+                        section = info.second;
+                    }
+                    if (info.first == "VpdPropertyName")
+                    {
+                        vpdPropertyName = info.second;
+                    }
+                    if (info.first == "DefaultValue")
+                    {
+                        value = info.second;
+                    }
+
+                }
+                std::cout << "    " << section.c_str() << " " << vpdPropertyName.c_str() <<
+                          value.c_str() << "\n";
+                if (section != "" && vpdPropertyName != "")
+                {
+                    value = getFRUValue(section, vpdPropertyName, fruData);
+                }
+            }
+        }
+
+    }
 
     return rc;
 }
