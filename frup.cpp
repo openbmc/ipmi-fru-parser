@@ -46,9 +46,7 @@
 #include <time.h>
 #include <systemd/sd-bus.h>
 #include <ctype.h>
-
-#define uint8_t unsigned char
-#define uint32_t unsigned int
+#include "frup.h"
 
 #define TEXTSTR(a) #a
 # define ASSERT(x) \
@@ -109,61 +107,6 @@ typedef struct ipmi_fru_common_hdr
     uint8_t product;
     uint8_t multirec;
 } __attribute__((packed)) ipmi_fru_common_hdr_t;
-
-enum openbmc_vpd_key_id
-{
-  OPENBMC_VPD_KEY_CHASSIS_TYPE = 1, /* not a type/len */
-  OPENBMC_VPD_KEY_CHASSIS_PART_NUM,
-  OPENBMC_VPD_KEY_CHASSIS_SERIAL_NUM,
-  OPENBMC_VPD_KEY_CHASSIS_CUSTOM1,
-  OPENBMC_VPD_KEY_CHASSIS_CUSTOM2,
-  OPENBMC_VPD_KEY_CHASSIS_CUSTOM3,
-  OPENBMC_VPD_KEY_CHASSIS_CUSTOM4,
-  OPENBMC_VPD_KEY_CHASSIS_CUSTOM5,
-  OPENBMC_VPD_KEY_CHASSIS_CUSTOM6,
-  OPENBMC_VPD_KEY_CHASSIS_CUSTOM7,
-  OPENBMC_VPD_KEY_CHASSIS_CUSTOM8,
-  OPENBMC_VPD_KEY_CHASSIS_MAX = OPENBMC_VPD_KEY_CHASSIS_CUSTOM8,
-  /* TODO: chassis_custom_fields */
-
-  OPENBMC_VPD_KEY_BOARD_MFG_DATE, /* not a type/len */
-  OPENBMC_VPD_KEY_BOARD_MFR,
-  OPENBMC_VPD_KEY_BOARD_NAME,
-  OPENBMC_VPD_KEY_BOARD_SERIAL_NUM,
-  OPENBMC_VPD_KEY_BOARD_PART_NUM,
-  OPENBMC_VPD_KEY_BOARD_FRU_FILE_ID,
-  OPENBMC_VPD_KEY_BOARD_CUSTOM1,
-  OPENBMC_VPD_KEY_BOARD_CUSTOM2,
-  OPENBMC_VPD_KEY_BOARD_CUSTOM3,
-  OPENBMC_VPD_KEY_BOARD_CUSTOM4,
-  OPENBMC_VPD_KEY_BOARD_CUSTOM5,
-  OPENBMC_VPD_KEY_BOARD_CUSTOM6,
-  OPENBMC_VPD_KEY_BOARD_CUSTOM7,
-  OPENBMC_VPD_KEY_BOARD_CUSTOM8,
-  OPENBMC_VPD_KEY_BOARD_MAX = OPENBMC_VPD_KEY_BOARD_CUSTOM8,
-  /* TODO: board_custom_fields */
-
-  OPENBMC_VPD_KEY_PRODUCT_MFR,
-  OPENBMC_VPD_KEY_PRODUCT_NAME,
-  OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM,
-  OPENBMC_VPD_KEY_PRODUCT_VER,
-  OPENBMC_VPD_KEY_PRODUCT_SERIAL_NUM,
-  OPENBMC_VPD_KEY_PRODUCT_ASSET_TAG,
-  OPENBMC_VPD_KEY_PRODUCT_FRU_FILE_ID,
-  OPENBMC_VPD_KEY_PRODUCT_CUSTOM1,
-  OPENBMC_VPD_KEY_PRODUCT_CUSTOM2,
-  OPENBMC_VPD_KEY_PRODUCT_CUSTOM3,
-  OPENBMC_VPD_KEY_PRODUCT_CUSTOM4,
-  OPENBMC_VPD_KEY_PRODUCT_CUSTOM5,
-  OPENBMC_VPD_KEY_PRODUCT_CUSTOM6,
-  OPENBMC_VPD_KEY_PRODUCT_CUSTOM7,
-  OPENBMC_VPD_KEY_PRODUCT_CUSTOM8,
-  OPENBMC_VPD_KEY_PRODUCT_MAX = OPENBMC_VPD_KEY_PRODUCT_CUSTOM8,
-
-  OPENBMC_VPD_KEY_MAX,
-  OPENBMC_VPD_KEY_CUSTOM_FIELDS_MAX=8,
-
-};
 
 const char* vpd_key_names [] =
 {
@@ -791,7 +734,7 @@ void _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* 
     char *bin_in_ascii = (char *)malloc(bin_in_ascii_len);
 
     /* For reading byte from the area */
-    size_t val = 0;
+    int val = 0;
 
     char *bin_copy = &((char *)bin_in_ascii)[2];
 
@@ -986,11 +929,11 @@ parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
   return (rv);
 }
 
-int parse_fru_area (const uint8_t area, const void* msgbuf, const size_t len, sd_bus_message* vpdtbl)
+int parse_fru_area (const uint8_t area, const void* msgbuf,
+                    const size_t len, IPMIFruInfo& info)
 {
   int rv = -1;
   int i = 0;
-  int sdr = 0;
 
   /* Chassis */
   uint8_t chassis_type;
@@ -1008,7 +951,6 @@ int parse_fru_area (const uint8_t area, const void* msgbuf, const size_t len, sd
   //uint8_t* hdr = NULL;
 
   ASSERT (msgbuf);
-  ASSERT (vpdtbl);
 
   for (i=0; i<OPENBMC_VPD_KEY_MAX; i++)
   {
@@ -1038,15 +980,14 @@ int parse_fru_area (const uint8_t area, const void* msgbuf, const size_t len, sd
 #if IPMI_FRU_PARSER_DEBUG
                 printf ("Chassis : Appending [%s] = [%d]\n", vpd_key_names[i], chassis_type);
 #endif
-                sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[i], "y", chassis_type);
+                info[i] = std::make_pair(vpd_key_names[i],
+                                         std::to_string(chassis_type));
                 continue;
             }
+            info[i] = std::make_pair(vpd_key_names[i],
+                      std::string(reinterpret_cast<char*>
+                                 (vpd_info[i].type_length_field)));
 
-            _append_to_dict (i, vpd_info[i].type_length_field, vpdtbl);
-/*
-            ipmi_fru_field_str = (unsigned char*) &(vpd_info[i].type_length_field) + 1;
-            sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[i], "s", ipmi_fru_field_str);
-*/
           }
         break;
     case IPMI_FRU_AREA_BOARD_INFO:
@@ -1074,21 +1015,14 @@ int parse_fru_area (const uint8_t area, const void* msgbuf, const size_t len, sd
 #if IPMI_FRU_PARSER_DEBUG
                     printf ("Board : Appending [%s] = [%d]\n", vpd_key_names[i], timestr);
 #endif
-                    sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[i], "s", timestr);
-                    if (sdr < 0)
-                    {
-#if IPMI_FRU_PARSER_DEBUG
-                        printf ("ipmi_fru_board_info_area : sd_bus_message_append Failed [ %d ] for [%s]\n", sdr, vpd_key_names[i]);
-#endif
-                    }
+                    info[i] = std::make_pair(vpd_key_names[i],
+                                             std::string(timestr));
                     continue;
                 }
+                info[i] = std::make_pair(vpd_key_names[i],
+                          std::string(reinterpret_cast<char*>
+                                     (vpd_info[i].type_length_field)));
 
-                _append_to_dict (i, vpd_info[i].type_length_field, vpdtbl);
-/*
-                ipmi_fru_field_str = (unsigned char*) &(vpd_info[i].type_length_field) + 1;
-                sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[i], "s", ipmi_fru_field_str);
-*/
             }
             break;
     case IPMI_FRU_AREA_PRODUCT_INFO:
@@ -1110,7 +1044,9 @@ int parse_fru_area (const uint8_t area, const void* msgbuf, const size_t len, sd
 
             for (i=OPENBMC_VPD_KEY_PRODUCT_MFR; i<=OPENBMC_VPD_KEY_PRODUCT_MAX; i++)
             {
-                _append_to_dict (i, vpd_info[i].type_length_field, vpdtbl);
+                info[i] = std::make_pair(vpd_key_names[i],
+                          std::string(reinterpret_cast<char*>
+                                     (vpd_info[i].type_length_field)));
             }
             break;
     default:
