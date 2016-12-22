@@ -1,0 +1,84 @@
+# This yaml file is created by some other script which fetches the data
+# from MRW.
+# This file maps the 'FRU' data to properties of Openbmc Inventory Interface
+# defined in phosphor-dbus-interface.
+#
+# 'fru_gen.py' uses this file to generate c++ data structures for IPMI FRU parser.
+# The parser translates IPMI FRU information into properties defined in openbmc
+# inventory interface.
+# Format of the file:
+# Fruid:
+#   Associated Instances
+#        DbusInterafaces
+#             DBusProperties
+#                MetaData For the Dbus Property
+#                   eg:- IPMI Propery Name,FRU Section
+#
+1:
+  /system:
+    xyz.openbmc_project.Inventory.Decorator.Asset:
+      Manufacturer:
+        IPMI_PropertyName: "Board Manufacturer"
+        FRUSection: "PRODUCT"
+      PartNumber:
+        IPMI_PropertyName: "Board Part Number"
+        FRUSection: "PRODUCT"
+      SerialNumber:
+        IPMI_PropertyName: "Board Serial Number"
+        FRUSection: "PRODUCT"
+    xyz.openbmc_project.Inventory.Decorator.Replaceable:
+      FieldReplaceable:
+        DefaultValue: True
+    xyz.openbmc_project.Inventory.Decorator.Revision:
+      Version:
+        IPMI_PropertyName: "Product Version"
+        FRUSection: "PRODUCT"
+    xyz.openbmc_project.Inventory.Item:
+      Present:
+        DefaultValue: True
+3:
+  /system/chassis/motherboard/cpu0:
+    xyz.openbmc_project.Inventory.Item:
+      Present:
+        DefaultValue: True
+    xyz.openbmc_project.Inventory.Decorator.Replaceable:
+      FieldReplaceable:
+        DefaultValue: True
+    xyz.openbmc_project.Inventory.Decorator.Asset:
+      PartNumber:
+        IPMI_PropertyName: "Board Part Number"
+        FRUSection: "BOARD"
+      SerialNumber:
+        IPMI_PropertyName: "Board Serial Number"
+        FRUSection: "BOARD"
+      Manufacturer:
+        IPMI_PropertyName: "Board Manufacturer"
+        FRUSection: "BOARD"
+  /system/chassis/motherboard/cpu0/core0:
+    xyz.openbmc_project.Inventory.Item:
+      Present:
+        DefaultValue: True
+    xyz.openbmc_project.Inventory.Decorator.Replaceable:
+      FieldReplaceable:
+        DefaultValue: True
+  /system/chassis/motherboard/cpu0/core1:
+    xyz.openbmc_project.Inventory.Item:
+      Present:
+        DefaultValue: True
+    xyz.openbmc_project.Inventory.Decorator.Replaceable:
+      FieldReplaceable:
+        DefaultValue: True
+  /system/chassis/motherboard/cpu0/core2:
+    xyz.openbmc_project.Inventory.Item:
+      Present:
+        DefaultValue: True
+    xyz.openbmc_project.Inventory.Decorator.Replaceable:
+      FieldReplaceable:
+        DefaultValue: True
+  /system/chassis/motherboard/cpu0/core3:
+    xyz.openbmc_project.Inventory.Item:
+      Present:
+        DefaultValue: True
+    xyz.openbmc_project.Inventory.Decorator.Replaceable:
+      FieldReplaceable:
+        DefaultValue: True
