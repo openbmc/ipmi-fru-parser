@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "frup.h"
+#include "frup.hpp"
 #include "writefrudata.hpp"
 
 class ipmi_fru;
