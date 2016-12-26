@@ -1,0 +1,308 @@
+
+-FRUID: 0
+ FRUType: SYS
+ ObjectPath: /system
+
+-FRUID: 0
+ FRUType: NODE
+ ObjectPath: /system/chassis
+
+-FRUID: 0
+ FRUType: NA
+ ObjectPath: /system/chassis/motherboard
+
+-FRUID: 0
+ FRUType: NA
+ ObjectPath: /system/chassis/motherboard/boxelder
+
+-FRUID: 0
+ FRUType: BMC
+ ObjectPath: /system/chassis/motherboard/boxelder/bmc
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm0
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm1
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm10
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm11
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm12
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm13
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm14
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm15
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm2
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm3
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm4
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm5
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm6
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm7
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm8
+
+-FRUID: 0
+ FRUType: DIMM
+ ObjectPath: /system/chassis/motherboard/dimm9
+
+-FRUID: 0
+ FRUType: PROC
+ ObjectPath: /system/chassis/motherboard/cpu0
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core0
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core1
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core2
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core3
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core4
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core5
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core6
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core7
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core8
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core9
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core10
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core11
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core12
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core13
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core14
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core15
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core16
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core17
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core18
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core19
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core20
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core21
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core22
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu0/core23
+
+-FRUID: 0
+ FRUType: PROC
+ ObjectPath: /system/chassis/motherboard/cpu1
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core0
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core1
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core2
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core3
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core4
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core5
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core6
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core7
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core8
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core9
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core10
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core11
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core12
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core13
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core14
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core15
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core16
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core17
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core18
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core19
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core20
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core21
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core22
+
+-FRUID: 0
+ FRUType: CORE
+ ObjectPath: /system/chassis/motherboard/cpu1/core23
+
+-FRUID: 0
+ FRUType: NA
+ ObjectPath: /system/chassis/motherboard/powersupply0
+
+-FRUID: 0
+ FRUType: NA
+ ObjectPath: /system/chassis/motherboard/powersupply1
+
+-FRUID: 0
+ FRUType: NA
+ ObjectPath: /system/chassis/motherboard/fan2
+
+-FRUID: 0
+ FRUType: NA
+ ObjectPath: /system/chassis/motherboard/fan3
+
+-FRUID: 0
+ FRUType: NA
+ ObjectPath: /system/chassis/motherboard/fan0
+
+-FRUID: 0
+ FRUType: NA
+ ObjectPath: /system/chassis/motherboard/fan1
