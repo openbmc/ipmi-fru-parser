@@ -1,0 +1,148 @@
+- FRUType: PROC
+  Interfaces:
+    - Interface: xyz.openbmc_project.Inventory.Item
+      Properties:
+        - Property: Present
+          DefaultValue: True
+
+    - Interface: xyz.openbmc_project.Inventory.Replaceable
+      Properties:
+        - Property: FieldReplaceable
+          DefaultValue: False
+
+    - Interface: xyz.openbmc_project.Inventory.Asset
+      Properties:
+        - Property: PartNumber
+          Section: BOARD
+          VpdPropertyName: Board Part Number
+        - Property: SerialNumber
+          Section: BOARD
+          VpdPropertyName: Board Serial Number
+        - Property: Manufacturer
+          Section: BOARD
+          VpdPropertyName: Board Manufacturer
+        - Property: BuildDate
+          Section: BOARD
+          VpdPropertyName: Mfg. Date
+
+- FRUType: CORE
+  Interfaces:
+    - Interface: xyz.openbmc_project.Inventory.Item
+      Properties:
+        - Property: Present
+          DefaultValue: True
+
+    - Interface: xyz.openbmc_project.Inventory.Replaceable
+      Properties:
+        - Property: FieldReplaceable
+          DefaultValue: False
+
+- FRUType: SYS
+  Interfaces:
+    - Interface: xyz.openbmc_project.Inventory.Item
+      Properties:
+        - Property: Present
+          DefaultValue: True
+
+    - Interface: xyz.openbmc_project.Inventory.Replaceable
+      Properties:
+        - Property: FieldReplaceable
+          DefaultValue: False
+
+    - Interface: xyz.openbmc_project.Inventory.Asset
+      Properties:
+        - Property: PartNumber
+          Section: PRODUCT
+          VpdPropertyName: Board Part Number
+        - Property: SerialNumber
+          Section: PRODUCT
+          VpdPropertyName: Board Serial Number
+        - Property: Manufacturer
+          Section: PRODUCT
+          VpdPropertyName: Board Manufacturer
+
+    - Interface: xyz.openbmc_project.Inventory.Revision
+      Properties:
+        - Property: Version
+          Section: PRODUCT
+          VpdPropertyName: Product Version
+  
+- FRUType: NODE
+  Interfaces:
+    - Interface: xyz.openbmc_project.Inventory.Item
+      Properties:
+        - Property: Present
+          DefaultValue: True
+
+    - Interface: xyz.openbmc_project.Inventory.Replaceable
+      Properties:
+        - Property: FieldReplaceable
+          DefaultValue: False
+
+    - Interface: xyz.openbmc_project.Inventory.Asset
+      Properties:
+        - Property: PartNumber
+          Section: BOARD
+          VpdPropertyName: Board Part Number
+        - Property: SerialNumber
+          Section: BOARD
+          VpdPropertyName: Board Serial Number
+
+- FRUType: DIMM
+  Interfaces:
+    - Interface: xyz.openbmc_project.Inventory.Item
+      Properties:
+        - Property: Present
+          DefaultValue: True
+
+    - Interface: xyz.openbmc_project.Inventory.Replaceable
+      Properties:
+        - Property: FieldReplaceable
+          DefaultValue: False
+
+    - Interface: xyz.openbmc_project.Inventory.Asset
+      Properties:
+        - Property: PartNumber
+          Section: PRODUCT
+          VpdPropertyName: Board Part Number
+        - Property: SerialNumber
+          Section: PRODUCT
+          VpdPropertyName: Board Serial Number
+        - Property: Manufacturer
+          Section: PRODUCT
+          VpdPropertyName: Board Manufacturer
+
+    - Interface: xyz.openbmc_project.Inventory.Revision
+      Properties:
+        - Property: Version
+          Section: PRODUCT
+          VpdPropertyName: Product Version
+
+
+- FRUType: MEMBUFF
+  Interfaces:
+    - Interface: xyz.openbmc_project.Inventory.Item
+      Properties:
+        - Property: Present
+          DefaultValue: True
+
+    - Interface: xyz.openbmc_project.Inventory.Replaceable
+      Properties:
+        - Property: FieldReplaceable
+          DefaultValue: False
+
+    - Interface: xyz.openbmc_project.Inventory.Asset
+      Properties:
+        - Property: PartNumber
+          Section: BOARD
+          VpdPropertyName: Board Part Number
+        - Property: SerialNumber
+          Section: BOARD
+          VpdPropertyName: Board Serial Number
+        - Property: Manufacturer
+          Section: BOARD
+          VpdPropertyName: Board Manufacturer
+        - Property: BuildDate
+          Section: BOARD
+          VpdPropertyName: Mfg. Date
+
