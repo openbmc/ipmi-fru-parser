@@ -1,0 +1,1990 @@
+- FRUID: 1
+  Instances:
+    - Instance: /system
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex0/core0
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex0/core1
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex1/core2
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex1/core3
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex2/core4
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex2/core5
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex3/core6
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex3/core7
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex4/core8
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex4/core9
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex5/core10
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex5/core11
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex6/core12
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex6/core13
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex7/core14
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex7/core15
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex8/core16
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex8/core17
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex9/core18
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex9/core19
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex10/core20
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex10/core21
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex11/core22
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex11/core23
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex0/core0
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex0/core1
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex1/core2
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex1/core3
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex2/core4
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex2/core5
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex3/core6
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex3/core7
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex4/core8
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex4/core9
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex5/core10
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex5/core11
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex6/core12
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex6/core13
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex7/core14
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex7/core15
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex8/core16
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex8/core17
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex9/core18
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex9/core19
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex10/core20
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex10/core21
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex11/core22
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex11/core23
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+- FRUID: 2
+  Instances:
+    - Instance: /system/chassis
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: BOARD
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: BOARD
+               VpdPropertyName: Board Serial Number
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex0/core0
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex0/core1
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex1/core2
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex1/core3
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex2/core4
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex2/core5
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex3/core6
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex3/core7
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex4/core8
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex4/core9
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex5/core10
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex5/core11
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex6/core12
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex6/core13
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex7/core14
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex7/core15
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex8/core16
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex8/core17
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex9/core18
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex9/core19
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex10/core20
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex10/core21
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex11/core22
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex11/core23
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex0/core0
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex0/core1
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex1/core2
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex1/core3
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex2/core4
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex2/core5
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex3/core6
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex3/core7
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex4/core8
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex4/core9
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex5/core10
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex5/core11
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex6/core12
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex6/core13
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex7/core14
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex7/core15
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex8/core16
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex8/core17
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex9/core18
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex9/core19
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex10/core20
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex10/core21
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex11/core22
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex11/core23
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+- FRUID: 0
+  Instances:
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm0
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm1
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm10
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm11
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm12
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm13
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm14
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm15
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm2
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm3
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm4
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm5
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm6
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm7
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm8
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 4
+  Instances:
+    - Instance: /system/chassis/motherboard/dimm9
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: PRODUCT
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: PRODUCT
+               VpdPropertyName: Board Manufacturer
+        - Interface: xyz.openbmc_project.Inventory.Revision
+          Properties:
+             - Property: Version
+               Section: PRODUCT
+               VpdPropertyName: Product Version
+- FRUID: 3
+  Instances:
+    - Instance: /system/chassis/motherboard/cpu0
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: BOARD
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: BOARD
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: BOARD
+               VpdPropertyName: Board Manufacturer
+             - Property: BuildDate
+               Section: BOARD
+               VpdPropertyName: Mfg. Date
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex0/core0
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex0/core1
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex1/core2
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq0/ex1/core3
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex2/core4
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex2/core5
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex3/core6
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq1/ex3/core7
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex4/core8
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex4/core9
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex5/core10
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq2/ex5/core11
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex6/core12
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex6/core13
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex7/core14
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq3/ex7/core15
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex8/core16
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex8/core17
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex9/core18
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq4/ex9/core19
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex10/core20
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex10/core21
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex11/core22
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-0/module-0/p9_proc_m/eq5/ex11/core23
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+- FRUID: 3
+  Instances:
+    - Instance: /system/chassis/motherboard/cpu1
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+        - Interface: xyz.openbmc_project.Inventory.Asset
+          Properties:
+             - Property: PartNumber
+               Section: BOARD
+               VpdPropertyName: Board Part Number
+             - Property: SerialNumber
+               Section: BOARD
+               VpdPropertyName: Board Serial Number
+             - Property: Manufacturer
+               Section: BOARD
+               VpdPropertyName: Board Manufacturer
+             - Property: BuildDate
+               Section: BOARD
+               VpdPropertyName: Mfg. Date
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex0/core0
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex0/core1
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex1/core2
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq0/ex1/core3
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex2/core4
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex2/core5
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex3/core6
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq1/ex3/core7
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex4/core8
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex4/core9
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex5/core10
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq2/ex5/core11
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex6/core12
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex6/core13
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex7/core14
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq3/ex7/core15
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex8/core16
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex8/core17
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex9/core18
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq4/ex9/core19
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex10/core20
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex10/core21
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex11/core22
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
+    - Instance: /sys-0/node-0/motherboard-0/proc_socket-1/module-0/p9_proc_m/eq5/ex11/core23
+      Interfaces:
+        - Interface: xyz.openbmc_project.Inventory.Item
+          Properties:
+             - Property: Present
+               DefaultValue: True
+        - Interface: xyz.openbmc_project.Inventory.Replaceable
+          Properties:
+             - Property: FieldReplaceable
+               DefaultValue: False
