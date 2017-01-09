@@ -1,0 +1,146 @@
+# This yaml file is manually created for parsing Barreleye BMC FRU.
+# MRW does not define BMC FRU information. So this yaml cannot be generated
+# from MRW like IPMI FRU.
+
+# BMC reads the directly attached inventory data (refer to as 'BMC FRU') from
+# I2C in IPMI FRU Information format.
+# This file maps the 'BMC FRU' data to properties of Openbmc Inventory Interface
+# defined in phosphor-dbus-interface.
+#
+# BMC FRU shares the same parser with IPMI FRU (FRU managed by Host).
+#
+# 'inventory.py' uses this file to generate c++ data structures for FRU parser.
+# The parser translates IPMI FRU information into properties defined in openbmc
+# inventory interface. Then the parser registers inventory object with
+# phosphor-inventory-manager.
+
+
+# This FRUID key is meaningless for BMC FRU.
+# Defined here just to make FRU parser work
+# Since the parser only accepts FRUID as type 'uint8_t', keep the FRUID defined
+# in legency Skeleton code.
+100:
+    /system/chassis/io_board:
+        xyz.openbmc_project.Inventory.Item:
+            PrettyName:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Name 
+        xyz.openbmc_project.Inventory.Decorator.Asset:
+            PartNumber:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Part Number
+            SerialNumber:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Serial Number
+            Manufacturer:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Manufacturer
+            BuildDate:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Mfg Date
+            Model:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Name
+        xyz.openbmc_project.Inventory.Decorator.Revision:
+            Version:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: FRU File ID
+        xyz.openbmc_project.Inventory.Item.NetworkInterface:
+            MACAddress:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Custom Field 2
+
+102:
+    /system/chassis/hdd_backplane:
+        xyz.openbmc_project.Inventory.Item:
+            PrettyName:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Name 
+        xyz.openbmc_project.Inventory.Decorator.Asset:
+            PartNumber:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Part Number
+            SerialNumber:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Serial Number
+            Manufacturer:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Manufacturer
+            BuildDate:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Mfg Date
+            Model:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Name
+        xyz.openbmc_project.Inventory.Decorator.Revision:
+            Version:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: FRU File ID
+
+101:
+    /system/chassis/sas_expander:
+        xyz.openbmc_project.Inventory.Item:
+            PrettyName:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Name 
+        xyz.openbmc_project.Inventory.Decorator.Asset:
+            PartNumber:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Part Number
+            SerialNumber:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Serial Number
+            Manufacturer:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Manufacturer
+            BuildDate:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Mfg Date
+            Model:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Name
+        xyz.openbmc_project.Inventory.Decorator.Revision:
+            Version:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: FRU File ID
+
+3:
+    # Note: currently Barreleye motherboard FRU data is read from 'CHASSIS' area
+    # which is not reasonable. Reading from 'BOARD' FRU area is more proper.
+    /system/chassis/motherboard:
+        xyz.openbmc_project.Inventory.Item:
+            PrettyName:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Name 
+        xyz.openbmc_project.Inventory.Decorator.Asset:
+            PartNumber:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Part Number
+            SerialNumber:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Serial Number
+            Manufacturer:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Manufacturer
+            BuildDate:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Mfg Date
+            Model:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: Name
+        xyz.openbmc_project.Inventory.Decorator.Revision:
+            Version:
+               IPMIFruSection: BOARD
+               IPMIFruProperty: FRU File ID
+    # FRU data in 'CHASSIS' FRU area
+    /system/misc:
+        xyz.openbmc_project.Inventory.Item:
+            PrettyName:
+               DefaultValue: chassis
+        xyz.openbmc_project.Inventory.Decorator.Asset:
+            PartNumber:
+               IPMIFruSection: CHASSIS
+               IPMIFruProperty: Part Number
+            SerialNumber:
+               IPMIFruSection: CHASSIS
+               IPMIFruProperty: Serial Number
