@@ -12,6 +12,9 @@ AM_PROG_AR
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AC_PROG_LN_S
+AM_PATH_PYTHON([2.7],
+    [AC_SUBST([PYTHON], [echo "$PYTHON"])],
+    [AC_MSG_ERROR([Could not find python-2.7 installed...python-2.7 is required])])
 
 # Checks for libraries.
 AC_CHECK_LIB([mapper], [mapper_get_service])
@@ -50,6 +53,12 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
     ]
     AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
 )
+
+AS_IF([test "x$YAML_GEN" == "x"], [YAML_GEN="example.yaml"])
+FRUGEN="$PYTHON $srcdir/scripts/fru_gen.py -i $YAML_GEN"
+EXTRAIFACES_C="`$FRUGEN list-interfaces|awk '{ for(i=1;i<=NF;i++){printf $i".hpp ";}}'`"
+AC_SUBST(EXTRAIFACES_C)
+AC_SUBST(FRUGEN)
 
 # Create configured output
 AC_CONFIG_FILES([Makefile])

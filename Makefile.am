@@ -1,4 +1,8 @@
+EXTRAIFACES_C=@EXTRAIFACES_C@
+BUILT_SOURCES=fru-gen.hpp
 AM_DEFAULT_SOURCE_EXT = .cpp
+
+CLEANFILES=$(BUILT_SOURCES) $(EXTRAIFACES_C)
 
 sbin_PROGRAMS = phosphor-read-eeprom
 
@@ -18,3 +22,6 @@ libstrgfnhandler_LTLIBRARIES = libstrgfnhandler.la
 libstrgfnhandler_la_SOURCES = strgfnhandler.cpp
 libstrgfnhandler_la_LDFLAGS = -version-info 1:0:0 -shared
 libstrgfnhandler_la_LIBADD = libwritefrudata.la
+
+$(EXTRAIFACES_C) fru-gen.hpp:
+	$(AM_V_GEN)@FRUGEN@ -o $(top_builddir) generate-hpp
