@@ -15,6 +15,7 @@
 #include "frup.h"
 #include "fru-area.hpp"
 #include "fru-gen.hpp"
+#include <sdbusplus/server.hpp>
 
 // OpenBMC System Manager dbus framework
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
@@ -396,23 +397,48 @@ std::string getFRUValue(const std::string& section,
     return fruValue;
 
 }
-
-// TODO: Remove once the call to inventory manager is added
-auto print = [](const InterfaceList& object, const std::string& path)
+//Get the inventory service from the mapper.
+std::tuple<int, std::string>getInventoryService(const std::string& intf,
+                                                const std::string& path)
 {
-    std::cout << "\n";
-    std::cout << path << "\n";
-    std::cout << "\n";
-    for(const auto& o : object)
+    int rc = -1;
+    auto bus = sdbusplus::bus::new_default();
+    auto mapperCall = bus.new_method_call(
+            "xyz.openbmc_project.ObjectMapper",
+            "/xyz/openbmc_project/ObjectMapper",
+            "xyz.openbmc_project.ObjectMapper",
+            "GetObject");
+
+    mapperCall.append(path);
+    mapperCall.append(std::vector<std::string>({intf}));
+
+    auto mapperResponseMsg = bus.call(mapperCall);
+    if (mapperResponseMsg.is_method_error())
     {
-        std::cout << o.first << "\n";
-        for(const auto& i : o.second)
-        {
-            std::cout << i.first << " : " << i.second << "\n";
-        }
-        std::cout << "\n";
+        std::cerr << "ERROR in mapper call\n";
+        return std::make_tuple(rc, "");
     }
-};
+
+    std::map<std::string, std::vector<std::string>> mapperResponse;
+    mapperResponseMsg.read(mapperResponse);
+
+    if (mapperResponse.begin() == mapperResponse.end())
+    {
+        std::cerr << "ERROR in reading the mapper response\n";
+        return std::make_tuple(rc, "");
+    }
+
+    std::string host = mapperResponse.begin()->first;
+
+    if (host == bus.get_unique_name())
+    {
+        std::cerr << "ERROR service name is same as the bus name\n";
+        return std::make_tuple(rc, "");
+
+    }
+    rc = 0;
+    return std::make_tuple(rc ,host);
+}
 
 //------------------------------------------------------------------------
 // Takes FRU data, invokes Parser for each fru record area and updates
@@ -447,7 +473,28 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
 
     // Here we are just printing the object,interface and the properties.
     // which needs to be called with the new inventory manager implementation.
-    // TODO:- Call the new Inventory Manager.
+    auto bus = sdbusplus::bus::new_default();
+
+    std::string intf = "xyz.openbmc_project.Inventory.Manager";
+    std::string path = "/xyz/openbmc_project/Inventory";
+
+    auto tuple = getInventoryService(path,intf);
+    rc = std::get<int>(tuple);
+    std::string& service = std::get<std::string>(tuple);
+    if (rc < 0)
+    {
+       std::cerr<< "ERROR Unable to get the service from mapper\n";
+       return rc;
+    }
+    auto notify = [&]()
+    {
+        return bus.new_method_call(
+                   service.c_str(),
+                   path.c_str(),
+                   intf.c_str(),
+                   "Notify");
+    };
+
     auto& instanceList = frus[fruid];
     if (instanceList.size() <= 0)
     {
@@ -483,8 +530,13 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
             }
             interfaces.emplace(std::move(interfaceList.first), std::move(prop));
         }
-        //TODO:- remove it later with the inventory manager call.
-        print(interfaces, instance.first);
+        //Call the inventory manager
+        sdbusplus::message::object_path relPath = instance.first;
+
+        auto m = notify();
+        m.append(relPath);
+        m.append(interfaces);
+        bus.call(m);
     }
 
     return rc;
