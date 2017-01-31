@@ -15,6 +15,7 @@
 #include "frup.h"
 #include "fru-area.hpp"
 #include "fru-gen.hpp"
+#include <sdbusplus/server.hpp>
 
 // OpenBMC System Manager dbus framework
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
@@ -398,23 +399,6 @@ std::string getFRUValue(const std::string& section,
 
 }
 
-// TODO: Remove once the call to inventory manager is added
-auto print = [](const InterfaceList& object, const std::string& path)
-{
-    std::cout << "\n";
-    std::cout << path << "\n";
-    std::cout << "\n";
-    for(const auto& o : object)
-    {
-        std::cout << o.first << "\n";
-        for(const auto& i : o.second)
-        {
-            std::cout << i.first << " : " << i.second << "\n";
-        }
-        std::cout << "\n";
-    }
-};
-
 //------------------------------------------------------------------------
 // Takes FRU data, invokes Parser for each fru record area and updates
 // Inventory
@@ -449,6 +433,19 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
     // Here we are just printing the object,interface and the properties.
     // which needs to be called with the new inventory manager implementation.
     // TODO:- Call the new Inventory Manager.
+    auto bus = sdbusplus::bus::new_default();
+    constexpr auto INTERFACE = "xyz.openbmc_project.Inventory.Manager";
+    constexpr auto SERVICE = "xyz.openbmc_project.Inventory.Manager";
+    constexpr auto ROOT = "/xyz/openbmc_project/Inventory";
+    auto notify = [&]()
+    {
+        return bus.new_method_call(
+                   SERVICE,
+                   ROOT,
+                   INTERFACE,
+                   "Notify");
+    };
+
     auto& instanceList = frus[fruid];
     if (instanceList.size() <= 0)
     {
@@ -484,8 +481,13 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
             }
             interfaces.emplace(std::move(interfaceList.first), std::move(prop));
         }
-        //TODO:- remove it later with the inventory manager call.
-        print(interfaces, instance.first);
+        //Call the inventory manager
+        sdbusplus::message::object_path relPath = instance.first;
+
+        auto m = notify();
+        m.append(relPath);
+        m.append(interfaces);
+        bus.call(m);
     }
 
     return rc;
