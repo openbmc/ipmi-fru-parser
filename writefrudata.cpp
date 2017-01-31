@@ -1,3 +1,4 @@
+#include <exception>
 #include <vector>
 #include <stdlib.h>
 #include <dlfcn.h>
@@ -15,12 +16,13 @@
 #include "frup.h"
 #include "fru-area.hpp"
 #include "fru-gen.hpp"
+#include <sdbusplus/server.hpp>
 
 // OpenBMC System Manager dbus framework
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
 const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
-extern FruMap frus;
+extern const FruMap frus;
 
 // Association between interface and the dbus property
 using InterfaceList = std::map<std::string,
@@ -396,23 +398,36 @@ std::string getFRUValue(const std::string& section,
     return fruValue;
 
 }
-
-// TODO: Remove once the call to inventory manager is added
-auto print = [](const InterfaceList& object, const std::string& path)
+//Get the inventory service from the mapper.
+auto getService(sdbusplus::bus::bus& bus,
+                         const std::string& intf,
+                         const std::string& path)
 {
-    std::cout << "\n";
-    std::cout << path << "\n";
-    std::cout << "\n";
-    for(const auto& o : object)
+    auto mapperCall = bus.new_method_call(
+            "xyz.openbmc_project.ObjectMapper",
+            "/xyz/openbmc_project/ObjectMapper",
+            "xyz.openbmc_project.ObjectMapper",
+            "GetObject");
+
+    mapperCall.append(path);
+    mapperCall.append(std::vector<std::string>({intf}));
+
+    auto mapperResponseMsg = bus.call(mapperCall);
+    if (mapperResponseMsg.is_method_error())
     {
-        std::cout << o.first << "\n";
-        for(const auto& i : o.second)
-        {
-            std::cout << i.first << " : " << i.second << "\n";
-        }
-        std::cout << "\n";
+        throw std::runtime_error("ERROR in mapper call");
     }
-};
+
+    std::map<std::string, std::vector<std::string>> mapperResponse;
+    mapperResponseMsg.read(mapperResponse);
+
+    if (mapperResponse.begin() == mapperResponse.end())
+    {
+        throw std::runtime_error("ERROR in reading the mapper response");
+    }
+
+    return mapperResponse.begin()->first;
+}
 
 //------------------------------------------------------------------------
 // Takes FRU data, invokes Parser for each fru record area and updates
@@ -447,8 +462,37 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
 
     // Here we are just printing the object,interface and the properties.
     // which needs to be called with the new inventory manager implementation.
-    // TODO:- Call the new Inventory Manager.
-    auto& instanceList = frus[fruid];
+    auto bus = sdbusplus::bus::new_default();
+    using namespace std::string_literals;
+    static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
+    static const auto path = "/xyz/openbmc_project/Inventory"s;
+    std::string service;
+    try
+    {
+        service = getService(bus,intf,path);
+    }
+    catch (const std::runtime_error& e)
+    {
+        std::cerr << e.what() << "\n";
+        return -1;
+    }
+    auto notify = [&]()
+    {
+        return bus.new_method_call(
+                service.c_str(),
+                path.c_str(),
+                intf.c_str(),
+                "Notify");
+    };
+
+    auto iter = frus.find(fruid);
+    if (iter == frus.end())
+    {
+        std::cerr << "ERROR Unable to get the fru info for FRU=" << fruid << "\n";
+        return -1;
+    }
+
+    auto& instanceList = iter->second;
     if (instanceList.size() <= 0)
     {
         std::cout << "Object List empty for this FRU=" << fruid << "\n";
@@ -483,10 +527,22 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
             }
             interfaces.emplace(std::move(interfaceList.first), std::move(prop));
         }
-        //TODO:- remove it later with the inventory manager call.
-        print(interfaces, instance.first);
-    }
+        //Call the inventory manager
+        try
+        {
+            sdbusplus::message::object_path relPath = instance.first;
 
+            auto m = notify();
+            m.append(relPath);
+            m.append(interfaces);
+            bus.call(m);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << "\n";
+            return -1;
+        }
+    }
     return rc;
 }
 
