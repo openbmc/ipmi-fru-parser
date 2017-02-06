@@ -24,12 +24,19 @@ const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
 extern const FruMap frus;
 
-// Association between interface and the dbus property
-using InterfaceList = std::map<std::string,
-                               std::map<std::string, std::string>>;
-
+using Property = std::string;
+using Value = sdbusplus::message::variant<int64_t, std::string>;
 // Association between property and its value
-using PropertiesList = std::map<std::string, std::string>;
+using PropertyMap = std::map<Property, Value>;
+
+using Interface = std::string;
+// Association between interface and the dbus property
+using InterfaceMap = std::map<Interface, PropertyMap>;
+
+using Object = sdbusplus::message::object_path;
+
+// Association between object and the  interfaces.
+using ObjectMap = std::map<Object, InterfaceMap>;
 
 
 //----------------------------------------------------------------
@@ -497,13 +504,15 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
     {
         std::cout << "Object List empty for this FRU=" << fruid << "\n";
     }
+
+    ObjectMap objects;
     for (auto& instance : instanceList)
     {
-        InterfaceList interfaces;
+        InterfaceMap interfaces;
 
         for (auto& interfaceList : instance.second)
         {
-            PropertiesList prop;//store all the properties
+            PropertyMap props;//store all the properties
             for (auto& properties : interfaceList.second)
             {
                 std::string section, property, value;
@@ -523,16 +532,16 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
                 {
                     value = getFRUValue(section, property, fruData);
                 }
-                prop.emplace(std::move(properties.first), std::move(value));
+                props.emplace(std::move(properties.first), std::move(value));
             }
-            interfaces.emplace(std::move(interfaceList.first), std::move(prop));
+            interfaces.emplace(std::move(interfaceList.first), std::move(props));
         }
-        //Call the inventory manager
-        sdbusplus::message::object_path relPath = instance.first;
 
+        //Call the inventory manager
+        sdbusplus::message::object_path path = instance.first;
+        objects.emplace(path,interfaces);
         auto m = notify();
-        m.append(relPath);
-        m.append(interfaces);
+        m.append(objects);
         auto inventoryMgrResponseMsg = bus.call(m);
         if (inventoryMgrResponseMsg.is_method_error())
         {
