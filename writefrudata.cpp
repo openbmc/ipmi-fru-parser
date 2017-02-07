@@ -374,6 +374,7 @@ std::string getFRUValue(const std::string& section,
     auto minIndexValue = 0;
     auto maxIndexValue = 0;
     std::string fruValue = "";
+
     if (section == "Board")
     {
         minIndexValue = OPENBMC_VPD_KEY_BOARD_MFG_DATE;
@@ -400,6 +401,14 @@ std::string getFRUValue(const std::string& section,
     if (itr != last)
     {
         fruValue = itr->second;
+    }
+    //if the key is custom property then the value would be
+    //in the format of key=value.
+    using namespace std::string_literals;
+    static const auto customProp = "Custom Field"s;
+    if (key.find(customProp) != std::string::npos)
+    {
+       fruValue = fruValue.substr(fruValue.find(":"));
     }
     return fruValue;
 
