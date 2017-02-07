@@ -10,6 +10,8 @@ from mako.template import Template
 def generate_hpp(inventory_yaml, output_dir):
     with open(os.path.join(script_dir, inventory_yaml), 'r') as f:
         ifile = yaml.safe_load(f)
+        if not isinstance(ifile, dict):
+            ifile = {}
 
         # Render the mako template
 
