@@ -22,8 +22,6 @@
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
 const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
-extern const FruMap frus;
-
 using Property = std::string;
 using Value = sdbusplus::message::variant<int64_t, std::string>;
 // Association between property and its value
