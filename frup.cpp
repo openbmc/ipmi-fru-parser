@@ -984,9 +984,9 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                                          std::to_string(chassis_type));
                 continue;
             }
-            info[i] = std::make_pair(vpd_key_names[i],
-                      std::string(reinterpret_cast<char*>
-                                 (vpd_info[i].type_length_field)));
+            info[i] = std::make_pair(vpd_key_names[i], std::string(vpd_info[i].type_length_field+1,
+                                     vpd_info[i].type_length_field+1 +
+                                     vpd_info[i].type_length_field_length));
 
           }
         break;
@@ -1019,9 +1019,9 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                                              std::string(timestr));
                     continue;
                 }
-                info[i] = std::make_pair(vpd_key_names[i],
-                          std::string(reinterpret_cast<char*>
-                                     (vpd_info[i].type_length_field)));
+                info[i] = std::make_pair(vpd_key_names[i], std::string(vpd_info[i].type_length_field+1,
+                                         vpd_info[i].type_length_field+1 +
+                                         vpd_info[i].type_length_field_length));
 
             }
             break;
@@ -1044,9 +1044,9 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
 
             for (i=OPENBMC_VPD_KEY_PRODUCT_MFR; i<=OPENBMC_VPD_KEY_PRODUCT_MAX; i++)
             {
-                info[i] = std::make_pair(vpd_key_names[i],
-                          std::string(reinterpret_cast<char*>
-                                     (vpd_info[i].type_length_field)));
+                info[i] = std::make_pair(vpd_key_names[i], std::string(vpd_info[i].type_length_field+1,
+                                         vpd_info[i].type_length_field+1 +
+                                         vpd_info[i].type_length_field_length));
             }
             break;
     default:
