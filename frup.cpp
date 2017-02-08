@@ -986,7 +986,7 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
             }
             info[i] = std::make_pair(vpd_key_names[i],
                       std::string(reinterpret_cast<char*>
-                                 (vpd_info[i].type_length_field)));
+                                 (vpd_info[i].type_length_field+1)));
 
           }
         break;
@@ -1021,7 +1021,7 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                 }
                 info[i] = std::make_pair(vpd_key_names[i],
                           std::string(reinterpret_cast<char*>
-                                     (vpd_info[i].type_length_field)));
+                                     (vpd_info[i].type_length_field+1)));
 
             }
             break;
@@ -1046,7 +1046,7 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
             {
                 info[i] = std::make_pair(vpd_key_names[i],
                           std::string(reinterpret_cast<char*>
-                                     (vpd_info[i].type_length_field)));
+                                     (vpd_info[i].type_length_field+1)));
             }
             break;
     default:
