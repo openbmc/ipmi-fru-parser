@@ -3,7 +3,8 @@
 
 #include <systemd/sd-bus.h>
 #include <array>
-
+#include <string>
+#include <map>
 
 enum ipmi_fru_area_type
 {
@@ -74,6 +75,21 @@ enum openbmc_vpd_key_id
 using IPMIFruInfo = std::array<std::pair<std::string,std::string>,
                            OPENBMC_VPD_KEY_MAX>;
 
+using IPMIFruMetadata = std::string;
+using IPMIFruMetadataValue = std::string;
+using IPMIFruMap = std::map<IPMIFruMetadata,IPMIFruMetadataValue>;
+
+using DbusProperty = std::string;
+using DbusPropertyMap = std::map<DbusProperty,IPMIFruMap>;
+
+using DbusInterface = std::string;
+using DbusInterfaceMap = std::map<DbusInterface,DbusPropertyMap>;
+
+using FruInstancePath = std::string;
+using FruInstanceMap = std::map<FruInstancePath,DbusInterfaceMap>;
+
+using FruId = uint32_t;
+using FruMap = std::map<FruId,FruInstanceMap>;
 
 /* Parse an IPMI write fru data message into a dictionary containing name value pair of VPD entries.*/
 int parse_fru (const void* msgbuf, sd_bus_message* vpdtbl);
