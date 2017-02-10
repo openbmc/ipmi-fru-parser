@@ -15,7 +15,6 @@
 #include <mapper.h>
 #include "frup.hpp"
 #include "fru-area.hpp"
-#include "fru-gen.hpp"
 #include <sdbusplus/server.hpp>
 
 // OpenBMC System Manager dbus framework
@@ -24,13 +23,19 @@ const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
 extern const FruMap frus;
 
-// Association between interface and the dbus property
-using InterfaceList = std::map<std::string,
-                               std::map<std::string, std::string>>;
-
+using Property = std::string;
+using Value = sdbusplus::message::variant<bool, int64_t, std::string>;
 // Association between property and its value
-using PropertiesList = std::map<std::string, std::string>;
+using PropertyMap = std::map<Property, Value>;
 
+using Interface = std::string;
+// Association between interface and the dbus property
+using InterfaceMap = std::map<Interface, PropertyMap>;
+
+using Object = sdbusplus::message::object_path;
+
+// Association between object and the  interfaces.
+using ObjectMap = std::map<Object, InterfaceMap>;
 
 //----------------------------------------------------------------
 // Constructor

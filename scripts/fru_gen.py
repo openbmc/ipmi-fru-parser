@@ -7,7 +7,7 @@ import argparse
 from mako.template import Template
 
 
-def generate_hpp(inventory_yaml, output_dir):
+def generate_cpp(inventory_yaml, output_dir):
     with open(os.path.join(script_dir, inventory_yaml), 'r') as f:
         ifile = yaml.safe_load(f)
         if not isinstance(ifile, dict):
@@ -17,9 +17,9 @@ def generate_hpp(inventory_yaml, output_dir):
 
         t = Template(filename=os.path.join(
                      script_dir,
-                     "writefru.mako.hpp"))
+                     "writefru.mako.cpp"))
 
-        output_hpp = os.path.join(output_dir, "fru-gen.hpp")
+        output_hpp = os.path.join(output_dir, "fru-gen.cpp")
         with open(output_hpp, 'w') as fd:
             fd.write(t.render(fruDict=ifile))
 
@@ -27,7 +27,7 @@ def generate_hpp(inventory_yaml, output_dir):
 def main():
 
     valid_commands = {
-        'generate-hpp': generate_hpp
+        'generate-cpp': generate_cpp
     }
     parser = argparse.ArgumentParser(
         description="IPMI FRU parser and code generator")
