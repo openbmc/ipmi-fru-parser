@@ -15,12 +15,13 @@
 #include <mapper.h>
 #include "frup.hpp"
 #include "fru-area.hpp"
-#include "fru-gen.hpp"
 #include <sdbusplus/server.hpp>
 
 // OpenBMC System Manager dbus framework
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
 const char  *sys_intf_name     =  "org.openbmc.managers.System";
+
+extern const FruMap frus;
 
 using Property = std::string;
 using Value = sdbusplus::message::variant<bool, int64_t, std::string>;
