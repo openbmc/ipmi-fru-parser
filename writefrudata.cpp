@@ -13,7 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include <mapper.h>
-#include "frup.h"
+#include "frup.hpp"
 #include "fru-area.hpp"
 #include "fru-gen.hpp"
 #include <sdbusplus/server.hpp>

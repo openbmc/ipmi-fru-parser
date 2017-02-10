@@ -46,7 +46,7 @@
 #include <time.h>
 #include <systemd/sd-bus.h>
 #include <ctype.h>
-#include "frup.h"
+#include "frup.hpp"
 
 #define TEXTSTR(a) #a
 # define ASSERT(x) \
