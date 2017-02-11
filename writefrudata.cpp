@@ -555,10 +555,8 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
 ///----------------------------------------------------
 bool remove_invalid_area(const std::unique_ptr<ipmi_fru> &fru_area)
 {
-    // Filter the ones that do not have dbus reference.
-    if((strlen((fru_area)->get_bus_name()) == 0) ||
-       (strlen((fru_area)->get_obj_path()) == 0)  ||
-       (strlen((fru_area)->get_intf_name()) == 0))
+    // Filter the ones that are empty
+    if(!(fru_area->get_len()))
     {
         return true;
     }
