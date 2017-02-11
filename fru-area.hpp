@@ -17,28 +17,28 @@ class ipmi_fru
 {
     private:
         // Unique way of identifying a FRU
-        uint8_t iv_fruid;
+        uint8_t iv_fruid = 0;
 
         // Type of the fru matching offsets in common header
-        ipmi_fru_area_type iv_type;
+        ipmi_fru_area_type iv_type = IPMI_FRU_AREA_INTERNAL_USE;
 
         // Name of the fru area. ( BOARD/CHASSIS/PRODUCT )
         std::string iv_name;
 
         // Length of a specific fru area.
-        size_t  iv_len;
+        size_t  iv_len = 0;
 
         // Special bit for BMC readable eeprom only.
-        bool iv_bmc_fru;
+        bool iv_bmc_fru = false;
 
         // If a FRU is physically present.
-        bool iv_present;
+        bool iv_present = false;
 
         // Whether a particular area is valid ?
-        bool iv_valid;
+        bool iv_valid = false;
 
         // Actual area data.
-        uint8_t *iv_data;
+        uint8_t *iv_data = nullptr;
 
         // fru inventory dbus name
         std::string iv_bus_name;
@@ -50,7 +50,7 @@ class ipmi_fru
         std::string iv_intf_name;
 
         // sd_bus handle
-        sd_bus *iv_bus_type;
+        sd_bus *iv_bus_type = nullptr;
 
         // Default constructor disabled.
         ipmi_fru();
