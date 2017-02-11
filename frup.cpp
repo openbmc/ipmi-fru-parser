@@ -714,11 +714,15 @@ ipmi_fru_product_info_area (const void *areabuf,
   return (rv);
 }
 
-void _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* vpdtbl)
+void _append_to_dict (uint8_t vpd_key_id,
+                      uint8_t* vpd_key_val,
+                      IPMIFruInfo& info)
 {
     int type_length = vpd_key_val[0];
-    int type_code = (type_length & IPMI_FRU_TYPE_LENGTH_TYPE_CODE_MASK) >> IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
-    int vpd_val_len = type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
+    int type_code = (type_length & IPMI_FRU_TYPE_LENGTH_TYPE_CODE_MASK) >>
+                    IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
+    int vpd_val_len =
+        type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
     int sdr=0;
 
     /* Needed to convert each uint8_t byte to a ascii */
@@ -759,14 +763,21 @@ void _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* 
                 strncpy(bin_in_ascii, "0x", 2);
             }
 
-            printf ("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] : Len = [%d] : Val = [%s]\n",
+            printf ("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] :"
+                    " Len = [%d] : Val = [%s]\n",
                     vpd_key_names [vpd_key_id], vpd_val_len, bin_in_ascii);
-            sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[vpd_key_id], "s", bin_in_ascii);
+            info[vpd_key_id] = std::make_pair(vpd_key_names[vpd_key_id],
+                                              bin_in_ascii);
             break;
 
         case 3:
-            printf ("_append_to_dict: VPD Key = [%s] : Type Code = [ASCII+Latin] : Len = [%d] : Val = [%s]\n", vpd_key_names [vpd_key_id], vpd_val_len, &vpd_key_val[1]);
-            sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[vpd_key_id], "s", &vpd_key_val[1]);
+            printf ("_append_to_dict: VPD Key = [%s] : Type Code=[ASCII+Latin]"
+                    " : Len = [%d] : Val = [%s]\n",
+                    vpd_key_names [vpd_key_id], vpd_val_len, &vpd_key_val[1]);
+            info[vpd_key_id] = std::make_pair(
+                                   vpd_key_names[vpd_key_id],
+                                   std::string(vpd_key_val + 1,
+                                               vpd_key_val + 1 + type_length));
             break;
     }
 
@@ -785,6 +796,7 @@ void _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* 
     }
 }
 
+#if 0
 int
 parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
 {
@@ -928,6 +940,7 @@ parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
   rv = 0;
   return (rv);
 }
+#endif
 
 int parse_fru_area (const uint8_t area, const void* msgbuf,
                     const size_t len, IPMIFruInfo& info)
@@ -954,7 +967,8 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
 
   for (i=0; i<OPENBMC_VPD_KEY_MAX; i++)
   {
-    memset (vpd_info[i].type_length_field, '\0', IPMI_FRU_AREA_TYPE_LENGTH_FIELD_MAX);
+    memset (vpd_info[i].type_length_field, '\0',
+            IPMI_FRU_AREA_TYPE_LENGTH_FIELD_MAX);
     vpd_info[i].type_length_field_length = 0;
   }
 
@@ -978,16 +992,13 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
             if (i==OPENBMC_VPD_KEY_CHASSIS_TYPE)
             {
 #if IPMI_FRU_PARSER_DEBUG
-                printf ("Chassis : Appending [%s] = [%d]\n", vpd_key_names[i], chassis_type);
+                printf ("Chassis : Appending [%s] = [%d]\n",
+                         vpd_key_names[i], chassis_type);
 #endif
                 info[i] = std::make_pair(vpd_key_names[i],
                                          std::to_string(chassis_type));
                 continue;
             }
-            info[i] = std::make_pair(vpd_key_names[i],
-                      std::string(reinterpret_cast<char*>
-                                 (vpd_info[i].type_length_field)));
-
           }
         break;
     case IPMI_FRU_AREA_BOARD_INFO:
@@ -1013,15 +1024,14 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                 {
                     _to_time_str (mfg_date_time, timestr, OPENBMC_VPD_VAL_LEN);
 #if IPMI_FRU_PARSER_DEBUG
-                    printf ("Board : Appending [%s] = [%d]\n", vpd_key_names[i], timestr);
+                    printf ("Board : Appending [%s] = [%d]\n",
+                            vpd_key_names[i], timestr);
 #endif
                     info[i] = std::make_pair(vpd_key_names[i],
                                              std::string(timestr));
                     continue;
                 }
-                info[i] = std::make_pair(vpd_key_names[i],
-                          std::string(reinterpret_cast<char*>
-                                     (vpd_info[i].type_length_field)));
+                _append_to_dict (i, vpd_info[i].type_length_field, info);
 
             }
             break;
@@ -1042,11 +1052,11 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                 &vpd_info [OPENBMC_VPD_KEY_PRODUCT_CUSTOM1],
                 OPENBMC_VPD_KEY_CUSTOM_FIELDS_MAX);
 
-            for (i=OPENBMC_VPD_KEY_PRODUCT_MFR; i<=OPENBMC_VPD_KEY_PRODUCT_MAX; i++)
+            for (i=OPENBMC_VPD_KEY_PRODUCT_MFR;
+                 i<=OPENBMC_VPD_KEY_PRODUCT_MAX;
+                 ++i)
             {
-                info[i] = std::make_pair(vpd_key_names[i],
-                          std::string(reinterpret_cast<char*>
-                                     (vpd_info[i].type_length_field)));
+                _append_to_dict (i, vpd_info[i].type_length_field, info);
             }
             break;
     default:
