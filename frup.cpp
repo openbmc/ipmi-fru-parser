@@ -714,11 +714,15 @@ ipmi_fru_product_info_area (const void *areabuf,
   return (rv);
 }
 
-void _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* vpdtbl)
+void _append_to_dict (uint8_t vpd_key_id,
+                      uint8_t* vpd_key_val,
+                      IPMIFruInfo& info)
 {
     int type_length = vpd_key_val[0];
-    int type_code = (type_length & IPMI_FRU_TYPE_LENGTH_TYPE_CODE_MASK) >> IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
-    int vpd_val_len = type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
+    int type_code = (type_length & IPMI_FRU_TYPE_LENGTH_TYPE_CODE_MASK) >>
+                    IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
+    int vpd_val_len =
+        type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
     int sdr=0;
 
     /* Needed to convert each uint8_t byte to a ascii */
@@ -759,14 +763,21 @@ void _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* 
                 strncpy(bin_in_ascii, "0x", 2);
             }
 
-            printf ("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] : Len = [%d] : Val = [%s]\n",
+            printf ("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] :"
+                    " Len = [%d] : Val = [%s]\n",
                     vpd_key_names [vpd_key_id], vpd_val_len, bin_in_ascii);
-            sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[vpd_key_id], "s", bin_in_ascii);
+            info[vpd_key_id] = std::make_pair(vpd_key_names[vpd_key_id],
+                                              bin_in_ascii);
             break;
 
         case 3:
-            printf ("_append_to_dict: VPD Key = [%s] : Type Code = [ASCII+Latin] : Len = [%d] : Val = [%s]\n", vpd_key_names [vpd_key_id], vpd_val_len, &vpd_key_val[1]);
-            sdr = sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[vpd_key_id], "s", &vpd_key_val[1]);
+            printf ("_append_to_dict: VPD Key = [%s] : Type Code=[ASCII+Latin]"
+                    " : Len = [%d] : Val = [%s]\n",
+                    vpd_key_names [vpd_key_id], vpd_val_len, &vpd_key_val[1]);
+            info[vpd_key_id] = std::make_pair(
+                                   vpd_key_names[vpd_key_id],
+                                   std::string(vpd_key_val + 1,
+                                               vpd_key_val + 1 + type_length));
             break;
     }
 
@@ -783,150 +794,6 @@ void _append_to_dict (uint8_t vpd_key_id, uint8_t* vpd_key_val, sd_bus_message* 
         printf ("_append_to_dict : sd_bus_message_append Failed [ %d ] for [%s]\n", sdr, vpd_key_names[vpd_key_id]);
 #endif
     }
-}
-
-int
-parse_fru (const void* msgbuf, sd_bus_message* vpdtbl)
-{
-  int rv = -1;
-  int i = 0;
-  ipmi_fru_area_info_t fru_area_info [ IPMI_FRU_AREA_TYPE_MAX ];
-  ipmi_fru_common_hdr_t* chdr = NULL;
-  uint8_t* hdr = NULL;
-  char timestr [ OPENBMC_VPD_VAL_LEN ];
-
-
-  ipmi_fru_field_t vpd_info [ OPENBMC_VPD_KEY_MAX ];
-  //uint8_t* ipmi_fru_field_str;
-
-  /* Chassis */
-  uint8_t chassis_type;
-
-  /* Board */
-  uint32_t mfg_date_time;
-
-  /* Product */
-  //unsigned int product_custom_fields_len;
-
-  ASSERT (msgbuf);
-  ASSERT (vpdtbl);
-
-  for (i=0; i<OPENBMC_VPD_KEY_MAX; i++)
-  {
-    memset (vpd_info[i].type_length_field, '\0', IPMI_FRU_AREA_TYPE_LENGTH_FIELD_MAX);
-    vpd_info[i].type_length_field_length = 0;
-  }
-
-  for (i=0; i<IPMI_FRU_AREA_TYPE_MAX; i++)
-  {
-    fru_area_info [ i ].off = 0;
-    fru_area_info [ i ].len = 0;
-  }
-
-  chdr = (ipmi_fru_common_hdr_t*) msgbuf;
-  hdr  = (uint8_t*) msgbuf;
-
-  fru_area_info [ IPMI_FRU_AREA_INTERNAL_USE ].off = chdr->internal;
-  fru_area_info [ IPMI_FRU_AREA_CHASSIS_INFO ].off = chdr->chassis;
-  fru_area_info [ IPMI_FRU_AREA_BOARD_INFO   ].off = chdr->board;
-  fru_area_info [ IPMI_FRU_AREA_PRODUCT_INFO ].off = chdr->product;
-  fru_area_info [ IPMI_FRU_AREA_MULTI_RECORD ].off = chdr->multirec;
-
-  if (chdr->internal)
-  {
-    fru_area_info [ IPMI_FRU_AREA_INTERNAL_USE ].len =  8*(*(hdr+8*chdr->internal+1));
-
-    /* TODO: Parse internal use area */
-  }
-
-  if (chdr->chassis)
-  {
-    fru_area_info [ IPMI_FRU_AREA_CHASSIS_INFO ].len = 8*(*(hdr+8*chdr->chassis+1));
-    ipmi_fru_chassis_info_area (hdr+8*chdr->chassis+2,
-        fru_area_info [ IPMI_FRU_AREA_CHASSIS_INFO ].len,
-        &chassis_type,
-        &vpd_info [OPENBMC_VPD_KEY_CHASSIS_PART_NUM],
-        &vpd_info [OPENBMC_VPD_KEY_CHASSIS_SERIAL_NUM],
-        &vpd_info [OPENBMC_VPD_KEY_CHASSIS_CUSTOM1],
-        OPENBMC_VPD_KEY_CUSTOM_FIELDS_MAX);
-  }
-
-  if (chdr->board)
-  {
-    fru_area_info [ IPMI_FRU_AREA_BOARD_INFO ].len = 8*(*(hdr+8*chdr->board+1));
-    ipmi_fru_board_info_area (hdr+8*chdr->board+2,
-        fru_area_info [ IPMI_FRU_AREA_BOARD_INFO ].len,
-        NULL,
-        &mfg_date_time,
-        &vpd_info [OPENBMC_VPD_KEY_BOARD_MFR],
-        &vpd_info [OPENBMC_VPD_KEY_BOARD_NAME],
-        &vpd_info [OPENBMC_VPD_KEY_BOARD_SERIAL_NUM],
-        &vpd_info [OPENBMC_VPD_KEY_BOARD_PART_NUM],
-        &vpd_info [OPENBMC_VPD_KEY_BOARD_FRU_FILE_ID],
-        &vpd_info [OPENBMC_VPD_KEY_BOARD_CUSTOM1],
-        OPENBMC_VPD_KEY_CUSTOM_FIELDS_MAX);
-  }
-
-  if (chdr->product)
-  {
-    fru_area_info [ IPMI_FRU_AREA_PRODUCT_INFO ].len = 8*(*(hdr+8*chdr->product+1));
-    ipmi_fru_product_info_area (hdr+8*chdr->product+2,
-        fru_area_info [ IPMI_FRU_AREA_PRODUCT_INFO ].len,
-        NULL,
-        &vpd_info [OPENBMC_VPD_KEY_PRODUCT_MFR],
-        &vpd_info [OPENBMC_VPD_KEY_PRODUCT_NAME],
-        &vpd_info [OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM],
-        &vpd_info [OPENBMC_VPD_KEY_PRODUCT_VER],
-        &vpd_info [OPENBMC_VPD_KEY_PRODUCT_SERIAL_NUM],
-        &vpd_info [OPENBMC_VPD_KEY_PRODUCT_ASSET_TAG],
-        &vpd_info [OPENBMC_VPD_KEY_PRODUCT_FRU_FILE_ID],
-        &vpd_info [OPENBMC_VPD_KEY_PRODUCT_CUSTOM1],
-        OPENBMC_VPD_KEY_CUSTOM_FIELDS_MAX);
-  }
-
-  if (chdr->multirec)
-  {
-    fru_area_info [ IPMI_FRU_AREA_MULTI_RECORD ].len = 8*(*(hdr+8*chdr->multirec+1));
-    /* TODO: Parse multi record area */
-  }
-
-  for (i=0; i<IPMI_FRU_AREA_TYPE_MAX; i++)
-  {
-#if IPMI_FRU_PARSER_DEBUG
-    printf ("IPMI_FRU_AREA_TYPE=[%d] : Offset=[%d] : Len=[%d]\n", i, fru_area_info [i].off, fru_area_info[i].len);
-#endif
-  }
-
-  /* Populate VPD Table */
-  for (i=1; i<OPENBMC_VPD_KEY_MAX; i++)
-  {
-    if (i==OPENBMC_VPD_KEY_CHASSIS_TYPE)
-    {
-        sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[i], "y", chassis_type);
-#if IPMI_FRU_PARSER_DEBUG
-        printf ("[%s] = [%d]\n", vpd_key_names[i], chassis_type);
-#endif
-        continue;
-    }
-
-    if (i==OPENBMC_VPD_KEY_BOARD_MFG_DATE)
-    {
-        _to_time_str (mfg_date_time, timestr, OPENBMC_VPD_VAL_LEN);
-        sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[i], "s", timestr);
-#if IPMI_FRU_PARSER_DEBUG
-        printf ("[%s] = [%d]\n", vpd_key_names[i], mfg_date_time);
-#endif
-        continue;
-    }
-
-    /* Append TypeLen Field to Dictionary */
-    _append_to_dict (i, vpd_info[i].type_length_field, vpdtbl);
-
-    /*ipmi_fru_field_str = (unsigned char*) &(vpd_info[i].type_length_field) + 1;*/
-    /*sd_bus_message_append (vpdtbl, "{sv}", vpd_key_names[i], "s", ipmi_fru_field_str); */
-  }
-  rv = 0;
-  return (rv);
 }
 
 int parse_fru_area (const uint8_t area, const void* msgbuf,
@@ -954,7 +821,8 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
 
   for (i=0; i<OPENBMC_VPD_KEY_MAX; i++)
   {
-    memset (vpd_info[i].type_length_field, '\0', IPMI_FRU_AREA_TYPE_LENGTH_FIELD_MAX);
+    memset (vpd_info[i].type_length_field, '\0',
+            IPMI_FRU_AREA_TYPE_LENGTH_FIELD_MAX);
     vpd_info[i].type_length_field_length = 0;
   }
 
@@ -978,17 +846,16 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
             if (i==OPENBMC_VPD_KEY_CHASSIS_TYPE)
             {
 #if IPMI_FRU_PARSER_DEBUG
-                printf ("Chassis : Appending [%s] = [%d]\n", vpd_key_names[i], chassis_type);
+                printf ("Chassis : Appending [%s] = [%d]\n",
+                         vpd_key_names[i], chassis_type);
 #endif
                 info[i] = std::make_pair(vpd_key_names[i],
                                          std::to_string(chassis_type));
                 continue;
             }
-            info[i] = std::make_pair(vpd_key_names[i],
-                      std::string(reinterpret_cast<char*>
-                                 (vpd_info[i].type_length_field)));
-
           }
+          //@TODO via https://github.com/openbmc/openbmc/issues/1091 - handle
+          //chassis FRU area.
         break;
     case IPMI_FRU_AREA_BOARD_INFO:
 #if IPMI_FRU_PARSER_DEBUG
@@ -1013,15 +880,14 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                 {
                     _to_time_str (mfg_date_time, timestr, OPENBMC_VPD_VAL_LEN);
 #if IPMI_FRU_PARSER_DEBUG
-                    printf ("Board : Appending [%s] = [%d]\n", vpd_key_names[i], timestr);
+                    printf ("Board : Appending [%s] = [%d]\n",
+                            vpd_key_names[i], timestr);
 #endif
                     info[i] = std::make_pair(vpd_key_names[i],
                                              std::string(timestr));
                     continue;
                 }
-                info[i] = std::make_pair(vpd_key_names[i],
-                          std::string(reinterpret_cast<char*>
-                                     (vpd_info[i].type_length_field)));
+                _append_to_dict (i, vpd_info[i].type_length_field, info);
 
             }
             break;
@@ -1042,11 +908,11 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                 &vpd_info [OPENBMC_VPD_KEY_PRODUCT_CUSTOM1],
                 OPENBMC_VPD_KEY_CUSTOM_FIELDS_MAX);
 
-            for (i=OPENBMC_VPD_KEY_PRODUCT_MFR; i<=OPENBMC_VPD_KEY_PRODUCT_MAX; i++)
+            for (i=OPENBMC_VPD_KEY_PRODUCT_MFR;
+                 i<=OPENBMC_VPD_KEY_PRODUCT_MAX;
+                 ++i)
             {
-                info[i] = std::make_pair(vpd_key_names[i],
-                          std::string(reinterpret_cast<char*>
-                                     (vpd_info[i].type_length_field)));
+                _append_to_dict (i, vpd_info[i].type_length_field, info);
             }
             break;
     default:
