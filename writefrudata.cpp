@@ -400,6 +400,15 @@ std::string getFRUValue(const std::string& section,
     {
         fruValue = itr->second;
     }
+
+    //if the key is custom property then the value would be
+    //in the format of key=value.
+    using namespace std::string_literals;
+    static const auto customProp = "Custom Field"s;
+    if (key.find(customProp) != std::string::npos)
+    {
+       fruValue = fruValue.substr(fruValue.find(":"));
+    }
     return fruValue;
 
 }
