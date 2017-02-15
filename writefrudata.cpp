@@ -21,6 +21,8 @@
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
 const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
+constexpr auto   KEY_VALUE_FORMAT = "key:value";
+
 extern const FruMap frus;
 
 using Property = std::string;
@@ -367,6 +369,7 @@ int verify_fru_data(const uint8_t *data, const size_t len)
 
 std::string getFRUValue(const std::string& section,
                         const std::string& key,
+                        const std::string& format,
                         IPMIFruInfo& fruData)
 {
 
@@ -399,6 +402,20 @@ std::string getFRUValue(const std::string& section,
     if (itr != last)
     {
         fruValue = itr->second;
+    }
+
+    //if the key is custom property then the value could be in two formats.
+    //1) custom field 2 = "value".
+    //2) custom field 2 =  "key:value".
+
+    using namespace std::string_literals;
+    static const auto customProp = "Custom Field"s;
+    if (key.find(customProp) != std::string::npos)
+    {
+       if (format == KEY_VALUE_FORMAT)
+       {
+           fruValue = fruValue.substr(fruValue.find(":"));
+       }
     }
     return fruValue;
 
@@ -507,7 +524,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
             PropertyMap props;//store all the properties
             for (auto& properties : interfaceList.second)
             {
-                std::string section, property, value;
+                std::string section, property, format, value;
                 for (auto& info : properties.second)
                 {
                     if (info.first == "IPMIFruSection")
@@ -518,11 +535,16 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
                     {
                         property = std::move(info.second);
                     }
+                    if (info.first == "IPMIFruValueFormat")
+                    {
+                        format = std::move(info.second);
+                    }
+
                 }
 
                 if (!section.empty() && !property.empty())
                 {
-                    value = getFRUValue(section, property, fruData);
+                    value = getFRUValue(section, property, format, fruData);
                 }
                 props.emplace(std::move(properties.first), std::move(value));
             }
