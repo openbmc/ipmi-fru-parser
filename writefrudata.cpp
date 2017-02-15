@@ -41,6 +41,7 @@ using ObjectMap = std::map<Object, InterfaceMap>;
 // Constructor
 //----------------------------------------------------------------
 ipmi_fru::ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
+
                    sd_bus *bus_type, bool bmc_fru)
 {
     iv_fruid = fruid;
@@ -367,6 +368,7 @@ int verify_fru_data(const uint8_t *data, const size_t len)
 
 std::string getFRUValue(const std::string& section,
                         const std::string& key,
+                        const std::string& delimiter,
                         IPMIFruInfo& fruData)
 {
 
@@ -399,6 +401,21 @@ std::string getFRUValue(const std::string& section,
     if (itr != last)
     {
         fruValue = itr->second;
+    }
+
+    //if the key is custom property then the value could be in two formats.
+    //1) custom field 2 = "value".
+    //2) custom field 2 =  "key:value".
+    //if delimeter length = 0 i.e custom field 2 = "value"
+
+    using namespace std::string_literals;
+    static const auto customProp = "Custom Field"s;
+    if (key.find(customProp) != std::string::npos)
+    {
+       if ( delimiter.length() > 0)
+       {
+           fruValue = fruValue.substr(fruValue.find(delimiter) + 1);
+       }
     }
     return fruValue;
 
@@ -507,7 +524,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
             PropertyMap props;//store all the properties
             for (auto& properties : interfaceList.second)
             {
-                std::string section, property, value;
+                std::string section, property, delimiter, value;
                 for (auto& info : properties.second)
                 {
                     if (info.first == "IPMIFruSection")
@@ -518,11 +535,23 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
                     {
                         property = std::move(info.second);
                     }
+                    if (info.first == "IPMIFruValueDelimiter")
+                    {
+                        //Read the delimeter as ascii value
+                        //convert it into char
+                        if( info.second.length() > 0 )
+                        {
+                            char dlm = ' ';
+                            sscanf(info.second.c_str(),"%hhd",&dlm);
+                            delimiter = std::string(1,dlm);
+                        }
+                    }
+
                 }
 
                 if (!section.empty() && !property.empty())
                 {
-                    value = getFRUValue(section, property, fruData);
+                    value = getFRUValue(section, property, delimiter, fruData);
                 }
                 props.emplace(std::move(properties.first), std::move(value));
             }
