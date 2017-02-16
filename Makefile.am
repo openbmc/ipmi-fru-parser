@@ -13,8 +13,8 @@ phosphor_read_eeprom_LDADD = libwritefrudata.la
 libwritefrudatadir = ${libdir}
 libwritefrudata_LTLIBRARIES = libwritefrudata.la
 libwritefrudata_la_SOURCES = frup.cpp fru-gen.cpp writefrudata.cpp
-libwritefrudata_la_LDFLAGS = $(SYSTEMD_LIBS) $(libmapper_LIBS) -version-info 1:0:0 -shared
-libwritefrudata_la_CXXFLAGS = $(SYSTEMD_CFLAGS) $(libmapper_CFLAGS)
+libwritefrudata_la_LDFLAGS = $(SYSTEMD_LIBS) $(libmapper_LIBS) $(SDBUSPLUS_LIBS) -version-info 1:0:0 -shared
+libwritefrudata_la_CXXFLAGS = $(SYSTEMD_CFLAGS) $(libmapper_CFLAGS) $(SDBUSPLUS_CFLAGS)
 
 libstrgfnhandlerdir = ${libdir}/ipmid-providers
 libstrgfnhandler_LTLIBRARIES = libstrgfnhandler.la
