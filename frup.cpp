@@ -853,9 +853,8 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                                          std::to_string(chassis_type));
                 continue;
             }
+            _append_to_dict (i, vpd_info[i].type_length_field, info);
           }
-          //@TODO via https://github.com/openbmc/openbmc/issues/1091 - handle
-          //chassis FRU area.
         break;
     case IPMI_FRU_AREA_BOARD_INFO:
 #if IPMI_FRU_PARSER_DEBUG
