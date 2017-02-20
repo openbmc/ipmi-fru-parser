@@ -13,6 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include <mapper.h>
+#include "types.hpp"
 #include "frup.hpp"
 #include "fru-area.hpp"
 #include <sdbusplus/server.hpp>
@@ -21,21 +22,10 @@
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
 const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
+using namespace ipmi::vpd;
+
 extern const FruMap frus;
-
-using Property = std::string;
-using Value = sdbusplus::message::variant<bool, int64_t, std::string>;
-// Association between property and its value
-using PropertyMap = std::map<Property, Value>;
-
-using Interface = std::string;
-// Association between interface and the dbus property
-using InterfaceMap = std::map<Interface, PropertyMap>;
-
-using Object = sdbusplus::message::object_path;
-
-// Association between object and the  interfaces.
-using ObjectMap = std::map<Object, InterfaceMap>;
+extern const std::map<Path, InterfaceMap> extras;
 
 //----------------------------------------------------------------
 // Constructor
@@ -531,6 +521,14 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
 
         //Call the inventory manager
         sdbusplus::message::object_path path = instance.first;
+        // Check and update extra properties
+        if(extras.end() != extras.find(instance.first))
+        {
+            for(const auto& entry : extras.at(instance.first))
+            {
+                interfaces.emplace(entry.first, entry.second);
+            }
+        }
         objects.emplace(path,interfaces);
     }
 
