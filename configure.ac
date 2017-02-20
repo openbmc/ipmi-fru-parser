@@ -59,6 +59,9 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
 AS_IF([test "x$YAML_GEN" == "x"], [YAML_GEN="example.yaml"])
 FRUGEN="$PYTHON $srcdir/scripts/fru_gen.py -i $YAML_GEN"
 AC_SUBST(FRUGEN)
+AS_IF([test "x$PROP_YAML" == "x"], [PROP_YAML="extra-properties-example.yaml"])
+PROPGEN="$PYTHON $srcdir/scripts/extra-properties.py -e $PROP_YAML"
+AC_SUBST(PROPGEN)
 
 # Create configured output
 AC_CONFIG_FILES([Makefile])
