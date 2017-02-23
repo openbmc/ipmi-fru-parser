@@ -477,7 +477,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec)
     auto bus = sdbusplus::bus::new_default();
     using namespace std::string_literals;
     static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
-    static const auto path = "/xyz/openbmc_project/Inventory"s;
+    static const auto path = "/xyz/openbmc_project/inventory"s;
     std::string service;
     try
     {
