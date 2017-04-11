@@ -18,10 +18,6 @@
 #include "fru-area.hpp"
 #include <sdbusplus/server.hpp>
 
-// OpenBMC System Manager dbus framework
-const char  *sys_object_name   =  "/org/openbmc/managers/System";
-const char  *sys_intf_name     =  "org.openbmc.managers.System";
-
 using namespace ipmi::vpd;
 
 extern const FruMap frus;
@@ -95,162 +91,11 @@ void ipmi_fru::update_dbus_paths(const char *bus_name,
 //-------------------
 ipmi_fru::~ipmi_fru()
 {
-    sd_bus_error bus_error = SD_BUS_ERROR_NULL;
-    sd_bus_message *response = NULL;
-    int rc = 0;
-
     if(iv_data != NULL)
     {
         delete [] iv_data;
         iv_data = NULL;
     }
-
-    // If we have not been successful in doing some updates and we are a BMC
-    // fru, then need to set the fault bits.
-    bool valid_dbus = !(iv_bus_name.empty()) &&
-                      !(iv_obj_path.empty()) &&
-                      !(iv_intf_name.empty());
-
-    // Based on bmc_fru, success in updating the FRU inventory we need to set
-    // some special bits.
-    if(iv_bmc_fru && valid_dbus)
-    {
-        // Set the Fault bit if we did not successfully process the fru
-        const char *fault_bit = iv_valid ? "False" : "True";
-
-        rc = sd_bus_call_method(iv_bus_type,                // On the System Bus
-                                iv_bus_name.c_str(),        // Service to contact
-                                iv_obj_path.c_str(),        // Object path
-                                iv_intf_name.c_str(),       // Interface name
-                                "setFault",                 // Method to be called
-                                &bus_error,                 // object to return error
-                                &response,                  // Response message on success
-                                "s",                        // input message (string)
-                                fault_bit);                 // First argument to setFault
-
-        if(rc <0)
-        {
-            fprintf(stderr,"Failed to set Fault bit, value:[%s] for fruid:[%d], path:[%s]\n",
-                    fault_bit, iv_fruid, iv_obj_path.c_str());
-        }
-        else
-        {
-            printf("Fault bit set to :[%s] for fruid:[%d], Path:[%s]\n",
-                    fault_bit, iv_fruid,iv_obj_path.c_str());
-        }
-
-        sd_bus_error_free(&bus_error);
-        sd_bus_message_unref(response);
-
-        // Set the Present bits
-        const char *present_bit = iv_present ? "True" : "False";
-
-        rc = sd_bus_call_method(iv_bus_type,                // On the System Bus
-                                iv_bus_name.c_str(),        // Service to contact
-                                iv_obj_path.c_str(),        // Object path
-                                iv_intf_name.c_str(),       // Interface name
-                                "setPresent",               // Method to be called
-                                &bus_error,                 // object to return error
-                                &response,                  // Response message on success
-                                "s",                        // input message (string)
-                                present_bit);               // First argument to setPresent
-        if(rc < 0)
-        {
-            fprintf(stderr,"Failed to set Present bit for fruid:[%d], path:[%s]\n",
-                    iv_fruid, iv_obj_path.c_str());
-        }
-        else
-        {
-            printf("Present bit set to :[%s] for fruid:[%d], Path[%s]:\n",
-                    present_bit, iv_fruid, iv_obj_path.c_str());
-        }
-
-        sd_bus_error_free(&bus_error);
-        sd_bus_message_unref(response);
-    }
-}
-
-// Sets up the sd_bus structures for the given fru type
-int ipmi_fru::setup_sd_bus_paths(void)
-{
-    // Need this to get respective DBUS objects
-    sd_bus_error bus_error = SD_BUS_ERROR_NULL;
-    sd_bus_message *response = NULL;
-    int rc = 0;
-
-    // What we need is BOARD_1, PRODUCT_1, CHASSIS_1 etc..
-    char *inv_bus_name = NULL;
-    const char *inv_obj_path = NULL,
-               *inv_intf_name = NULL;
-    char fru_area_name[16] = {0};
-    char *sys_bus_name = NULL;
-    sprintf(fru_area_name,"%s%d",iv_name.c_str(), iv_fruid);
-
-#ifdef __IPMI_DEBUG__
-    printf("Getting sd_bus for :[%s]\n",fru_area_name);
-#endif
-
-    rc = mapper_get_service(iv_bus_type, sys_object_name, &sys_bus_name);
-    if(rc < 0)
-    {
-        fprintf(stderr, "Failed to get system manager service:[%s]\n",
-                strerror(-rc));
-        goto exit;
-    }
-
-    // We want to call a method "getObjectFromId" on System Bus that is
-    // made available over  OpenBmc system services.
-
-    rc = sd_bus_call_method(iv_bus_type,                // On the System Bus
-                            sys_bus_name,               // Service to contact
-                            sys_object_name,            // Object path
-                            sys_intf_name,              // Interface name
-                            "getObjectFromId",          // Method to be called
-                            &bus_error,                 // object to return error
-                            &response,                  // Response message on success
-                            "ss",                       // input message (string,string)
-                            "FRU_STR",                  // First argument to getObjectFromId
-                            fru_area_name);             // Second Argument
-    if(rc < 0)
-    {
-        fprintf(stderr, "Failed to resolve fruid:[%d] to dbus: [%s]\n", iv_fruid, bus_error.message);
-    }
-    else
-    {
-        // Method getObjectFromId returns 2 parameters and all are strings, namely
-        // object_path and interface name for accessing that particular
-        // FRU over Inventory SDBUS manager. 'ss' here mentions that format.
-        rc = sd_bus_message_read(response, "(ss)", &inv_obj_path, &inv_intf_name);
-        if(rc < 0)
-        {
-            fprintf(stderr, "Failed to parse response message:[%s]\n", strerror(-rc));
-        }
-        else
-        {
-            rc = mapper_get_service(iv_bus_type, inv_obj_path, &inv_bus_name);
-            if(rc < 0)
-            {
-                fprintf(stderr, "Failed to get inventory item service:[%s]\n",
-                        strerror(-rc));
-                goto exit;
-            }
-            // Update the paths in the area object
-            update_dbus_paths(inv_bus_name, inv_obj_path, inv_intf_name);
-        }
-    }
-
-exit:
-#ifdef __IPMI_DEBUG__
-            printf("fru_area=[%s], inv_bus_name=[%s], inv_obj_path=[%s], inv_intf_name=[%s]\n",
-                    fru_area_name, inv_bus_name, inv_obj_path, inv_intf_name);
-#endif
-
-    free(sys_bus_name);
-    free(inv_bus_name);
-    sd_bus_error_free(&bus_error);
-    sd_bus_message_unref(response);
-
-    return rc;
 }
 
 //------------------------------------------------
@@ -743,85 +588,6 @@ int cleanup_error(FILE *fru_fp, fru_area_vec_t & fru_area_vec)
     return  -1;
 }
 
-
-///-----------------------------------------------------
-// Get the fru area names defined in BMC for a given @fruid.
-//----------------------------------------------------
-int get_defined_fru_area(sd_bus *bus_type, const uint8_t fruid,
-                         std::vector<std::string> &defined_fru_area)
-{
-    // Need this to get respective DBUS objects
-    sd_bus_error bus_error = SD_BUS_ERROR_NULL;
-    sd_bus_message *response = NULL;
-    int rc = 0;
-    const char *areas = NULL;
-    char *sys_bus_name = NULL;
-
-#ifdef __IPMI_DEBUG__
-    printf("Getting fru areas defined in Skeleton for :[%d]\n", fruid);
-#endif
-
-    rc = mapper_get_service(bus_type, sys_object_name, &sys_bus_name);
-    if(rc < 0)
-    {
-        fprintf(stderr, "Failed to get system manager service:[%s]\n",
-                strerror(-rc));
-        goto exit;
-    }
-
-    // We want to call a method "getFRUArea" on System Bus that is
-    // made available over OpenBmc system services.
-    rc = sd_bus_call_method(bus_type,                   // On the System Bus
-                            sys_bus_name,               // Service to contact
-                            sys_object_name,            // Object path
-                            sys_intf_name,              // Interface name
-                            "getFRUArea",               // Method to be called
-                            &bus_error,                 // object to return error
-                            &response,                  // Response message on success
-                            "y",                        // input message (integer)
-                            fruid);                     // Argument
-
-    if(rc < 0)
-    {
-        fprintf(stderr, "Failed to get fru area for fruid:[%d] to dbus: [%s]\n",
-                    fruid, bus_error.message);
-    }
-    else
-    {
-        // if several fru area names are defined, the names are combined to
-        // a string seperated by ','
-        rc = sd_bus_message_read(response, "s", &areas);
-        if(rc < 0)
-        {
-            fprintf(stderr, "Failed to parse response message from getFRUArea:[%s]\n",
-                        strerror(-rc));
-        }
-        else
-        {
-#ifdef __IPMI_DEBUG__
-            printf("get defined fru area: id: %d, areas: %s\n", fruid, areas);
-#endif
-            std::string area_name;
-            std::stringstream ss(areas);
-            // fru area names string is seperated by ',', parse it into tokens
-            while (std::getline(ss, area_name, ','))
-            {
-                if (!area_name.empty())
-                    defined_fru_area.emplace_back(area_name);
-            }
-        }
-    }
-
-exit:
-
-    free(sys_bus_name);
-    sd_bus_error_free(&bus_error);
-    sd_bus_message_unref(response);
-
-    return rc;
-}
-
-
 ///-----------------------------------------------------
 // Accepts the filename and validates per IPMI FRU spec
 //----------------------------------------------------
@@ -837,13 +603,6 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
     fru_area_vec_t fru_area_vec;
     std::vector<std::string> defined_fru_area;
 
-    // BMC defines fru areas that should be present in Skeleton
-    rc = get_defined_fru_area(bus_type, fruid, defined_fru_area);
-    if(rc < 0)
-    {
-        fprintf(stderr, "ERROR: cannot get defined fru area\n");
-        return rc;
-    }
     for(uint8_t fru_entry = IPMI_FRU_INTERNAL_OFFSET;
         fru_entry < (sizeof(struct common_header) -2); fru_entry++)
     {
@@ -855,15 +614,6 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
         bool present = access(fru_file_name, F_OK) == 0;
         fru_area->set_present(present);
 
-        // Only setup dbus path for areas defined in BMC.
-        // Otherwise Skeleton will report 'not found' error
-        std::string fru_area_name = fru_area->get_name() + std::to_string(fruid);
-        auto iter = std::find(defined_fru_area.begin(), defined_fru_area.end(),
-                                  fru_area_name);
-        if (iter != defined_fru_area.end())
-        {
-            fru_area->setup_sd_bus_paths();
-        }
         fru_area_vec.emplace_back(std::move(fru_area));
     }
 
