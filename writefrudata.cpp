@@ -319,7 +319,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
 
     // Here we are just printing the object,interface and the properties.
     // which needs to be called with the new inventory manager implementation.
-    sdbusplus::bus::bus bus{sd_bus_ref(bus_sd)};
+    sdbusplus::bus::bus bus{bus_sd};
     using namespace std::string_literals;
     static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
     static const auto path = "/xyz/openbmc_project/inventory"s;
