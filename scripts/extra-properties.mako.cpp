@@ -7,14 +7,14 @@
 using namespace ipmi::vpd;
 
 extern const std::map<Path, InterfaceMap> extras = {
-% for path in dict.iterkeys():
+% for path in dict.keys():
 <%
     interfaces = dict[path]
 %>\
     {"${path}",{
-    % for interface,properties in interfaces.iteritems():
+    % for interface,properties in interfaces.items():
         {"${interface}",{
-        % for property,value in properties.iteritems():
+        % for property,value in properties.items():
             {"${property}", ${value}},
         % endfor
         }},
