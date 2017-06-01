@@ -762,18 +762,21 @@ void _append_to_dict (uint8_t vpd_key_id,
             {
                 strncpy(bin_in_ascii, "0x", 2);
             }
-
+#if IPMI_FRU_PARSER_DEBUG
             printf ("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] :"
                     " Len = [%d] : Val = [%s]\n",
                     vpd_key_names [vpd_key_id], vpd_val_len, bin_in_ascii);
-            info[vpd_key_id] = std::make_pair(vpd_key_names[vpd_key_id],
+#endif
+			info[vpd_key_id] = std::make_pair(vpd_key_names[vpd_key_id],
                                               bin_in_ascii);
             break;
 
         case 3:
+#if IPMI_FRU_PARSER_DEBUG
             printf ("_append_to_dict: VPD Key = [%s] : Type Code=[ASCII+Latin]"
                     " : Len = [%d] : Val = [%s]\n",
                     vpd_key_names [vpd_key_id], vpd_val_len, &vpd_key_val[1]);
+#endif
             info[vpd_key_id] = std::make_pair(
                                    vpd_key_names[vpd_key_id],
                                    std::string(vpd_key_val + 1,
