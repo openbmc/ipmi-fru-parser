@@ -75,12 +75,15 @@ enum openbmc_vpd_key_id
 using IPMIFruInfo = std::array<std::pair<std::string,std::string>,
                            OPENBMC_VPD_KEY_MAX>;
 
-using IPMIFruMetadata = std::string;
-using IPMIFruMetadataValue = std::string;
-using IPMIFruMap = std::map<IPMIFruMetadata,IPMIFruMetadataValue>;
+struct IPMIFruData
+{
+    std::string section;
+    std::string property;
+    std::string delimiter;
+};
 
 using DbusProperty = std::string;
-using DbusPropertyMap = std::map<DbusProperty,IPMIFruMap>;
+using DbusPropertyMap = std::map<DbusProperty,IPMIFruData>;
 
 using DbusInterface = std::string;
 using DbusInterfaceMap = std::map<DbusInterface,DbusPropertyMap>;
