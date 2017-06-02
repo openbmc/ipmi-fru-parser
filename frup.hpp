@@ -5,6 +5,7 @@
 #include <array>
 #include <string>
 #include <map>
+#include <vector>
 
 enum ipmi_fru_area_type
 {
@@ -83,16 +84,16 @@ struct IPMIFruData
 };
 
 using DbusProperty = std::string;
-using DbusPropertyMap = std::map<DbusProperty,IPMIFruData>;
+using DbusPropertyVec = std::vector<std::pair<DbusProperty,IPMIFruData>>;
 
 using DbusInterface = std::string;
-using DbusInterfaceMap = std::map<DbusInterface,DbusPropertyMap>;
+using DbusInterfaceVec = std::vector<std::pair<DbusInterface,DbusPropertyVec>>;
 
 using FruInstancePath = std::string;
-using FruInstanceMap = std::map<FruInstancePath,DbusInterfaceMap>;
+using FruInstanceVec = std::vector<std::pair<FruInstancePath,DbusInterfaceVec>>;
 
 using FruId = uint32_t;
-using FruMap = std::map<FruId,FruInstanceMap>;
+using FruMap = std::map<FruId,FruInstanceVec>;
 
 /* Parse an IPMI write fru data message into a dictionary containing name value pair of VPD entries.*/
 int parse_fru (const void* msgbuf, sd_bus_message* vpdtbl);
