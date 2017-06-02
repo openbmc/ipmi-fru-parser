@@ -360,37 +360,13 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
             PropertyMap props;//store all the properties
             for (auto& properties : interfaceList.second)
             {
-                std::string section, property, delimiter, value;
-                for (auto& info : properties.second)
-                {
-                    if (info.first == "IPMIFruSection")
-                    {
-                        section = std::move(info.second);
-                    }
-                    if (info.first == "IPMIFruProperty")
-                    {
-                        property = std::move(info.second);
-                    }
-                    if (info.first == "IPMIFruValueDelimiter")
-                    {
-                        //Read the delimeter as ascii value
-                        //convert it into char
-                        if( info.second.length() > 0 )
-                        {
-                            char dlm = ' ';
-                            rc = sscanf(info.second.c_str(),"%hhd",&dlm);
-                            if (rc > 0)
-                            {
-                                delimiter = std::string(1,dlm);
-                            }
-                        }
-                    }
+                std::string value;
+                decltype(auto) pdata = properties.second;
 
-                }
-
-                if (!section.empty() && !property.empty())
+                if (!pdata.section.empty() && !pdata.property.empty())
                 {
-                    value = getFRUValue(section, property, delimiter, fruData);
+                    value = getFRUValue(pdata.section, pdata.property,
+                                        pdata.delimiter, fruData);
                 }
                 props.emplace(std::move(properties.first), std::move(value));
             }
