@@ -14,9 +14,16 @@ extern const FruMap frus = {
              {"${interface}",{
             % for dbus_property,property_value in properties.items():
                  {"${dbus_property}",{
-                % for name,value in property_value.items():
-                     {"${name}","${value}"},
-                % endfor
+                     "${property_value.get("IPMIFruSection", "")}",
+                     "${property_value.get("IPMIFruProperty", "")}", \
+<%
+    delimiter = property_value.get("IPMIFruValueDelimiter")
+    if not delimiter:
+        delimiter = ""
+    else:
+        delimiter = '\\' + hex(delimiter)[1:]
+%>
+                     "${delimiter}"
                  }},
             % endfor
              }},
