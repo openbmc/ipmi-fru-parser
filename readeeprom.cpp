@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     }
 
     auto fruid_str = (*cli_options)["fruid"];
-    if (eeprom_file == ArgumentParser::empty_string)
+    if (fruid_str == ArgumentParser::empty_string)
     {
         // User has not passed in the appropriate argument value
         exit_with_error("fruid data not found.", argv);
