@@ -876,13 +876,14 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                 OPENBMC_VPD_KEY_CUSTOM_FIELDS_MAX);
 
           /* Populate VPD Table */
-            for (i=OPENBMC_VPD_KEY_BOARD_MFR; i<=OPENBMC_VPD_KEY_BOARD_MAX; i++)
+            for (i=OPENBMC_VPD_KEY_BOARD_MFG_DATE;
+                 i<=OPENBMC_VPD_KEY_BOARD_MAX; i++)
             {
                 if (i==OPENBMC_VPD_KEY_BOARD_MFG_DATE)
                 {
                     _to_time_str (mfg_date_time, timestr, OPENBMC_VPD_VAL_LEN);
 #if IPMI_FRU_PARSER_DEBUG
-                    printf ("Board : Appending [%s] = [%d]\n",
+                    printf ("Board : Appending [%s] = [%s]\n",
                             vpd_key_names[i], timestr);
 #endif
                     info[i] = std::make_pair(vpd_key_names[i],
