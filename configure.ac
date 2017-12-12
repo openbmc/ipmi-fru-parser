@@ -65,5 +65,5 @@ PROPGEN="$PYTHON $srcdir/scripts/extra-properties.py -e $PROP_YAML"
 AC_SUBST(PROPGEN)
 
 # Create configured output
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile test/Makefile])
 AC_OUTPUT

@@ -25,3 +25,5 @@ fru-gen.cpp:
 	$(AM_V_GEN)@FRUGEN@ -o $(top_builddir) generate-cpp
 extra-properties-gen.cpp:
 	$(AM_V_GEN)@PROPGEN@
+
+SUBDIRS = test
