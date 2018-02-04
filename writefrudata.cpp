@@ -353,9 +353,9 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
     for (auto& instance : instanceList)
     {
         InterfaceMap interfaces;
-        const auto& extrasIter = extras.find(instance.first);
+        const auto& extrasIter = extras.find(instance.path);
 
-        for (auto& interfaceList : instance.second)
+        for (auto& interfaceList : instance.interfaces)
         {
             PropertyMap props;//store all the properties
             for (auto& properties : interfaceList.second)
@@ -388,7 +388,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
         }
 
         // Call the inventory manager
-        sdbusplus::message::object_path path = instance.first;
+        sdbusplus::message::object_path path = instance.path;
         // Check and update extra properties
         if(extras.end() != extrasIter)
         {
