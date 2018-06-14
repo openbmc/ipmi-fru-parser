@@ -730,7 +730,7 @@ void _append_to_dict (uint8_t vpd_key_id,
 
     /*
      * Max number of characters needed to represent 1 unsigned byte in string
-     * is number of bytes multipled by 2. Extra 3 for 0x and a ending '\0';
+     * is number of bytes multiplied by 2. Extra 3 for 0x and a ending '\0';
      */
     char bin_in_ascii_len = vpd_val_len * 2 + 3;
 

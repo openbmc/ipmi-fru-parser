@@ -240,7 +240,7 @@ std::string getFRUValue(const std::string& section,
     //if the key is custom property then the value could be in two formats.
     //1) custom field 2 = "value".
     //2) custom field 2 =  "key:value".
-    //if delimeter length = 0 i.e custom field 2 = "value"
+    //if delimiter length = 0 i.e custom field 2 = "value"
 
     constexpr auto customProp = "Custom Field";
     if (key.find(customProp) != std::string::npos)
@@ -450,7 +450,7 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
     {
         rc = -1;
         // Actual offset in the payload is the offset mentioned in common header
-        // multipled by 8. Common header is always the first 8 bytes.
+        // multiplied by 8. Common header is always the first 8 bytes.
         area_offset = fru_data[fru_entry] * IPMI_EIGHT_BYTES;
         if(area_offset && (data_len < (area_offset + 2)))
         {
