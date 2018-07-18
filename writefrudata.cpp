@@ -23,6 +23,29 @@ using namespace ipmi::vpd;
 extern const FruMap frus;
 extern const std::map<Path, InterfaceMap> extras;
 
+bool check_area_size[IPMI_EIGHT_BYTES] =
+{
+    false,  // IPMI_FRU_HDR_BYTE_ZERO
+    false,  // IPMI_FRU_INTERNAL_OFFSET
+    true,   // IPMI_FRU_CHASSIS_OFFSET
+    true,   // IPMI_FRU_BOARD_OFFSET
+    true,   // IPMI_FRU_PRODUCT_OFFSET
+    false,  // IPMI_FRU_MULTI_OFFSET
+    false,  // IPMI_FRU_HDR_CRC_OFFSET
+    false,  // IPMI_EIGHT_BYTES
+};
+
+bool check_area_head[IPMI_EIGHT_BYTES] =
+{
+    false,  // IPMI_FRU_HDR_BYTE_ZERO
+    false,  // IPMI_FRU_INTERNAL_OFFSET
+    true,   // IPMI_FRU_CHASSIS_OFFSET
+    true,   // IPMI_FRU_BOARD_OFFSET
+    true,   // IPMI_FRU_PRODUCT_OFFSET
+    false,  // IPMI_FRU_MULTI_OFFSET
+    false,  // IPMI_FRU_HDR_CRC_OFFSET
+    false,  // IPMI_EIGHT_BYTES
+};
 //----------------------------------------------------------------
 // Constructor
 //----------------------------------------------------------------
@@ -286,6 +309,171 @@ auto getService(sdbusplus::bus::bus& bus,
     return mapperResponse.begin()->first;
 }
 
+// MultiRecord area record name and num matching.
+// It is used by ipmi_update_multirecord function.
+std::map<std::string, impi_multirecord_type_t> multirecord_map =
+{
+    {"PowerSupply", POWER_SUPPLY_INFO},
+    {"DcOutput", DC_OUTPUT}
+};
+
+//------------------------------------------------------------------------
+// Adding property values for Power Supply Information record
+//------------------------------------------------------------------------
+void ipmi_update_psu_info(const record_t& data, PropertyMap& props)
+{
+    int64_t value_int;
+    bool value_bool;
+    value_int = data.power_supply_info.overal_capacity;
+    props.emplace(std::move("OveralCapacity"), std::move(value_int));
+
+    value_int = data.power_supply_info.peak_va;
+    props.emplace(std::move("PeakVA"), std::move(value_int));
+
+    value_int = data.power_supply_info.inrush_current;
+    props.emplace(std::move("InrushCurrent"), std::move(value_int));
+
+    value_int = data.power_supply_info.inrush_interval;
+    props.emplace(std::move("InrushInterval"), std::move(value_int));
+
+    value_int = data.power_supply_info.low_in_voltage1;
+    props.emplace(std::move("LowInputVoltage1"), std::move(value_int));
+
+    value_int = data.power_supply_info.high_in_voltage1;
+    props.emplace(std::move("HighInputVoltage1"), std::move(value_int));
+
+    value_int = data.power_supply_info.low_in_voltage2;
+    props.emplace(std::move("LowInputVoltage2"), std::move(value_int));
+
+    value_int = data.power_supply_info.high_in_voltage2;
+    props.emplace(std::move("HighInputVoltage2"), std::move(value_int));
+
+    value_int = data.power_supply_info.low_in_frequency;
+    props.emplace(std::move("LowInputFrequency"), std::move(value_int));
+
+    value_int = data.power_supply_info.high_in_frequency;
+    props.emplace(std::move("HighInputFrequency"), std::move(value_int));
+
+    value_int = data.power_supply_info.in_dropout_tolerance;
+    props.emplace(std::move("InDropoutTolerance"), std::move(value_int));
+
+    value_int = data.power_supply_info.peak_wattage.hold_up_time;
+    props.emplace(std::move("HoldUpTime"), std::move(value_int));
+
+    value_int = data.power_supply_info.peak_wattage.peak_capacity;
+    props.emplace(std::move("PeakCapacity"), std::move(value_int));
+
+    value_int = data.power_supply_info.combined_wattage.voltage1;
+    props.emplace(std::move("Voltage1"), std::move(value_int));
+
+    value_int = data.power_supply_info.combined_wattage.voltage2;
+    props.emplace(std::move("Voltage2"), std::move(value_int));
+
+    value_int = data.power_supply_info.total_wattage;
+    props.emplace(std::move("TotalWattage"), std::move(value_int));
+
+    value_int = data.power_supply_info.tahometer_low;
+    props.emplace(std::move("TahometerLow"), std::move(value_int));
+
+    value_bool = data.power_supply_info.binary_flags.hot_swap;
+    props.emplace(std::move("HotSwap"), std::move(value_bool));
+
+    value_bool = data.power_supply_info.binary_flags.pin_polarity;
+    props.emplace(std::move("PinPolarity"), std::move(value_bool));
+
+    value_bool = data.power_supply_info.binary_flags.autoswitch;
+    props.emplace(std::move("Autoswitch"), std::move(value_bool));
+
+    value_bool = data.power_supply_info.binary_flags.power_correction;
+    props.emplace(std::move("PowerFactor"), std::move(value_bool));
+
+    value_bool = data.power_supply_info.binary_flags.predictive_fail;
+    props.emplace(std::move("PredictiveFail"), std::move(value_bool));
+}
+
+//------------------------------------------------------------------------
+// Adding property values for DC Output record
+//------------------------------------------------------------------------
+void ipmi_update_dc_load(const record_t& data, PropertyMap& props)
+{
+    int64_t value_int;
+    bool value_bool;
+    value_int = data.dc_output_info.output_information.out_number;
+    props.emplace(std::move("OutputNumber"), std::move(value_int));
+
+    value_int = data.dc_output_info.nominal_voltage;
+    props.emplace(std::move("NominalVoltage"), std::move(value_int));
+
+    value_int = data.dc_output_info.max_negative_voltage;
+    props.emplace(std::move("MaxNegativeVoltage"), std::move(value_int));
+
+    value_int = data.dc_output_info.max_positive_voltage;
+    props.emplace(std::move("MaxPositiveVoltage"), std::move(value_int));
+
+    value_int = data.dc_output_info.ripple_and_noise;
+    props.emplace(std::move("RippleAndNoise"), std::move(value_int));
+
+    value_int = data.dc_output_info.min_current_draw;
+    props.emplace(std::move("MinCurrentDraw"), std::move(value_int));
+
+    value_int = data.dc_output_info.max_current_draw;
+    props.emplace(std::move("MaxCurrentDraw"), std::move(value_int));
+
+    value_bool = data.dc_output_info.output_information.standby;
+    props.emplace(std::move("Standby"), std::move(value_bool));
+}
+
+//------------------------------------------------------------------------
+// Processing multirecord data
+//------------------------------------------------------------------------
+void ipmi_update_multirecord(const IPMIMultiInfo& multiData,
+                            const FruInstanceVec& instanceList, ObjectMap& objects)
+{
+   for (auto& instance : instanceList)
+    {
+        for (auto& interfaceList : instance.interfaces)
+        {
+            for (auto& properties : interfaceList.second)
+            {
+                decltype(auto) pdata = properties.second;
+                if ( pdata.section == "MultiRecord" && properties.first == "Data")
+                {
+                    auto map_it = multirecord_map.find(pdata.property);
+                    if (map_it == multirecord_map.end())
+                        continue;
+
+                    int i = 0;
+                    for (auto it = multiData.begin(); it != multiData.end(); ++it)
+                    {
+                        if (it->type == map_it->second)
+                        {
+                            PropertyMap props;
+                            InterfaceMap interfaces;
+                            switch(map_it->second)
+                            {
+                                case POWER_SUPPLY_INFO:
+                                    ipmi_update_psu_info(it->data, props);
+                                break;
+                                case DC_OUTPUT:
+                                    ipmi_update_dc_load(it->data, props);
+                                break;
+                                default:
+                                    continue;
+                                break;
+                            }
+                            interfaces.emplace(std::move(interfaceList.first),
+                                std::move(props));
+                            sdbusplus::message::object_path path = instance.path + std::to_string(i);
+                            objects.emplace(path,interfaces);
+                            ++i;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 //------------------------------------------------------------------------
 // Takes FRU data, invokes Parser for each fru record area and updates
 // Inventory
@@ -296,6 +484,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
     int rc = 0;
     uint8_t fruid = 0;
     IPMIFruInfo fruData;
+    IPMIMultiInfo multiData;
 
     // For each FRU area, extract the needed data , get it parsed and update
     // the Inventory.
@@ -304,7 +493,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
         fruid = fruArea->get_fruid();
         // Fill the container with information
         rc = parse_fru_area((fruArea)->get_type(), (void*)(fruArea)->get_data(),
-                            (fruArea)->get_len(), fruData);
+                            (fruArea)->get_len(), fruData, multiData);
         if (rc < 0)
         {
             std::cerr << "ERROR parsing FRU records\n";
@@ -354,6 +543,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
     {
         InterfaceMap interfaces;
         const auto& extrasIter = extras.find(instance.path);
+        bool skip_object = false;
 
         for (auto& interfaceList : instance.interfaces)
         {
@@ -363,6 +553,12 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
                 std::string value;
                 decltype(auto) pdata = properties.second;
 
+                // if object refers to multirecord data, skip it
+                if ( pdata.section == "MultiRecord" && properties.first == "Data")
+                {
+                    skip_object = true;
+                    continue;
+                }
                 if (!pdata.section.empty() && !pdata.property.empty())
                 {
                     value = getFRUValue(pdata.section, pdata.property,
@@ -400,8 +596,12 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
                 }
             }
         }
-        objects.emplace(path,interfaces);
+        if (!skip_object)
+            objects.emplace(path,interfaces);
     }
+
+    // processing the objects that refer to multirecord area
+    ipmi_update_multirecord(multiData, instanceList, objects);
 
     auto pimMsg = bus.new_method_call(
                           service.c_str(),
@@ -467,34 +667,39 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
 
             // Size of this area will be the 2nd byte in the fru area header.
             size_t  area_len = area_hdr[1] * IPMI_EIGHT_BYTES;
+            if (fru_entry == IPMI_FRU_MULTI_OFFSET){
+                area_len = data_len - area_offset + 1;
+            }
             uint8_t area_data[area_len] = {0};
 
             printf("fru data size:[%zd], area offset:[%zd], area_size:[%zd]\n",
                     data_len, area_offset, area_len);
 
-            // See if we really have that much buffer. We have area offset amd
-            // from there, the actual len.
-            if(data_len < (area_len + area_offset))
-            {
-                fprintf(stderr, "Incomplete Fru file.. Size:[%zd]\n",data_len);
-                return rc;
+            if(check_area_size[fru_entry]){
+                // See if we really have that much buffer. We have area offset amd
+                // from there, the actual len.
+                if(data_len < (area_len + area_offset))
+                {
+                    fprintf(stderr, "Incomplete Fru file.. Size:[%zd]\n",data_len);
+                    continue;
+                }
             }
-
             // Save off the data.
             memcpy(area_data, &((uint8_t *)fru_data)[area_offset], area_len);
 
-            // Validate the crc
-            rc = verify_fru_data(area_data, area_len);
-            if(rc < 0)
-            {
-                fprintf(stderr, "Error validating fru area. offset:[%zd]\n",area_offset);
-                return rc;
+            if(check_area_head[fru_entry]){
+                // Validate the crc
+                rc = verify_fru_data(area_data, area_len);
+                if(rc < 0)
+                {
+                    fprintf(stderr, "Error validating fru area. offset:[%zd]\n",area_offset);
+                    continue;
+                }
+                else
+                {
+                    printf("Successfully verified area checksum. offset:[%zd]\n",area_offset);
+                }
             }
-            else
-            {
-                printf("Successfully verified area checksum. offset:[%zd]\n",area_offset);
-            }
-
             // We already have a vector that is passed to us containing all
             // of the fields populated. Update the data portion now.
             for(auto& iter : fru_area_vec)
