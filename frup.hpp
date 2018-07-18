@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "multirecord.hpp"
 
 enum ipmi_fru_area_type
 {
@@ -108,6 +109,6 @@ using FruMap = std::map<FruId, FruInstanceVec>;
 int parse_fru (const void* msgbuf, sd_bus_message* vpdtbl);
 
 int parse_fru_area (const uint8_t area, const void* msgbuf,
-                    const size_t len, IPMIFruInfo& info);
+                    const size_t len, IPMIFruInfo& info, IPMIMultiInfo& multiInfo);
 
 #endif
