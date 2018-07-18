@@ -800,7 +800,7 @@ void _append_to_dict (uint8_t vpd_key_id,
 }
 
 int parse_fru_area (const uint8_t area, const void* msgbuf,
-                    const size_t len, IPMIFruInfo& info)
+                    const size_t len, IPMIFruInfo& info, IPMIMultiInfo& multiInfo)
 {
   int rv = -1;
   int i = 0;
@@ -918,8 +918,11 @@ int parse_fru_area (const uint8_t area, const void* msgbuf,
                 _append_to_dict (i, vpd_info[i].type_length_field, info);
             }
             break;
+    case IPMI_FRU_AREA_MULTI_RECORD:
+        parseMutirecord(static_cast<const uint8_t*>(msgbuf), len, &multiInfo);
+    break;
     default:
-    /* TODO: Parse Multi Rec / Internal use area */
+    /* TODO: Parse Internal use area */
     break;
   }
 

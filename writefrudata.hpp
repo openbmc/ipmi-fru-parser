@@ -53,6 +53,8 @@ extern "C" {
 
 int ipmi_validate_fru_area(const uint8_t, const char *, sd_bus *, const bool);
 
+unsigned char calculate_crc(const unsigned char *data, size_t len);
+
 #ifdef __cplusplus
 } // extern C
 #endif
