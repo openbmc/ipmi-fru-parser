@@ -1,0 +1,250 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "585a1b8a_dbdc03bb",
+        "filename": "frup.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "Prefer c++-sytle casting over c-style casting.",
+      "range": {
+        "startLine": 922,
+        "startChar": 25,
+        "endLine": 922,
+        "endChar": 41
+      },
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "761d3ea5_023d5995",
+        "filename": "frup.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "coding style: use lowerCamelCase for function names.",
+      "range": {
+        "startLine": 922,
+        "startChar": 8,
+        "endLine": 922,
+        "endChar": 24
+      },
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39ded1c8_3f084a9b",
+        "filename": "frup.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "style: use \u003c\u003e instead of \"\". Also, add the header in alphabetical order.",
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6fd4e88_6e2c29c6",
+        "filename": "multirecord.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "\u003c\u003e instead of \"\", and alphabetical order.",
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1c45ada_705e887b",
+        "filename": "multirecord.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "length",
+      "range": {
+        "startLine": 70,
+        "startChar": 36,
+        "endLine": 70,
+        "endChar": 42
+      },
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d784eee2_535ca5d7",
+        "filename": "multirecord.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "do not use printf; use the log\u003c\u003e interface.",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 14
+      },
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "349db1e3_af82dfed",
+        "filename": "multirecord.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "rather than a new debug/logging interface, use the log\u003c\u003e interface from phosphor-logging.",
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503b524e_00f1ef5f",
+        "filename": "multirecord.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "entire file needs to be re-worked to fit style guidelines. https://github.com/openbmc/docs/blob/master/cpp-style-and-conventions.md",
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4bd56b2_e1df7425",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "style",
+      "range": {
+        "startLine": 26,
+        "startChar": 5,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eebc8541_5f792c1e",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "this can be simplified (and more efficient) as:\nprops.emplace(\"OveralCapacity\", data.powerSupplyInfo.overalCapacity);",
+      "range": {
+        "startLine": 327,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 69
+      },
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b87ddb18_03134998",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "skipObject",
+      "range": {
+        "startLine": 546,
+        "startChar": 13,
+        "endLine": 546,
+        "endChar": 24
+      },
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8649b7e_fdd11b75",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-07-25T16:52:26Z",
+      "side": 1,
+      "message": "if ()\n{\n}\n\nHere and below.",
+      "revId": "c60845209430b298ca5d03ef2cc0f5a4017408d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
