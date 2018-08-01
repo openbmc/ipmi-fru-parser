@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "52ce61e3_319f84c7",
+        "filename": "frup.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "This function name has a typo.",
+      "range": {
+        "startLine": 922,
+        "startChar": 8,
+        "endLine": 922,
+        "endChar": 23
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd7e3a9a_70f4b0d2",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "I don\u0027t really like this. The way it\u0027s accessed later, this order is enforced to align with type identifiers. I\u0027d rather see this as an enum with the int value explicitly set to the type ID - that\u0027s more C++-like and less fragile.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 2
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f7c01bd_20a4b133",
         "filename": "multirecord.cpp",
         "patchSetId": 3
@@ -36,6 +82,402 @@
         "endLine": 122,
         "endChar": 41
       },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d548c524_6b4515af",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "If you wrote accessors instead of bitfielding, you wouldn\u0027t have all these boring-to-type-and-read casts sitting around and exceeding the 80c width limit (which they all do).",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e11576d_a9b133b6",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "\"TACHOMETER\"",
+      "range": {
+        "startLine": 162,
+        "startChar": 21,
+        "endLine": 162,
+        "endChar": 34
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98cfddb6_43e2f6fa",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Tons and tons of typos here, I\u0027ll call out the ones I find but I\u0027d like to avoid checking them in. Please go over it again yourself if you can, looking for typos.",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a0deeba_87fd6196",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Not sure how this line works out with our open license. Please ask Brad.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 27
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d1efad_a32e2901",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Bitfields are not portable to machines with different endianness. Please have a look at the accessors here: https://github.com/openbmc/phosphor-host-ipmid/blob/master/sensorhandler.h",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "752a1665_10a20746",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "overallCapacity",
+      "range": {
+        "startLine": 63,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 27
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eda3eaa_aebfdc00",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Please remove the bitfield",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eb1e8c3_f21445c1",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "\"tachometer\"?",
+      "range": {
+        "startLine": 94,
+        "startChar": 11,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43bdcbe1_6c5d9fd3",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "\"Multirecord\"",
+      "range": {
+        "startLine": 128,
+        "startChar": 5,
+        "endLine": 128,
+        "endChar": 19
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ffbd3df_39692923",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Does it make sense to take the specific power supply struct instead, to prevent user error?",
+      "range": {
+        "startLine": 323,
+        "startChar": 29,
+        "endLine": 323,
+        "endChar": 35
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91d15c01_fb6db83f",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "\"OverallCapacity\"",
+      "range": {
+        "startLine": 325,
+        "startChar": 19,
+        "endLine": 325,
+        "endChar": 33
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0274e3e_5110c79e",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Many of these exceed the 80c width limit.",
+      "range": {
+        "startLine": 350,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 85
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fc82285_bbd4549e",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "\"Tachometer\"",
+      "range": {
+        "startLine": 357,
+        "startChar": 19,
+        "endLine": 357,
+        "endChar": 31
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e8d04c7_c06b6b76",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Again, does it make sense to take the specific DC output type? This will also save you quite a few characters and stop you from exceeding the line character limit here and above.",
+      "range": {
+        "startLine": 374,
+        "startChar": 28,
+        "endLine": 374,
+        "endChar": 34
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30504e67_78f359b3",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Do you need to use decltype here? I thought auto would do enough.",
+      "range": {
+        "startLine": 406,
+        "startChar": 16,
+        "endLine": 406,
+        "endChar": 24
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72c3ec74_ee3437a6",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "Is it too late for us to avoid doing string typing? At very least, I\u0027d like to see a constant shared between where pdata.section is set vs where it is checked here. Same for \"Data\" on this line also",
+      "range": {
+        "startLine": 407,
+        "startChar": 39,
+        "endLine": 407,
+        "endChar": 50
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5de161bf_32560ea9",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "replace with shared constant at minimum",
+      "range": {
+        "startLine": 525,
+        "startChar": 39,
+        "endLine": 525,
+        "endChar": 50
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a808e9c_46c5f0ca",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-08-01T02:17:12Z",
+      "side": 1,
+      "message": "would it make sense to populate a list with only the multirecord areas instead, and then you can skip some of the nested for loops in ipmiUpdateMultirecord? This would cut down on your runtime complexity too as you wouldn\u0027t need to walk the entire tree again.",
       "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
