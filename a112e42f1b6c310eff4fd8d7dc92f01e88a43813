@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "a2214532_e2e0b7b1",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "I think I don\u0027t quite understand your idea, but I agree that this is fragile.\nI\u0027d offer to do index-based initialization here (and get rid of `MAX_PARSE_TYPE` define in multirecord.hpp):\n\nin multirecord.hpp:\n\n enum IpmiMultirecordType\n {\n     POWER_SUPPLY_INFO           \u003d 0x00,\n     DC_OUTPUT                   \u003d 0x01,\n     DC_LOAD                     \u003d 0x02,\n     MANAGEMENT_ACCESS           \u003d 0x03, // Not supported due to variable length format\n     BASE_COMPATIBILITY          \u003d 0x04,\n     EXTEND_COMPATIBILITY        \u003d 0x05,\n     ASF_FIXED_SMBUS_DEVICE      \u003d 0x06,\n     ASF_LEGACY_DEVICE_ALERTS    \u003d 0x07,\n     ASF_REMOTE_CONTROL          \u003d 0x08,\n     EXTENDED_DC_OUTPUT          \u003d 0x09,\n     EXTENDED_DC_LOAD            \u003d 0x0A,\n     TOTAL_MR_TYPES\n };\n\nhere:\n\n static uint8_t record_sizes[TOTAL_MR_TYPES] \u003d\n {\n     [POWER_SUPPLY_INFO] \u003d sizeof(PowerSupplyInfo),\n     [DC_OUTPUT] \u003d sizeof(DcOutputInfo),\n };\n\nThen later check agains zero record_sizes[type] instead of MAX_PARSE_TYPE.\nWhat do you say?",
+      "parentUuid": "dd7e3a9a_70f4b0d2",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 2
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f7c01bd_20a4b133",
         "filename": "multirecord.cpp",
         "patchSetId": 3
@@ -59,6 +83,24 @@
       "writtenOn": "2018-07-31T15:57:12Z",
       "side": 1,
       "message": "if this is only called from IPMI_FRU_DEBUG context, please wrap it in that same ifdef",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "897640f1_234deb75",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "2f7c01bd_20a4b133",
       "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
@@ -145,6 +187,24 @@
     },
     {
       "key": {
+        "uuid": "0e710643_9bfd2446",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "Sure. The author will run it through codespell. Sorry.",
+      "parentUuid": "98cfddb6_43e2f6fa",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a0deeba_87fd6196",
         "filename": "multirecord.hpp",
         "patchSetId": 3
@@ -168,6 +228,30 @@
     },
     {
       "key": {
+        "uuid": "97c44922_1d2d9b83",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "This is a word-for-word copy of the official Apache 2.0 License template:\nhttps://www.apache.org/licenses/LICENSE-2.0.html",
+      "parentUuid": "8a0deeba_87fd6196",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 27
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3d1efad_a32e2901",
         "filename": "multirecord.hpp",
         "patchSetId": 3
@@ -179,6 +263,30 @@
       "writtenOn": "2018-08-01T02:17:12Z",
       "side": 1,
       "message": "Bitfields are not portable to machines with different endianness. Please have a look at the accessors here: https://github.com/openbmc/phosphor-host-ipmid/blob/master/sensorhandler.h",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82ea985f_2b68afe3",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "Yes, thank your for this comment. I was aware of this but passed this in my original review as I though this wasn\u0027t actually relevant for OpenBMC which, as it seems, only runs on ARM-based chips using the same ABI and the same compiler.\n\nFrom your later comments I take it as you\u0027re proposing to add accessors into this structure and do \"manual\" bit-mangling in them using shift and logic operators. Am I correct? Another way would be defining oppositely ordered types depending on target endianness.",
+      "parentUuid": "c3d1efad_a32e2901",
       "range": {
         "startLine": 52,
         "startChar": 0,
@@ -260,6 +368,30 @@
     },
     {
       "key": {
+        "uuid": "8bfc5b74_de4266ed",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "Sure. Will fix.",
+      "parentUuid": "0eb1e8c3_f21445c1",
+      "range": {
+        "startLine": 94,
+        "startChar": 11,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43bdcbe1_6c5d9fd3",
         "filename": "multirecord.hpp",
         "patchSetId": 3
@@ -283,6 +415,40 @@
     },
     {
       "key": {
+        "uuid": "a3c89fc4_19a7daf4",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "These comments are definitely wrong. Especially the last one. This index corresponds to \u0027pad\u0027 field of common_header, not to IPMI_EIGHT_BYTES (which, as index, is out of bounds anyway).\n\nWill be fixed in next patchset.",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8594adba_dce036e4",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ffbd3df_39692923",
         "filename": "writefrudata.cpp",
         "patchSetId": 3
@@ -294,6 +460,30 @@
       "writtenOn": "2018-08-01T02:17:12Z",
       "side": 1,
       "message": "Does it make sense to take the specific power supply struct instead, to prevent user error?",
+      "range": {
+        "startLine": 323,
+        "startChar": 29,
+        "endLine": 323,
+        "endChar": 35
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4e30eb3_0eb734be",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-08-06T12:40:11Z",
+      "side": 1,
+      "message": "Agreed. Will be fixed.",
+      "parentUuid": "7ffbd3df_39692923",
       "range": {
         "startLine": 323,
         "startChar": 29,
