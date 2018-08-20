@@ -347,6 +347,30 @@
     },
     {
       "key": {
+        "uuid": "4980cb91_1c943df4",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2018-08-20T13:05:34Z",
+      "side": 1,
+      "message": "\u003e  OpenBMC which, as it seems, only runs on ARM-based chips using the same ABI and the same compiler.\n\nWe run OpenBMC on a 32 bit PPC called FSP2.",
+      "parentUuid": "82ea985f_2b68afe3",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "752a1665_10a20746",
         "filename": "multirecord.hpp",
         "patchSetId": 3
