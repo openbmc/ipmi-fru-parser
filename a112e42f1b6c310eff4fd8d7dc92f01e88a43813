@@ -706,6 +706,30 @@
     },
     {
       "key": {
+        "uuid": "8b365c60_397eaf65",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-09-05T11:23:01Z",
+      "side": 1,
+      "message": "I believe it indeed is too late to avoid doing string typing. This is an inborn property of a yaml-based design embraced by openbmc project in general an by ipmi-fru-parser in particular. There is no place where `pdata.section` or `pdata.first` are set to those values explicitly. Those values are read from `config.yaml`.\n\nHowever, I think that taking in account that it is repeated twice in this file, it would indeed be great to replace this condition with an inline function and, possibly, the string literals with constants. Will do it in next patchset.",
+      "parentUuid": "72c3ec74_ee3437a6",
+      "range": {
+        "startLine": 407,
+        "startChar": 39,
+        "endLine": 407,
+        "endChar": 50
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5de161bf_32560ea9",
         "filename": "writefrudata.cpp",
         "patchSetId": 3
