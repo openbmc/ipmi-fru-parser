@@ -28,7 +28,7 @@ AC_CHECK_HEADER(systemd/sd-bus.h, ,[AC_MSG_ERROR([Could not find systemd/sd-bus.
 AC_CHECK_HEADER(host-ipmid/ipmid-api.h, ,[AC_MSG_ERROR([Could not find host-ipmid/ipmid-api.h...host-ipmid package required])])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AX_CXX_COMPILE_STDCXX_14([noext])
+AX_CXX_COMPILE_STDCXX_17([noext])
 AX_APPEND_COMPILE_FLAGS([-flto -fPIC -Wall -Werror], [CXXFLAGS])
 AX_APPEND_COMPILE_FLAGS([-flto -fPIC -Wall -Werror], [CFLAGS])
 
