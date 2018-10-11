@@ -445,7 +445,9 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
     // offset mentioned by the common_hdr. If the file size is less than the
     // offset of any if the fru areas mentioned in the common header, then we do
     // not have a complete file.
-    for(uint8_t fru_entry = IPMI_FRU_INTERNAL_OFFSET;
+    // We skip Internal Use Area, since it might not adhere to the rule of
+    // encoding the area length in the 2nd byte.
+    for(uint8_t fru_entry = IPMI_FRU_INTERNAL_OFFSET + 1;
             fru_entry < (sizeof(struct common_header) -2); fru_entry++)
     {
         rc = -1;
