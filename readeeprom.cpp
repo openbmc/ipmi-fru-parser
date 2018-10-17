@@ -1,6 +1,8 @@
 #include "argument.hpp"
 #include "writefrudata.hpp"
 
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <memory>
 
@@ -42,7 +44,7 @@ int main(int argc, char** argv)
     }
 
     // Extract the fruid
-    fruid = strtol(fruid_str.c_str(), NULL, 16);
+    fruid = std::strtol(fruid_str.c_str(), NULL, 16);
     if (fruid == 0)
     {
         // User has not passed in the appropriate argument value
@@ -56,7 +58,8 @@ int main(int argc, char** argv)
     rc = sd_bus_open_system(&bus_type);
     if (rc < 0)
     {
-        fprintf(stderr, "Failed to connect to system bus: %s\n", strerror(-rc));
+        std::fprintf(stderr, "Failed to connect to system bus: %s\n",
+                     std::strerror(-rc));
     }
     else
     {
