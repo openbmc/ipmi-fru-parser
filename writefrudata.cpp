@@ -577,7 +577,6 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char *fru_file_name,
     // Vector that holds individual IPMI FRU AREAs. Although MULTI and INTERNAL
     // are not used, keeping it here for completeness.
     fru_area_vec_t fru_area_vec;
-    std::vector<std::string> defined_fru_area;
 
     for(uint8_t fru_entry = IPMI_FRU_INTERNAL_OFFSET;
         fru_entry < (sizeof(struct common_header) -2); fru_entry++)
