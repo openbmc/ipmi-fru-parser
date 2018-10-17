@@ -26,7 +26,7 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     const char* mode = NULL;
 
     // From the payload, extract the header that has fruid and the offsets
-    write_fru_data_t* reqptr = (write_fru_data_t*)request;
+    auto reqptr = static_cast<write_fru_data_t*>(request);
 
     // Maintaining a temporary file to pump the data
     sprintf(fru_file_name, "%s%02x", "/tmp/ipmifru", reqptr->frunum);
