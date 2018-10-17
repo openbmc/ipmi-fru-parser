@@ -3,15 +3,14 @@
 #include "types.hpp"
 
 #include <dlfcn.h>
-#include <errno.h>
 #include <host-ipmid/ipmid-api.h>
 #include <mapper.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <systemd/sd-bus.h>
 #include <unistd.h>
 
 #include <algorithm>
+#include <cstdio>
+#include <cstring>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -64,7 +63,7 @@ ipmi_fru::ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
     else
     {
         iv_name = IPMI_FRU_AREA_TYPE_MAX;
-        fprintf(stderr, "ERROR: Invalid Area type :[%d]\n", iv_type);
+        log<level::ERR>("Invalid Area", entry("TYPE=%d", iv_type));
     }
 }
 
@@ -76,7 +75,7 @@ void ipmi_fru::set_data(const uint8_t* data, const size_t len)
 {
     iv_len = len;
     iv_data = new uint8_t[len];
-    memcpy(iv_data, data, len);
+    std::memcpy(iv_data, data, len);
 }
 
 //-----------------------------------------------------
@@ -167,13 +166,15 @@ int verify_fru_data(const uint8_t* data, const size_t len)
     // Validate for first byte to always have a value of [1]
     if (data[0] != IPMI_FRU_HDR_BYTE_ZERO)
     {
-        fprintf(stderr, "Invalid entry:[%d] in byte-0\n", data[0]);
+        log<level::ERR>("Invalid entry in byte-0",
+                        entry("ENTRY=0x%X", static_cast<uint32_t>(data[0])));
         return rc;
     }
 #ifdef __IPMI_DEBUG__
     else
     {
-        printf("SUCCESS: Validated [0x%X] in entry_1 of fru_data\n", data[0]);
+        log<level::DEBUG>("Validated in entry_1 of fru_data",
+                          entry("ENTRY=0x%X", static_cast<uint32_t>(data[0])));
     }
 #endif
 
@@ -183,17 +184,17 @@ int verify_fru_data(const uint8_t* data, const size_t len)
     if (checksum != data[len - 1])
     {
 #ifdef __IPMI_DEBUG__
-        fprintf(stderr,
-                "Checksum mismatch."
-                " Calculated:[0x%X], Embedded:[0x%X]\n",
-                checksum, data[len]);
+        log<level::ERR>(
+            "Checksum mismatch",
+            entry("Calculated=0x%X", static_cast<uint32_t>(checksum)),
+            entry("Embedded=0x%X", static_cast<uint32_t>(data[len])));
 #endif
         return rc;
     }
 #ifdef __IPMI_DEBUG__
     else
     {
-        printf("SUCCESS: Checksum matches:[0x%X]\n", checksum);
+        log<level::DEBUG>("Checksum matches");
     }
 #endif
 
@@ -212,6 +213,7 @@ std::string getFRUValue(const std::string& section, const std::string& key,
     auto minIndexValue = 0;
     auto maxIndexValue = 0;
     std::string fruValue = "";
+
     if (section == "Board")
     {
         minIndexValue = OPENBMC_VPD_KEY_BOARD_MFG_DATE;
@@ -310,7 +312,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
                             (fruArea)->get_len(), fruData);
         if (rc < 0)
         {
-            std::cerr << "ERROR parsing FRU records\n";
+            log<level::ERR>("Error parsing FRU records");
             return rc;
         }
     } // END walking the vector of areas and updating
@@ -340,16 +342,16 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
     auto iter = frus.find(fruid);
     if (iter == frus.end())
     {
-        std::cerr << "ERROR Unable to get the fru info for FRU="
-                  << static_cast<int>(fruid) << "\n";
+        log<level::ERR>("Unable to get the fru info",
+                        entry("FRU=%d", static_cast<int>(fruid)));
         return -1;
     }
 
     auto& instanceList = iter->second;
     if (instanceList.size() <= 0)
     {
-        std::cout << "Object List empty for this FRU="
-                  << static_cast<int>(fruid) << "\n";
+        log<level::DEBUG>("Object list empty for this FRU",
+                          entry("FRU=%d", static_cast<int>(fruid)));
     }
 
     ObjectMap objects;
@@ -460,46 +462,50 @@ int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
         {
             // Our file size is less than what it needs to be. +2 because we are
             // using area len that is at 2 byte off area_offset
-            fprintf(stderr, "fru file is incomplete. Size:[%zd]\n", data_len);
+            log<level::ERR>("fru file is incomplete",
+                            entry("SIZE=%d", data_len));
             return rc;
         }
         else if (area_offset)
         {
             // Read 2 bytes to know the actual size of area.
             uint8_t area_hdr[2] = {0};
-            memcpy(area_hdr, &((uint8_t*)fru_data)[area_offset],
-                   sizeof(area_hdr));
+            std::memcpy(area_hdr, &((uint8_t*)fru_data)[area_offset],
+                        sizeof(area_hdr));
 
             // Size of this area will be the 2nd byte in the fru area header.
             size_t area_len = area_hdr[1] * IPMI_EIGHT_BYTES;
             uint8_t area_data[area_len] = {0};
 
-            printf("fru data size:[%zd], area offset:[%zd], area_size:[%zd]\n",
-                   data_len, area_offset, area_len);
+            log<level::DEBUG>("Fru Data", entry("SIZE=%d", data_len),
+                              entry("AREA OFFSET=%d", area_offset),
+                              entry("AREA_SIZE=%d", area_len));
 
             // See if we really have that much buffer. We have area offset amd
             // from there, the actual len.
             if (data_len < (area_len + area_offset))
             {
-                fprintf(stderr, "Incomplete Fru file.. Size:[%zd]\n", data_len);
+                log<level::ERR>("Incomplete Fru file",
+                                entry("SIZE=%d", data_len));
                 return rc;
             }
 
             // Save off the data.
-            memcpy(area_data, &((uint8_t*)fru_data)[area_offset], area_len);
+            std::memcpy(area_data, &((uint8_t*)fru_data)[area_offset],
+                        area_len);
 
             // Validate the crc
             rc = verify_fru_data(area_data, area_len);
             if (rc < 0)
             {
-                fprintf(stderr, "Error validating fru area. offset:[%zd]\n",
-                        area_offset);
+                log<level::ERR>("Err validating fru area",
+                                entry("OFFSET=%d", area_offset));
                 return rc;
             }
             else
             {
-                printf("Successfully verified area checksum. offset:[%zd]\n",
-                       area_offset);
+                log<level::DEBUG>("Successfully verified area checksum.",
+                                  entry("OFFSET=%d", area_offset));
             }
 
             // We already have a vector that is passed to us containing all
@@ -534,11 +540,11 @@ int ipmi_validate_common_hdr(const uint8_t* fru_data, const size_t data_len)
     uint8_t common_hdr[sizeof(struct common_header)] = {0};
     if (data_len >= sizeof(common_hdr))
     {
-        memcpy(common_hdr, fru_data, sizeof(common_hdr));
+        std::memcpy(common_hdr, fru_data, sizeof(common_hdr));
     }
     else
     {
-        fprintf(stderr, "Incomplete fru data file. Size:[%zd]\n", data_len);
+        log<level::ERR>("Incomplete fru data file", entry("SIZE=%d", data_len));
         return rc;
     }
 
@@ -546,7 +552,7 @@ int ipmi_validate_common_hdr(const uint8_t* fru_data, const size_t data_len)
     rc = verify_fru_data(common_hdr, sizeof(common_hdr));
     if (rc < 0)
     {
-        fprintf(stderr, "Failed to validate common header\n");
+        log<level::ERR>("Failed to validate common header");
         return rc;
     }
 
@@ -560,7 +566,7 @@ int cleanup_error(FILE* fru_fp, fru_area_vec_t& fru_area_vec)
 {
     if (fru_fp != NULL)
     {
-        fclose(fru_fp);
+        std::fclose(fru_fp);
         fru_fp = NULL;
     }
 
@@ -600,37 +606,40 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char* fru_file_name,
         fru_area_vec.emplace_back(std::move(fru_area));
     }
 
-    FILE* fru_fp = fopen(fru_file_name, "rb");
+    FILE* fru_fp = std::fopen(fru_file_name, "rb");
     if (fru_fp == NULL)
     {
-        fprintf(stderr, "ERROR: opening:[%s]\n", fru_file_name);
-        perror("Error:");
+        log<level::ERR>("Unable to open fru file",
+                        entry("FILE=%s", fru_file_name),
+                        entry("ERRNO=%s", std::strerror(errno)));
         return cleanup_error(fru_fp, fru_area_vec);
     }
 
     // Get the size of the file to see if it meets minimum requirement
-    if (fseek(fru_fp, 0, SEEK_END))
+    if (std::fseek(fru_fp, 0, SEEK_END))
     {
-        perror("Error:");
+        log<level::ERR>("Unable to seek fru file",
+                        entry("FILE=%s", fru_file_name),
+                        entry("ERRNO=%s", std::strerror(errno)));
         return cleanup_error(fru_fp, fru_area_vec);
     }
 
     // Allocate a buffer to hold entire file content
-    data_len = ftell(fru_fp);
+    data_len = std::ftell(fru_fp);
     uint8_t fru_data[data_len] = {0};
 
-    rewind(fru_fp);
-    bytes_read = fread(fru_data, data_len, 1, fru_fp);
+    std::rewind(fru_fp);
+    bytes_read = std::fread(fru_data, data_len, 1, fru_fp);
     if (bytes_read != 1)
     {
-        fprintf(stderr, "Failed reading fru data. Bytes_read=[%zd]\n",
-                bytes_read);
-        perror("Error:");
+        log<level::ERR>("Failed reading fru data.",
+                        entry("BYTESREAD=%d", bytes_read),
+                        entry("ERRNO=%s", std::strerror(errno)));
         return cleanup_error(fru_fp, fru_area_vec);
     }
 
     // We are done reading.
-    fclose(fru_fp);
+    std::fclose(fru_fp);
     fru_fp = NULL;
 
     rc = ipmi_validate_common_hdr(fru_data, data_len);
@@ -644,24 +653,25 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char* fru_file_name,
     rc = ipmi_populate_fru_areas(fru_data, data_len, fru_area_vec);
     if (rc < 0)
     {
-        fprintf(stderr, "Populating FRU areas failed for:[%d]\n", fruid);
+        log<level::ERR>("Populating FRU areas failed", entry("FRU=%d", fruid));
         return cleanup_error(fru_fp, fru_area_vec);
     }
     else
     {
-        printf("SUCCESS: Populated FRU areas for:[%s]\n", fru_file_name);
+        log<level::DEBUG>("Populated FRU areas",
+                          entry("FILE=%s", fru_file_name));
     }
 
 #ifdef __IPMI_DEBUG__
     for (auto& iter : fru_area_vec)
     {
-        printf("FRU ID : [%d]\n", (iter)->get_fruid());
-        printf("AREA NAME : [%s]\n", (iter)->get_name());
-        printf("TYPE : [%d]\n", (iter)->get_type());
-        printf("LEN : [%d]\n", (iter)->get_len());
-        printf("BUS NAME : [%s]\n", (iter)->get_bus_name());
-        printf("OBJ PATH : [%s]\n", (iter)->get_obj_path());
-        printf("INTF NAME :[%s]\n", (iter)->get_intf_name());
+        std::printf("FRU ID : [%d]\n", (iter)->get_fruid());
+        std::printf("AREA NAME : [%s]\n", (iter)->get_name());
+        std::printf("TYPE : [%d]\n", (iter)->get_type());
+        std::printf("LEN : [%d]\n", (iter)->get_len());
+        std::printf("BUS NAME : [%s]\n", (iter)->get_bus_name());
+        std::printf("OBJ PATH : [%s]\n", (iter)->get_obj_path());
+        std::printf("INTF NAME :[%s]\n", (iter)->get_intf_name());
     }
 #endif
 
@@ -671,12 +681,12 @@ int ipmi_validate_fru_area(const uint8_t fruid, const char* fru_file_name,
     {
 
 #ifdef __IPMI_DEBUG__
-        printf("\n SIZE of vector is : [%d] \n", fru_area_vec.size());
+        std::printf("\n SIZE of vector is : [%d] \n", fru_area_vec.size());
 #endif
         rc = ipmi_update_inventory(fru_area_vec, bus_type);
         if (rc < 0)
         {
-            fprintf(stderr, "Error updating inventory\n");
+            log<level::ERR>("Error updating inventory.");
         }
     }
 
