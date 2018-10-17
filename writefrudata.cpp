@@ -438,7 +438,6 @@ bool remove_invalid_area(const std::unique_ptr<ipmi_fru> &fru_area)
 int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
                             fru_area_vec_t & fru_area_vec)
 {
-    size_t area_offset = 0;
     int rc = -1;
 
     // Now walk the common header and see if the file size has atleast the last
@@ -451,7 +450,7 @@ int ipmi_populate_fru_areas(uint8_t *fru_data, const size_t data_len,
         rc = -1;
         // Actual offset in the payload is the offset mentioned in common header
         // multiplied by 8. Common header is always the first 8 bytes.
-        area_offset = fru_data[fru_entry] * IPMI_EIGHT_BYTES;
+        size_t area_offset = fru_data[fru_entry] * IPMI_EIGHT_BYTES;
         if(area_offset && (data_len < (area_offset + 2)))
         {
             // Our file size is less than what it needs to be. +2 because we are
