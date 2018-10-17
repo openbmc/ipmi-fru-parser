@@ -1,13 +1,14 @@
-#include <iostream>
-#include <iterator>
+#include "argument.hpp"
+
 #include <algorithm>
 #include <cassert>
-#include "argument.hpp"
+#include <iostream>
+#include <iterator>
 
 ArgumentParser::ArgumentParser(int argc, char** argv)
 {
     int option = 0;
-    while(-1 != (option = getopt_long(argc, argv, optionstr, options, NULL)))
+    while (-1 != (option = getopt_long(argc, argv, optionstr, options, NULL)))
     {
         if ((option == '?') || (option == 'h'))
         {
@@ -16,7 +17,8 @@ ArgumentParser::ArgumentParser(int argc, char** argv)
         }
 
         auto i = &options[0];
-        while ((i->val != option) && (i->val != 0)) ++i;
+        while ((i->val != option) && (i->val != 0))
+            ++i;
 
         if (i->val)
             arguments[i->name] = (i->has_arg ? optarg : true_string);
@@ -41,19 +43,17 @@ void ArgumentParser::usage(char** argv)
     std::cerr << "Usage: " << argv[0] << " [options]" << std::endl;
     std::cerr << "Options:" << std::endl;
     std::cerr << " --eeprom=<eeprom file path> Absolute file name of eeprom"
-        << std::endl;
+              << std::endl;
     std::cerr << " --fruid=<FRU ID>            valid fru id in integer"
-        << std::endl;
-    std::cerr << " --help                      display help"
-        << std::endl;
+              << std::endl;
+    std::cerr << " --help                      display help" << std::endl;
 }
 
-const option ArgumentParser::options[] =
-{
-    { "eeprom",   required_argument,  NULL, 'e' },
-    { "fruid",    required_argument,  NULL, 'f' },
-    { "help",     no_argument,        NULL, 'h' },
-    { 0, 0, 0, 0},
+const option ArgumentParser::options[] = {
+    {"eeprom", required_argument, NULL, 'e'},
+    {"fruid", required_argument, NULL, 'f'},
+    {"help", no_argument, NULL, 'h'},
+    {0, 0, 0, 0},
 };
 
 const char* ArgumentParser::optionstr = "e:f:?h";
