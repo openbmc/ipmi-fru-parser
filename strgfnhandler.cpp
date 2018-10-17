@@ -1,13 +1,17 @@
 #include "writefrudata.hpp"
 
 #include <host-ipmid/ipmid-api.h>
-#include <stdio.h>
-#include <string.h>
 #include <unistd.h>
+
+#include <cstdio>
+#include <cstring>
+#include <phosphor-logging/log.hpp>
 
 void register_netfn_storage_write_fru() __attribute__((constructor));
 
 sd_bus* ipmid_get_sd_bus_connection(void);
+
+using namespace phosphor::logging;
 
 ///-------------------------------------------------------
 // Called by IPMI netfn router for write fru data command
@@ -29,7 +33,7 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     auto reqptr = static_cast<write_fru_data_t*>(request);
 
     // Maintaining a temporary file to pump the data
-    sprintf(fru_file_name, "%s%02x", "/tmp/ipmifru", reqptr->frunum);
+    std::sprintf(fru_file_name, "%s%02x", "/tmp/ipmifru", reqptr->frunum);
 
     offset = ((uint16_t)reqptr->offsetms) << 8 | reqptr->offsetls;
 
@@ -43,8 +47,8 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     *data_len = 0;
 
 #ifdef __IPMI__DEBUG__
-    printf("IPMI WRITE-FRU-DATA for [%s]  Offset = [%d] Length = [%d]\n",
-           fru_file_name, offset, len);
+    log<level::DEBUG>("IPMI WRITE-FRU-DATA", entry("FILE=%s", fru_file_name),
+                      entry("OFFSET=%d", offset), entry("LENGTH=%d", len));
 #endif
 
     if (access(fru_file_name, F_OK) == -1)
@@ -56,34 +60,38 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
         mode = "rb+";
     }
 
-    if ((fp = fopen(fru_file_name, mode)) != NULL)
+    if ((fp = std::fopen(fru_file_name, mode)) != NULL)
     {
-        if (fseek(fp, offset, SEEK_SET))
+        if (std::fseek(fp, offset, SEEK_SET))
         {
-            perror("Error:");
-            fclose(fp);
+            log<level::ERR>("Seek into fru file failed",
+                            entry("FILE=%s", fru_file_name),
+                            entry("ERRNO=%s", std::strerror(errno)));
+            std::fclose(fp);
             return rc;
         }
 
-        if (fwrite(&reqptr->data, len, 1, fp) != 1)
+        if (std::fwrite(&reqptr->data, len, 1, fp) != 1)
         {
-            perror("Error:");
-            fclose(fp);
+            log<level::ERR>("Write into fru file failed",
+                            entry("FILE=%s", fru_file_name),
+                            entry("ERRNO=%s", std::strerror(errno)));
+            std::fclose(fp);
             return rc;
         }
 
-        fclose(fp);
+        std::fclose(fp);
     }
     else
     {
-        fprintf(stderr, "Error trying to write to fru file %s\n",
-                fru_file_name);
+        log<level::ERR>("Error trying to write to fru file",
+                        entry("FILE=%s", fru_file_name));
         return rc;
     }
 
     // If we got here then set the resonse byte
     // to the number of bytes written
-    memcpy(response, &len, 1);
+    std::memcpy(response, &len, 1);
     *data_len = 1;
     rc = IPMI_CC_OK;
 
@@ -103,8 +111,9 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 //-------------------------------------------------------
 void register_netfn_storage_write_fru()
 {
-    printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_STORAGE,
-           IPMI_CMD_WRITE_FRU_DATA);
+    std::printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_STORAGE,
+                IPMI_CMD_WRITE_FRU_DATA);
+
     ipmi_register_callback(NETFUN_STORAGE, IPMI_CMD_WRITE_FRU_DATA, NULL,
                            ipmi_storage_write_fru_data, SYSTEM_INTERFACE);
 }
