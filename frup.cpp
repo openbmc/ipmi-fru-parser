@@ -625,7 +625,6 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
                     IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
     int vpd_val_len =
         type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
-    int sdr = 0;
 
     /* Needed to convert each uint8_t byte to a ascii */
     char bin_byte[3] = {0};
@@ -689,15 +688,6 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
     {
         free(bin_in_ascii);
         bin_in_ascii = NULL;
-    }
-
-    if (sdr < 0)
-    {
-#if IPMI_FRU_PARSER_DEBUG
-        printf(
-            "_append_to_dict : sd_bus_message_append Failed [ %d ] for [%s]\n",
-            sdr, vpd_key_names[vpd_key_id]);
-#endif
     }
 }
 
