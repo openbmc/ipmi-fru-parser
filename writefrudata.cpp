@@ -16,11 +16,13 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/server.hpp>
 #include <sstream>
 #include <vector>
 
 using namespace ipmi::vpd;
+using namespace phosphor::logging;
 
 extern const FruMap frus;
 extern const std::map<Path, InterfaceMap> extras;
@@ -266,10 +268,15 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
     mapperCall.append(path);
     mapperCall.append(std::vector<std::string>({intf}));
 
-    auto mapperResponseMsg = bus.call(mapperCall);
-    if (mapperResponseMsg.is_method_error())
+    try
     {
-        throw std::runtime_error("ERROR in mapper call");
+        auto mapperResponseMsg = bus.call(mapperCall);
+    }
+    catch (const sdbusplus::exception::SdBusError& ex)
+    {
+        log<level::ERR>("Exception from sdbus call",
+                        entry("WHAT=%s", ex.what()));
+        throw;
     }
 
     std::map<std::string, std::vector<std::string>> mapperResponse;
@@ -403,12 +410,17 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
     auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
                                       intf.c_str(), "Notify");
     pimMsg.append(std::move(objects));
-    auto inventoryMgrResponseMsg = bus.call(pimMsg);
-    if (inventoryMgrResponseMsg.is_method_error())
+
+    try
     {
-        std::cerr << "Error in notify call\n";
+        auto inventoryMgrResponseMsg = bus.call(pimMsg);
+    }
+    catch (const sdbusplus::exception::SdBusError& ex)
+    {
+        log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()));
         return -1;
     }
+
     return rc;
 }
 
