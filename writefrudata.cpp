@@ -16,11 +16,13 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/server.hpp>
 #include <sstream>
 #include <vector>
 
 using namespace ipmi::vpd;
+using namespace phosphor::logging;
 
 extern const FruMap frus;
 extern const std::map<Path, InterfaceMap> extras;
@@ -265,15 +267,19 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
 
     mapperCall.append(path);
     mapperCall.append(std::vector<std::string>({intf}));
-
-    auto mapperResponseMsg = bus.call(mapperCall);
-    if (mapperResponseMsg.is_method_error())
-    {
-        throw std::runtime_error("ERROR in mapper call");
-    }
-
     std::map<std::string, std::vector<std::string>> mapperResponse;
-    mapperResponseMsg.read(mapperResponse);
+
+    try
+    {
+        auto mapperResponseMsg = bus.call(mapperCall);
+        mapperResponseMsg.read(mapperResponse);
+    }
+    catch (const sdbusplus::exception::SdBusError& ex)
+    {
+        log<level::ERR>("Exception from sdbus call",
+                        entry("WHAT=%s", ex.what()));
+        throw;
+    }
 
     if (mapperResponse.begin() == mapperResponse.end())
     {
@@ -325,7 +331,7 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
     {
         service = getService(bus, intf, path);
     }
-    catch (const std::runtime_error& e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << "\n";
         return -1;
@@ -403,12 +409,17 @@ int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
     auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
                                       intf.c_str(), "Notify");
     pimMsg.append(std::move(objects));
-    auto inventoryMgrResponseMsg = bus.call(pimMsg);
-    if (inventoryMgrResponseMsg.is_method_error())
+
+    try
     {
-        std::cerr << "Error in notify call\n";
+        auto inventoryMgrResponseMsg = bus.call(pimMsg);
+    }
+    catch (const sdbusplus::exception::SdBusError& ex)
+    {
+        log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()));
         return -1;
     }
+
     return rc;
 }
 
