@@ -561,13 +561,13 @@ int ipmi_validate_common_hdr(const uint8_t* fru_data, const size_t data_len)
 
 //------------------------------------------------------------
 // Cleanup routine
+// Must always be called as last reference to fru_fp.
 //------------------------------------------------------------
 int cleanup_error(FILE* fru_fp, fru_area_vec_t& fru_area_vec)
 {
     if (fru_fp != NULL)
     {
         std::fclose(fru_fp);
-        fru_fp = NULL;
     }
 
     if (!(fru_area_vec.empty()))
