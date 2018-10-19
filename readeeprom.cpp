@@ -5,6 +5,9 @@
 #include <cstring>
 #include <iostream>
 #include <memory>
+#include <phosphor-logging/log.hpp>
+
+using namespace phosphor::logging;
 
 static void exit_with_error(const char* err, char** argv)
 {
@@ -58,8 +61,8 @@ int main(int argc, char** argv)
     rc = sd_bus_open_system(&bus_type);
     if (rc < 0)
     {
-        std::fprintf(stderr, "Failed to connect to system bus: %s\n",
-                     std::strerror(-rc));
+        log<level::ERR>("Failed to connect to system bus",
+                        entry("ERRNO=%s", std::strerror(-rc)));
     }
     else
     {
