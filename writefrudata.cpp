@@ -5,7 +5,6 @@
 #include "types.hpp"
 
 #include <host-ipmid/ipmid-api.h>
-#include <mapper.h>
 #include <systemd/sd-bus.h>
 #include <unistd.h>
 
