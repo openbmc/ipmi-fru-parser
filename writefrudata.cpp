@@ -581,8 +581,8 @@ int cleanup_error(FILE* fru_fp, fru_area_vec_t& fru_area_vec)
 ///-----------------------------------------------------
 // Accepts the filename and validates per IPMI FRU spec
 //----------------------------------------------------
-int ipmi_validate_fru_area(const uint8_t fruid, const char* fru_file_name,
-                           sd_bus* bus_type, const bool bmc_fru)
+int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
+                    sd_bus* bus_type, const bool bmc_fru)
 {
     size_t data_len = 0;
     size_t bytes_read = 0;
