@@ -6,6 +6,7 @@
 #include <array>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 enum ipmi_fru_area_type
