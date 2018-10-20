@@ -239,7 +239,7 @@ int updateInventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
         }
 
         // Call the inventory manager
-        sdbusplus::message::object_path path = instance.path;
+        sdbusplus::message::object_path objectPath = instance.path;
         // Check and update extra properties
         if (extras.end() != extrasIter)
         {
@@ -251,7 +251,7 @@ int updateInventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
                 }
             }
         }
-        objects.emplace(path, interfaces);
+        objects.emplace(objectPath, interfaces);
     }
 
     auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
