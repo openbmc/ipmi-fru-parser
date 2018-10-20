@@ -105,6 +105,39 @@ std::string getFRUValue(const std::string& section, const std::string& key,
     return fruValue;
 }
 
+// Get the inventory service from the mapper.
+auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
+                const std::string& path)
+{
+    auto mapperCall =
+        bus.new_method_call("xyz.openbmc_project.ObjectMapper",
+                            "/xyz/openbmc_project/object_mapper",
+                            "xyz.openbmc_project.ObjectMapper", "GetObject");
+
+    mapperCall.append(path);
+    mapperCall.append(std::vector<std::string>({intf}));
+    std::map<std::string, std::vector<std::string>> mapperResponse;
+
+    try
+    {
+        auto mapperResponseMsg = bus.call(mapperCall);
+        mapperResponseMsg.read(mapperResponse);
+    }
+    catch (const sdbusplus::exception::SdBusError& ex)
+    {
+        log<level::ERR>("Exception from sdbus call",
+                        entry("WHAT=%s", ex.what()));
+        throw;
+    }
+
+    if (mapperResponse.begin() == mapperResponse.end())
+    {
+        throw std::runtime_error("ERROR in reading the mapper response");
+    }
+
+    return mapperResponse.begin()->first;
+}
+
 } // namespace
 
 //----------------------------------------------------------------
@@ -280,39 +313,6 @@ int verify_fru_data(const uint8_t* data, const size_t len)
 #endif
 
     return EXIT_SUCCESS;
-}
-
-// Get the inventory service from the mapper.
-auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
-                const std::string& path)
-{
-    auto mapperCall =
-        bus.new_method_call("xyz.openbmc_project.ObjectMapper",
-                            "/xyz/openbmc_project/object_mapper",
-                            "xyz.openbmc_project.ObjectMapper", "GetObject");
-
-    mapperCall.append(path);
-    mapperCall.append(std::vector<std::string>({intf}));
-    std::map<std::string, std::vector<std::string>> mapperResponse;
-
-    try
-    {
-        auto mapperResponseMsg = bus.call(mapperCall);
-        mapperResponseMsg.read(mapperResponse);
-    }
-    catch (const sdbusplus::exception::SdBusError& ex)
-    {
-        log<level::ERR>("Exception from sdbus call",
-                        entry("WHAT=%s", ex.what()));
-        throw;
-    }
-
-    if (mapperResponse.begin() == mapperResponse.end())
-    {
-        throw std::runtime_error("ERROR in reading the mapper response");
-    }
-
-    return mapperResponse.begin()->first;
 }
 
 //------------------------------------------------------------------------
