@@ -41,6 +41,15 @@ struct common_header
 #define IPMI_FRU_HDR_CRC_OFFSET offsetof(struct common_header, crc)
 #define IPMI_EIGHT_BYTES 8
 
-int ipmi_validate_fru_area(const uint8_t, const char*, sd_bus*, const bool);
+/**
+ * Validate a FRU.
+ *
+ * @param[in] fruid - The ID to use for this FRU.
+ * @param[in] fru_file_name - the filename of the FRU.
+ * @param[in] bus_type - a systemd bus for publishing the information.
+ * @param[in] bmc_fru - If a particular area accessible only by BMC.
+ */
+int ipmi_validate_fru_area(const uint8_t fruid, const char* fru_file_name,
+                           sd_bus* bus_type, const bool bmc_fru);
 
 #endif
