@@ -138,6 +138,139 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
     return mapperResponse.begin()->first;
 }
 
+// Takes FRU data, invokes Parser for each fru record area and updates
+// Inventory
+//------------------------------------------------------------------------
+int updateInventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
+{
+    // Generic error reporter
+    int rc = 0;
+    uint8_t fruid = 0;
+    IPMIFruInfo fruData;
+
+    // For each FRU area, extract the needed data , get it parsed and update
+    // the Inventory.
+    for (const auto& fruArea : area_vec)
+    {
+        fruid = fruArea->get_fruid();
+        // Fill the container with information
+        rc = parse_fru_area((fruArea)->get_type(), (void*)(fruArea)->get_data(),
+                            (fruArea)->get_len(), fruData);
+        if (rc < 0)
+        {
+            log<level::ERR>("Error parsing FRU records");
+            return rc;
+        }
+    } // END walking the vector of areas and updating
+
+    // For each Fru we have the list of instances which needs to be updated.
+    // Each instance object implements certain interfaces.
+    // Each Interface is having Dbus properties.
+    // Each Dbus Property would be having metaData(eg section,VpdPropertyName).
+
+    // Here we are just printing the object,interface and the properties.
+    // which needs to be called with the new inventory manager implementation.
+    sdbusplus::bus::bus bus{bus_sd};
+    using namespace std::string_literals;
+    static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
+    static const auto path = "/xyz/openbmc_project/inventory"s;
+    std::string service;
+    try
+    {
+        service = getService(bus, intf, path);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << e.what() << "\n";
+        return -1;
+    }
+
+    auto iter = frus.find(fruid);
+    if (iter == frus.end())
+    {
+        log<level::ERR>("Unable to get the fru info",
+                        entry("FRU=%d", static_cast<int>(fruid)));
+        return -1;
+    }
+
+    auto& instanceList = iter->second;
+    if (instanceList.size() <= 0)
+    {
+        log<level::DEBUG>("Object list empty for this FRU",
+                          entry("FRU=%d", static_cast<int>(fruid)));
+    }
+
+    ObjectMap objects;
+    for (auto& instance : instanceList)
+    {
+        InterfaceMap interfaces;
+        const auto& extrasIter = extras.find(instance.path);
+
+        for (auto& interfaceList : instance.interfaces)
+        {
+            PropertyMap props; // store all the properties
+            for (auto& properties : interfaceList.second)
+            {
+                std::string value;
+                decltype(auto) pdata = properties.second;
+
+                if (!pdata.section.empty() && !pdata.property.empty())
+                {
+                    value = getFRUValue(pdata.section, pdata.property,
+                                        pdata.delimiter, fruData);
+                }
+                props.emplace(std::move(properties.first), std::move(value));
+            }
+            // Check and update extra properties
+            if (extras.end() != extrasIter)
+            {
+                const auto& propsIter =
+                    (extrasIter->second).find(interfaceList.first);
+                if ((extrasIter->second).end() != propsIter)
+                {
+                    for (const auto& map : propsIter->second)
+                    {
+                        props.emplace(map.first, map.second);
+                    }
+                }
+            }
+            interfaces.emplace(std::move(interfaceList.first),
+                               std::move(props));
+        }
+
+        // Call the inventory manager
+        sdbusplus::message::object_path path = instance.path;
+        // Check and update extra properties
+        if (extras.end() != extrasIter)
+        {
+            for (const auto& entry : extrasIter->second)
+            {
+                if (interfaces.end() == interfaces.find(entry.first))
+                {
+                    interfaces.emplace(entry.first, entry.second);
+                }
+            }
+        }
+        objects.emplace(path, interfaces);
+    }
+
+    auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
+                                      intf.c_str(), "Notify");
+    pimMsg.append(std::move(objects));
+
+    try
+    {
+        auto inventoryMgrResponseMsg = bus.call(pimMsg);
+    }
+    catch (const sdbusplus::exception::SdBusError& ex)
+    {
+        log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()));
+        return -1;
+    }
+
+    return rc;
+}
+
 } // namespace
 
 //----------------------------------------------------------------
@@ -313,140 +446,6 @@ int verify_fru_data(const uint8_t* data, const size_t len)
 #endif
 
     return EXIT_SUCCESS;
-}
-
-//------------------------------------------------------------------------
-// Takes FRU data, invokes Parser for each fru record area and updates
-// Inventory
-//------------------------------------------------------------------------
-int ipmi_update_inventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
-{
-    // Generic error reporter
-    int rc = 0;
-    uint8_t fruid = 0;
-    IPMIFruInfo fruData;
-
-    // For each FRU area, extract the needed data , get it parsed and update
-    // the Inventory.
-    for (const auto& fruArea : area_vec)
-    {
-        fruid = fruArea->get_fruid();
-        // Fill the container with information
-        rc = parse_fru_area((fruArea)->get_type(), (void*)(fruArea)->get_data(),
-                            (fruArea)->get_len(), fruData);
-        if (rc < 0)
-        {
-            log<level::ERR>("Error parsing FRU records");
-            return rc;
-        }
-    } // END walking the vector of areas and updating
-
-    // For each Fru we have the list of instances which needs to be updated.
-    // Each instance object implements certain interfaces.
-    // Each Interface is having Dbus properties.
-    // Each Dbus Property would be having metaData(eg section,VpdPropertyName).
-
-    // Here we are just printing the object,interface and the properties.
-    // which needs to be called with the new inventory manager implementation.
-    sdbusplus::bus::bus bus{bus_sd};
-    using namespace std::string_literals;
-    static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
-    static const auto path = "/xyz/openbmc_project/inventory"s;
-    std::string service;
-    try
-    {
-        service = getService(bus, intf, path);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << "\n";
-        return -1;
-    }
-
-    auto iter = frus.find(fruid);
-    if (iter == frus.end())
-    {
-        log<level::ERR>("Unable to get the fru info",
-                        entry("FRU=%d", static_cast<int>(fruid)));
-        return -1;
-    }
-
-    auto& instanceList = iter->second;
-    if (instanceList.size() <= 0)
-    {
-        log<level::DEBUG>("Object list empty for this FRU",
-                          entry("FRU=%d", static_cast<int>(fruid)));
-    }
-
-    ObjectMap objects;
-    for (auto& instance : instanceList)
-    {
-        InterfaceMap interfaces;
-        const auto& extrasIter = extras.find(instance.path);
-
-        for (auto& interfaceList : instance.interfaces)
-        {
-            PropertyMap props; // store all the properties
-            for (auto& properties : interfaceList.second)
-            {
-                std::string value;
-                decltype(auto) pdata = properties.second;
-
-                if (!pdata.section.empty() && !pdata.property.empty())
-                {
-                    value = getFRUValue(pdata.section, pdata.property,
-                                        pdata.delimiter, fruData);
-                }
-                props.emplace(std::move(properties.first), std::move(value));
-            }
-            // Check and update extra properties
-            if (extras.end() != extrasIter)
-            {
-                const auto& propsIter =
-                    (extrasIter->second).find(interfaceList.first);
-                if ((extrasIter->second).end() != propsIter)
-                {
-                    for (const auto& map : propsIter->second)
-                    {
-                        props.emplace(map.first, map.second);
-                    }
-                }
-            }
-            interfaces.emplace(std::move(interfaceList.first),
-                               std::move(props));
-        }
-
-        // Call the inventory manager
-        sdbusplus::message::object_path path = instance.path;
-        // Check and update extra properties
-        if (extras.end() != extrasIter)
-        {
-            for (const auto& entry : extrasIter->second)
-            {
-                if (interfaces.end() == interfaces.find(entry.first))
-                {
-                    interfaces.emplace(entry.first, entry.second);
-                }
-            }
-        }
-        objects.emplace(path, interfaces);
-    }
-
-    auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
-                                      intf.c_str(), "Notify");
-    pimMsg.append(std::move(objects));
-
-    try
-    {
-        auto inventoryMgrResponseMsg = bus.call(pimMsg);
-    }
-    catch (const sdbusplus::exception::SdBusError& ex)
-    {
-        log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()));
-        return -1;
-    }
-
-    return rc;
 }
 
 ///----------------------------------------------------
@@ -688,7 +687,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
 #ifdef __IPMI_DEBUG__
         std::printf("\n SIZE of vector is : [%d] \n", fru_area_vec.size());
 #endif
-        rc = ipmi_update_inventory(fru_area_vec, bus_type);
+        rc = updateInventory(fru_area_vec, bus_type);
         if (rc < 0)
         {
             log<level::ERR>("Error updating inventory.");
