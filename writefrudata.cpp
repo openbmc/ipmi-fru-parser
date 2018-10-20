@@ -26,6 +26,30 @@ using namespace phosphor::logging;
 extern const FruMap frus;
 extern const std::map<Path, InterfaceMap> extras;
 
+namespace
+{
+
+//------------------------------------------------------------
+// Cleanup routine
+// Must always be called as last reference to fru_fp.
+//------------------------------------------------------------
+int cleanupError(FILE* fru_fp, fru_area_vec_t& fru_area_vec)
+{
+    if (fru_fp != NULL)
+    {
+        std::fclose(fru_fp);
+    }
+
+    if (!(fru_area_vec.empty()))
+    {
+        fru_area_vec.clear();
+    }
+
+    return -1;
+}
+
+} // namespace
+
 //----------------------------------------------------------------
 // Constructor
 //----------------------------------------------------------------
@@ -559,25 +583,6 @@ int ipmi_validate_common_hdr(const uint8_t* fru_data, const size_t data_len)
     return EXIT_SUCCESS;
 }
 
-//------------------------------------------------------------
-// Cleanup routine
-// Must always be called as last reference to fru_fp.
-//------------------------------------------------------------
-int cleanup_error(FILE* fru_fp, fru_area_vec_t& fru_area_vec)
-{
-    if (fru_fp != NULL)
-    {
-        std::fclose(fru_fp);
-    }
-
-    if (!(fru_area_vec.empty()))
-    {
-        fru_area_vec.clear();
-    }
-
-    return -1;
-}
-
 ///-----------------------------------------------------
 // Accepts the filename and validates per IPMI FRU spec
 //----------------------------------------------------
@@ -612,7 +617,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
         log<level::ERR>("Unable to open fru file",
                         entry("FILE=%s", fru_file_name),
                         entry("ERRNO=%s", std::strerror(errno)));
-        return cleanup_error(fru_fp, fru_area_vec);
+        return cleanupError(fru_fp, fru_area_vec);
     }
 
     // Get the size of the file to see if it meets minimum requirement
@@ -621,7 +626,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
         log<level::ERR>("Unable to seek fru file",
                         entry("FILE=%s", fru_file_name),
                         entry("ERRNO=%s", std::strerror(errno)));
-        return cleanup_error(fru_fp, fru_area_vec);
+        return cleanupError(fru_fp, fru_area_vec);
     }
 
     // Allocate a buffer to hold entire file content
@@ -635,7 +640,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
         log<level::ERR>("Failed reading fru data.",
                         entry("BYTESREAD=%d", bytes_read),
                         entry("ERRNO=%s", std::strerror(errno)));
-        return cleanup_error(fru_fp, fru_area_vec);
+        return cleanupError(fru_fp, fru_area_vec);
     }
 
     // We are done reading.
@@ -645,7 +650,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
     rc = ipmi_validate_common_hdr(fru_data, data_len);
     if (rc < 0)
     {
-        return cleanup_error(fru_fp, fru_area_vec);
+        return cleanupError(fru_fp, fru_area_vec);
     }
 
     // Now that we validated the common header, populate various fru sections if
@@ -654,7 +659,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
     if (rc < 0)
     {
         log<level::ERR>("Populating FRU areas failed", entry("FRU=%d", fruid));
-        return cleanup_error(fru_fp, fru_area_vec);
+        return cleanupError(fru_fp, fru_area_vec);
     }
     else
     {
