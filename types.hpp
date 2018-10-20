@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include <sdbusplus/server.hpp>
+#include <sdbusplus/message.hpp>
 #include <string>
 
 namespace ipmi
