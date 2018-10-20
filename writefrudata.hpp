@@ -1,13 +1,7 @@
 #ifndef __IPMI_WRITE_FRU_DATA_H__
 #define __IPMI_WRITE_FRU_DATA_H__
 
-#include <stddef.h>
-#include <stdint.h>
 #include <systemd/sd-bus.h>
-
-#ifndef __cplusplus
-#include <stdbool.h> // For bool variable
-#endif
 
 // IPMI commands for Storage net functions.
 enum ipmi_netfn_storage_cmds
@@ -47,13 +41,6 @@ struct common_header
 #define IPMI_FRU_HDR_CRC_OFFSET offsetof(struct common_header, crc)
 #define IPMI_EIGHT_BYTES 8
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 int ipmi_validate_fru_area(const uint8_t, const char*, sd_bus*, const bool);
 
-#ifdef __cplusplus
-} // extern C
-#endif
 #endif
