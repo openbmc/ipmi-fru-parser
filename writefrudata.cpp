@@ -1,3 +1,5 @@
+#include "writefrudata.hpp"
+
 #include "fru-area.hpp"
 #include "frup.hpp"
 #include "types.hpp"
