@@ -14,6 +14,7 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/server.hpp>
