@@ -49,6 +49,63 @@ int cleanupError(FILE* fru_fp, fru_area_vec_t& fru_area_vec)
 }
 
 //------------------------------------------------------------------------
+// Gets the value of the key from the fru dictionary of the given section.
+// FRU dictionary is parsed fru data for all the sections.
+//------------------------------------------------------------------------
+std::string getFRUValue(const std::string& section, const std::string& key,
+                        const std::string& delimiter, IPMIFruInfo& fruData)
+{
+
+    auto minIndexValue = 0;
+    auto maxIndexValue = 0;
+    std::string fruValue = "";
+
+    if (section == "Board")
+    {
+        minIndexValue = OPENBMC_VPD_KEY_BOARD_MFG_DATE;
+        maxIndexValue = OPENBMC_VPD_KEY_BOARD_MAX;
+    }
+    else if (section == "Product")
+    {
+        minIndexValue = OPENBMC_VPD_KEY_PRODUCT_MFR;
+        maxIndexValue = OPENBMC_VPD_KEY_PRODUCT_MAX;
+    }
+    else if (section == "Chassis")
+    {
+        minIndexValue = OPENBMC_VPD_KEY_CHASSIS_TYPE;
+        maxIndexValue = OPENBMC_VPD_KEY_CHASSIS_MAX;
+    }
+
+    auto first = fruData.cbegin() + minIndexValue;
+    auto last = first + (maxIndexValue - minIndexValue) + 1;
+
+    auto itr =
+        std::find_if(first, last, [&key](auto& e) { return key == e.first; });
+
+    if (itr != last)
+    {
+        fruValue = itr->second;
+    }
+
+    // if the key is custom property then the value could be in two formats.
+    // 1) custom field 2 = "value".
+    // 2) custom field 2 =  "key:value".
+    // if delimiter length = 0 i.e custom field 2 = "value"
+
+    constexpr auto customProp = "Custom Field";
+    if (key.find(customProp) != std::string::npos)
+    {
+        if (delimiter.length() > 0)
+        {
+            size_t delimiterpos = fruValue.find(delimiter);
+            if (delimiterpos != std::string::npos)
+                fruValue = fruValue.substr(delimiterpos + 1);
+        }
+    }
+    return fruValue;
+}
+
+//------------------------------------------------------------------------
 // Takes FRU data, invokes Parser for each fru record area and updates
 // Inventory
 //------------------------------------------------------------------------
@@ -359,63 +416,6 @@ int verify_fru_data(const uint8_t* data, const size_t len)
     return EXIT_SUCCESS;
 }
 
-//------------------------------------------------------------------------
-// Gets the value of the key from the fru dictionary of the given section.
-// FRU dictionary is parsed fru data for all the sections.
-//------------------------------------------------------------------------
-
-std::string getFRUValue(const std::string& section, const std::string& key,
-                        const std::string& delimiter, IPMIFruInfo& fruData)
-{
-
-    auto minIndexValue = 0;
-    auto maxIndexValue = 0;
-    std::string fruValue = "";
-
-    if (section == "Board")
-    {
-        minIndexValue = OPENBMC_VPD_KEY_BOARD_MFG_DATE;
-        maxIndexValue = OPENBMC_VPD_KEY_BOARD_MAX;
-    }
-    else if (section == "Product")
-    {
-        minIndexValue = OPENBMC_VPD_KEY_PRODUCT_MFR;
-        maxIndexValue = OPENBMC_VPD_KEY_PRODUCT_MAX;
-    }
-    else if (section == "Chassis")
-    {
-        minIndexValue = OPENBMC_VPD_KEY_CHASSIS_TYPE;
-        maxIndexValue = OPENBMC_VPD_KEY_CHASSIS_MAX;
-    }
-
-    auto first = fruData.cbegin() + minIndexValue;
-    auto last = first + (maxIndexValue - minIndexValue) + 1;
-
-    auto itr =
-        std::find_if(first, last, [&key](auto& e) { return key == e.first; });
-
-    if (itr != last)
-    {
-        fruValue = itr->second;
-    }
-
-    // if the key is custom property then the value could be in two formats.
-    // 1) custom field 2 = "value".
-    // 2) custom field 2 =  "key:value".
-    // if delimiter length = 0 i.e custom field 2 = "value"
-
-    constexpr auto customProp = "Custom Field";
-    if (key.find(customProp) != std::string::npos)
-    {
-        if (delimiter.length() > 0)
-        {
-            size_t delimiterpos = fruValue.find(delimiter);
-            if (delimiterpos != std::string::npos)
-                fruValue = fruValue.substr(delimiterpos + 1);
-        }
-    }
-    return fruValue;
-}
 // Get the inventory service from the mapper.
 auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
                 const std::string& path)
