@@ -4,7 +4,6 @@
 #include "frup.hpp"
 #include "types.hpp"
 
-#include <dlfcn.h>
 #include <host-ipmid/ipmid-api.h>
 #include <mapper.h>
 #include <systemd/sd-bus.h>
