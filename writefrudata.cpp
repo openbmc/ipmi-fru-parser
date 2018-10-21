@@ -599,9 +599,6 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
         std::printf("AREA NAME : [%s]\n", iter->getName());
         std::printf("TYPE : [%d]\n", iter->getType());
         std::printf("LEN : [%d]\n", iter->getLength());
-        std::printf("BUS NAME : [%s]\n", iter->getBusName());
-        std::printf("OBJ PATH : [%s]\n", iter->getObjectPath());
-        std::printf("INTF NAME :[%s]\n", iter->getIntfName());
     }
 #endif
 

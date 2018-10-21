@@ -51,24 +51,6 @@ class IPMIFruArea
         return name.c_str();
     }
 
-    // Returns SD bus name
-    const char* getBusName() const
-    {
-        return busName.c_str();
-    }
-
-    // Retrns SD bus object path
-    const char* getObjectPath() const
-    {
-        return objectPath.c_str();
-    }
-
-    // Returns SD bus interface name
-    const char* getInterfaceName() const
-    {
-        return interfaceName.c_str();
-    }
-
     // Returns the data portion
     inline const uint8_t* getData() const
     {
@@ -77,9 +59,6 @@ class IPMIFruArea
 
     // Accepts a pointer to data and sets it in the object.
     void setData(const uint8_t*, const size_t);
-
-    // Sets the dbus parameters
-    void updateDbusPaths(const char*, const char*, const char*);
 
   private:
     // Unique way of identifying a FRU
@@ -102,15 +81,6 @@ class IPMIFruArea
 
     // Actual area data.
     std::vector<uint8_t> data;
-
-    // fru inventory dbus name
-    std::string busName;
-
-    // fru inventory dbus object path
-    std::string objectPath;
-
-    // fru inventory dbus interface name
-    std::string interfaceName;
 };
 
 #endif
