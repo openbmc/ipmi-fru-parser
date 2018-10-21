@@ -12,15 +12,10 @@ using namespace phosphor::logging;
 // Constructor
 //----------------------------------------------------------------
 IPMIFruArea::IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
-                         bool bmc_fru)
+                         bool bmc_fru) :
+    iv_fruid(fruid),
+    iv_type(type), iv_bmc_fru(bmc_fru)
 {
-    iv_fruid = fruid;
-    iv_type = type;
-    iv_bmc_fru = bmc_fru;
-    iv_valid = false;
-    iv_data = NULL;
-    iv_present = false;
-
     if (iv_type == IPMI_FRU_AREA_INTERNAL_USE)
     {
         iv_name = "INTERNAL_";
