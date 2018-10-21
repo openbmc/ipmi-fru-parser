@@ -155,10 +155,10 @@ int updateInventory(FruAreaVector& area_vec, sd_bus* bus_sd)
     // the Inventory.
     for (const auto& fruArea : area_vec)
     {
-        fruid = fruArea->get_fruid();
+        fruid = fruArea->getFruID();
         // Fill the container with information
-        rc = parse_fru_area((fruArea)->get_type(), (void*)(fruArea)->get_data(),
-                            (fruArea)->get_len(), fruData);
+        rc = parse_fru_area((fruArea)->getType(), (void*)(fruArea)->getData(),
+                            (fruArea)->getLength(), fruData);
         if (rc < 0)
         {
             log<level::ERR>("Error parsing FRU records");
@@ -382,7 +382,7 @@ int verify_fru_data(const uint8_t* data, const size_t len)
 bool remove_invalid_area(const std::unique_ptr<IPMIFruArea>& fru_area)
 {
     // Filter the ones that are empty
-    if (!(fru_area->get_len()))
+    if (!(fru_area->getLength()))
     {
         return true;
     }
@@ -463,9 +463,9 @@ int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
             // of the fields populated. Update the data portion now.
             for (auto& iter : fru_area_vec)
             {
-                if ((iter)->get_type() == get_fru_area_type(fru_entry))
+                if ((iter)->getType() == get_fru_area_type(fru_entry))
                 {
-                    (iter)->set_data(area_data, area_len);
+                    (iter)->setData(area_data, area_len);
                 }
             }
         } // If we have fru data present
@@ -533,7 +533,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
 
         // Physically being present
         bool present = access(fru_file_name, F_OK) == 0;
-        fru_area->set_present(present);
+        fru_area->setPresent(present);
 
         fru_area_vec.emplace_back(std::move(fru_area));
     }
@@ -597,13 +597,13 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
 #ifdef __IPMI_DEBUG__
     for (auto& iter : fru_area_vec)
     {
-        std::printf("FRU ID : [%d]\n", (iter)->get_fruid());
-        std::printf("AREA NAME : [%s]\n", (iter)->get_name());
-        std::printf("TYPE : [%d]\n", (iter)->get_type());
-        std::printf("LEN : [%d]\n", (iter)->get_len());
-        std::printf("BUS NAME : [%s]\n", (iter)->get_bus_name());
-        std::printf("OBJ PATH : [%s]\n", (iter)->get_obj_path());
-        std::printf("INTF NAME :[%s]\n", (iter)->get_intf_name());
+        std::printf("FRU ID : [%d]\n", (iter)->getFruID());
+        std::printf("AREA NAME : [%s]\n", (iter)->getName());
+        std::printf("TYPE : [%d]\n", (iter)->getType());
+        std::printf("LEN : [%d]\n", (iter)->getLength());
+        std::printf("BUS NAME : [%s]\n", (iter)->getBusName());
+        std::printf("OBJ PATH : [%s]\n", (iter)->getObjectPath());
+        std::printf("INTF NAME :[%s]\n", (iter)->getIntfName());
     }
 #endif
 
