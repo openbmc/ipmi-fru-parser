@@ -15,37 +15,37 @@ class IPMIFruArea
 {
   private:
     // Unique way of identifying a FRU
-    uint8_t iv_fruid = 0;
+    uint8_t fruid = 0;
 
     // Type of the fru matching offsets in common header
-    ipmi_fru_area_type iv_type = IPMI_FRU_AREA_INTERNAL_USE;
+    ipmi_fru_area_type type = IPMI_FRU_AREA_INTERNAL_USE;
 
     // Name of the fru area. ( BOARD/CHASSIS/PRODUCT )
-    std::string iv_name;
+    std::string name;
 
     // Length of a specific fru area.
-    size_t iv_len = 0;
+    size_t len = 0;
 
     // Special bit for BMC readable eeprom only.
-    bool iv_bmc_fru = false;
+    bool bmc_fru = false;
 
     // If a FRU is physically present.
-    bool iv_present = false;
+    bool isPresent = false;
 
     // Whether a particular area is valid ?
-    bool iv_valid = false;
+    bool isValid = false;
 
     // Actual area data.
-    uint8_t* iv_data = nullptr;
+    uint8_t* data = nullptr;
 
     // fru inventory dbus name
-    std::string iv_bus_name;
+    std::string bus_name;
 
     // fru inventory dbus object path
-    std::string iv_obj_path;
+    std::string obj_path;
 
     // fru inventory dbus interface name
-    std::string iv_intf_name;
+    std::string intf_name;
 
     // Default constructor disabled.
     IPMIFruArea();
@@ -61,73 +61,73 @@ class IPMIFruArea
     // If a particular area has been marked valid / invalid
     inline bool is_valid() const
     {
-        return iv_valid;
+        return isValid;
     }
 
     // Sets the present bit
     inline void set_present(const bool present)
     {
-        iv_present = present;
+        isPresent = present;
     }
 
     // Sets the valid bit for a corresponding area.
     inline void set_valid(const bool valid)
     {
-        iv_valid = valid;
+        isValid = valid;
     }
 
     // If a particular area accessible only by BMC
     inline bool is_bmc_fru() const
     {
-        return iv_bmc_fru;
+        return bmc_fru;
     }
 
     // returns fru id;
     uint8_t get_fruid() const
     {
-        return iv_fruid;
+        return fruid;
     }
 
     // Returns the length.
     size_t get_len() const
     {
-        return iv_len;
+        return len;
     }
 
     // Returns the type of the current fru area
     ipmi_fru_area_type get_type() const
     {
-        return iv_type;
+        return type;
     }
 
     // Returns the name
     const char* get_name() const
     {
-        return iv_name.c_str();
+        return name.c_str();
     }
 
     // Returns SD bus name
     const char* get_bus_name() const
     {
-        return iv_bus_name.c_str();
+        return bus_name.c_str();
     }
 
     // Retrns SD bus object path
     const char* get_obj_path() const
     {
-        return iv_obj_path.c_str();
+        return obj_path.c_str();
     }
 
     // Returns SD bus interface name
     const char* get_intf_name() const
     {
-        return iv_intf_name.c_str();
+        return intf_name.c_str();
     }
 
     // Returns the data portion
     inline uint8_t* get_data() const
     {
-        return iv_data;
+        return data;
     }
 
     // Accepts a pointer to data and sets it in the object.
