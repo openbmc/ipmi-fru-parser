@@ -20,11 +20,11 @@ using namespace phosphor::logging;
 ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
                                        ipmi_request_t request,
                                        ipmi_response_t response,
-                                       ipmi_data_len_t data_len,
+                                       ipmi_data_len_t dataLen,
                                        ipmi_context_t context)
 {
     FILE* fp = NULL;
-    char fru_file_name[16] = {0};
+    char fruFilename[16] = {0};
     uint8_t offset = 0;
     uint16_t len = 0;
     ipmi_ret_t rc = IPMI_CC_INVALID;
@@ -34,7 +34,7 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     auto reqptr = static_cast<write_fru_data_t*>(request);
 
     // Maintaining a temporary file to pump the data
-    std::sprintf(fru_file_name, "%s%02x", "/tmp/ipmifru", reqptr->frunum);
+    std::sprintf(fruFilename, "%s%02x", "/tmp/ipmifru", reqptr->frunum);
 
     offset = ((uint16_t)reqptr->offsetms) << 8 | reqptr->offsetls;
 
@@ -42,17 +42,17 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     // The header contains an extra byte to indicate the start of
     // the data (so didn't need to worry about word/byte boundaries)
     // hence the -1...
-    len = ((uint16_t)*data_len) - (sizeof(write_fru_data_t) - 1);
+    len = ((uint16_t)*dataLen) - (sizeof(write_fru_data_t) - 1);
 
     // On error there is no response data for this command.
-    *data_len = 0;
+    *dataLen = 0;
 
 #ifdef __IPMI__DEBUG__
-    log<level::DEBUG>("IPMI WRITE-FRU-DATA", entry("FILE=%s", fru_file_name),
+    log<level::DEBUG>("IPMI WRITE-FRU-DATA", entry("FILE=%s", fruFilename),
                       entry("OFFSET=%d", offset), entry("LENGTH=%d", len));
 #endif
 
-    if (access(fru_file_name, F_OK) == -1)
+    if (access(fruFilename, F_OK) == -1)
     {
         mode = "wb";
     }
@@ -61,12 +61,12 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
         mode = "rb+";
     }
 
-    if ((fp = std::fopen(fru_file_name, mode)) != NULL)
+    if ((fp = std::fopen(fruFilename, mode)) != NULL)
     {
         if (std::fseek(fp, offset, SEEK_SET))
         {
             log<level::ERR>("Seek into fru file failed",
-                            entry("FILE=%s", fru_file_name),
+                            entry("FILE=%s", fruFilename),
                             entry("ERRNO=%s", std::strerror(errno)));
             std::fclose(fp);
             return rc;
@@ -75,7 +75,7 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
         if (std::fwrite(&reqptr->data, len, 1, fp) != 1)
         {
             log<level::ERR>("Write into fru file failed",
-                            entry("FILE=%s", fru_file_name),
+                            entry("FILE=%s", fruFilename),
                             entry("ERRNO=%s", std::strerror(errno)));
             std::fclose(fp);
             return rc;
@@ -86,14 +86,14 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     else
     {
         log<level::ERR>("Error trying to write to fru file",
-                        entry("FILE=%s", fru_file_name));
+                        entry("FILE=%s", fruFilename));
         return rc;
     }
 
     // If we got here then set the resonse byte
     // to the number of bytes written
     std::memcpy(response, &len, 1);
-    *data_len = 1;
+    *dataLen = 1;
     rc = IPMI_CC_OK;
 
     // Get the reference to global sd_bus object
@@ -102,8 +102,8 @@ ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     // We received some bytes. It may be full or partial. Send a valid
     // FRU file to the inventory controller on DBus for the correct number
     sdbusplus::bus::bus bus{bus_type};
-    bool bmc_fru = false;
-    validateFRUArea(reqptr->frunum, fru_file_name, bus, bmc_fru);
+    bool bmcOnlyFru = false;
+    validateFRUArea(reqptr->frunum, fruFilename, bus, bmcOnlyFru);
 
     return rc;
 }
