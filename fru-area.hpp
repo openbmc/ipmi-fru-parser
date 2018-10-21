@@ -137,15 +137,6 @@ class ipmi_fru
         return iv_data;
     }
 
-    // Returns the bus type.
-    inline sd_bus* get_bus_type() const
-    {
-        return iv_bus_type;
-    }
-
-    // Sets up the sd_bus variables for the given AREA type
-    int setup_sd_bus_paths(void);
-
     // Accepts a pointer to data and sets it in the object.
     void set_data(const uint8_t*, const size_t);
 
