@@ -49,9 +49,8 @@ IPMIFruArea::IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
 //-----------------------------------------------------
 void IPMIFruArea::setData(const uint8_t* value, const size_t length)
 {
-    len = length;
-    data = new uint8_t[len];
-    std::memcpy(data, value, len);
+    data.reserve(length); // pre-allocate the space.
+    data.insert(data.begin(), value, value + length);
 }
 
 //-----------------------------------------------------
@@ -70,9 +69,4 @@ void IPMIFruArea::updateDbusPaths(const char* bus, const char* path,
 //-------------------
 IPMIFruArea::~IPMIFruArea()
 {
-    if (data != NULL)
-    {
-        delete[] data;
-        data = NULL;
-    }
 }
