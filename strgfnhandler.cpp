@@ -17,11 +17,11 @@ using namespace phosphor::logging;
 ///-------------------------------------------------------
 // Called by IPMI netfn router for write fru data command
 //--------------------------------------------------------
-ipmi_ret_t ipmi_storage_write_fru_data(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
-                                       ipmi_request_t request,
-                                       ipmi_response_t response,
-                                       ipmi_data_len_t dataLen,
-                                       ipmi_context_t context)
+ipmi_ret_t ipmiStorageWriteFruData(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
+                                   ipmi_request_t request,
+                                   ipmi_response_t response,
+                                   ipmi_data_len_t dataLen,
+                                   ipmi_context_t context)
 {
     FILE* fp = NULL;
     char fruFilename[16] = {0};
@@ -117,5 +117,5 @@ void register_netfn_storage_write_fru()
                 IPMI_CMD_WRITE_FRU_DATA);
 
     ipmi_register_callback(NETFUN_STORAGE, IPMI_CMD_WRITE_FRU_DATA, NULL,
-                           ipmi_storage_write_fru_data, SYSTEM_INTERFACE);
+                           ipmiStorageWriteFruData, SYSTEM_INTERFACE);
 }
