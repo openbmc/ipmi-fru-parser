@@ -82,8 +82,8 @@ std::string getFRUValue(const std::string& section, const std::string& key,
     auto first = fruData.cbegin() + minIndexValue;
     auto last = first + (maxIndexValue - minIndexValue) + 1;
 
-    auto itr =
-        std::find_if(first, last, [&key](auto& e) { return key == e.first; });
+    auto itr = std::find_if(first, last,
+                            [&key](const auto& e) { return key == e.first; });
 
     if (itr != last)
     {
@@ -204,15 +204,15 @@ int updateInventory(FruAreaVector& area_vec, sd_bus* bus_sd)
     }
 
     ObjectMap objects;
-    for (auto& instance : instanceList)
+    for (const auto& instance : instanceList)
     {
         InterfaceMap interfaces;
         const auto& extrasIter = extras.find(instance.path);
 
-        for (auto& interfaceList : instance.interfaces)
+        for (const auto& interfaceList : instance.interfaces)
         {
             PropertyMap props; // store all the properties
-            for (auto& properties : interfaceList.second)
+            for (const auto& properties : interfaceList.second)
             {
                 std::string value;
                 decltype(auto) pdata = properties.second;
@@ -595,7 +595,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
     }
 
 #ifdef __IPMI_DEBUG__
-    for (auto& iter : fru_area_vec)
+    for (const auto& iter : fru_area_vec)
     {
         std::printf("FRU ID : [%d]\n", iter->getFruID());
         std::printf("AREA NAME : [%s]\n", iter->getName());
