@@ -15,13 +15,11 @@ class IPMIFruArea
 {
   public:
     IPMIFruArea() = delete;
+    ~IPMIFruArea() = default;
 
     // constructor
     IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
                 bool bmc_fru = false);
-
-    // Destructor
-    virtual ~IPMIFruArea();
 
     // Sets the present bit
     inline void setPresent(const bool present)
