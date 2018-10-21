@@ -52,14 +52,3 @@ void IPMIFruArea::setData(const uint8_t* value, const size_t length)
     data.reserve(length);  // pre-allocate the space.
     data.insert(data.begin(), value, value+length);
 }
-
-//-----------------------------------------------------
-// Sets the dbus parameters
-//-----------------------------------------------------
-void IPMIFruArea::updateDbusPaths(const char* bus, const char* path,
-                                  const char* intf)
-{
-    busName = bus;
-    objectPath = path;
-    interfaceName = intf;
-}
