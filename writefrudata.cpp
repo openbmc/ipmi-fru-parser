@@ -144,7 +144,7 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
 // Takes FRU data, invokes Parser for each fru record area and updates
 // Inventory
 //------------------------------------------------------------------------
-int updateInventory(FruAreaVector& area_vec, sd_bus* bus_sd)
+int updateInventory(FruAreaVector& area_vec, sdbusplus::bus::bus& bus)
 {
     // Generic error reporter
     int rc = 0;
@@ -173,7 +173,6 @@ int updateInventory(FruAreaVector& area_vec, sd_bus* bus_sd)
 
     // Here we are just printing the object,interface and the properties.
     // which needs to be called with the new inventory manager implementation.
-    sdbusplus::bus::bus bus{bus_sd};
     using namespace std::string_literals;
     static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
     static const auto path = "/xyz/openbmc_project/inventory"s;
@@ -514,7 +513,7 @@ int ipmi_validate_common_hdr(const uint8_t* fru_data, const size_t data_len)
 // Accepts the filename and validates per IPMI FRU spec
 //----------------------------------------------------
 int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
-                    sd_bus* bus_type, const bool bmc_fru)
+                    sdbusplus::bus::bus& bus, const bool bmc_fru)
 {
     size_t data_len = 0;
     size_t bytes_read = 0;
@@ -611,11 +610,10 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
     // inventory.
     if (!(fru_area_vec.empty()))
     {
-
 #ifdef __IPMI_DEBUG__
         std::printf("\n SIZE of vector is : [%d] \n", fru_area_vec.size());
 #endif
-        rc = updateInventory(fru_area_vec, bus_type);
+        rc = updateInventory(fru_area_vec, bus);
         if (rc < 0)
         {
             log<level::ERR>("Error updating inventory.");

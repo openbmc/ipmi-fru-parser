@@ -1,7 +1,7 @@
 #ifndef __IPMI_WRITE_FRU_DATA_H__
 #define __IPMI_WRITE_FRU_DATA_H__
 
-#include <systemd/sd-bus.h>
+#include <sdbusplus/bus.hpp>
 
 // IPMI commands for Storage net functions.
 enum ipmi_netfn_storage_cmds
@@ -46,10 +46,10 @@ struct common_header
  *
  * @param[in] fruid - The ID to use for this FRU.
  * @param[in] fru_file_name - the filename of the FRU.
- * @param[in] bus_type - a systemd bus for publishing the information.
+ * @param[in] bus - an sdbusplus systemd bus for publishing the information.
  * @param[in] bmc_fru - If a particular area accessible only by BMC.
  */
 int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
-                    sd_bus* bus_type, const bool bmc_fru);
+                    sdbusplus::bus::bus& bus, const bool bmc_fru);
 
 #endif
