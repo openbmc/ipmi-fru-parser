@@ -19,7 +19,7 @@ class IPMIFruArea
 
     // constructor
     IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
-                bool bmc_fru = false);
+                bool bmcOnlyFru = false);
 
     // Sets the present bit
     inline void setPresent(const bool present)
@@ -54,19 +54,19 @@ class IPMIFruArea
     // Returns SD bus name
     const char* getBusName() const
     {
-        return bus_name.c_str();
+        return busName.c_str();
     }
 
     // Retrns SD bus object path
     const char* getObjectPath() const
     {
-        return obj_path.c_str();
+        return objectPath.c_str();
     }
 
     // Returns SD bus interface name
     const char* getInterfaceName() const
     {
-        return intf_name.c_str();
+        return interfaceName.c_str();
     }
 
     // Returns the data portion
@@ -92,7 +92,7 @@ class IPMIFruArea
     std::string name;
 
     // Special bit for BMC readable eeprom only.
-    bool bmc_fru = false;
+    bool bmcOnlyFru = false;
 
     // If a FRU is physically present.
     bool isPresent = false;
@@ -104,13 +104,13 @@ class IPMIFruArea
     std::vector<uint8_t> data;
 
     // fru inventory dbus name
-    std::string bus_name;
+    std::string busName;
 
     // fru inventory dbus object path
-    std::string obj_path;
+    std::string objectPath;
 
     // fru inventory dbus interface name
-    std::string intf_name;
+    std::string interfaceName;
 };
 
 #endif
