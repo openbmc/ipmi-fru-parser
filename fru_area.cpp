@@ -8,9 +8,6 @@
 
 using namespace phosphor::logging;
 
-//----------------------------------------------------------------
-// Constructor
-//----------------------------------------------------------------
 IPMIFruArea::IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type,
                          bool bmcOnlyFru) :
     fruID(fruID),
@@ -43,10 +40,6 @@ IPMIFruArea::IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type,
     }
 }
 
-//-----------------------------------------------------
-// For a FRU area type, accepts the data and updates
-// area specific data.
-//-----------------------------------------------------
 void IPMIFruArea::setData(const uint8_t* value, const size_t length)
 {
     data.reserve(length);  // pre-allocate the space.
