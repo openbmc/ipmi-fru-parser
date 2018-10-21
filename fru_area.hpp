@@ -22,76 +22,76 @@ class IPMIFruArea
     virtual ~IPMIFruArea();
 
     // If a particular area has been marked valid / invalid
-    inline bool is_valid() const
+    inline bool getValid() const
     {
         return isValid;
     }
 
     // Sets the present bit
-    inline void set_present(const bool present)
+    inline void setPresent(const bool present)
     {
         isPresent = present;
     }
 
     // If a particular area accessible only by BMC
-    inline bool is_bmc_fru() const
+    inline bool getBMCFru() const
     {
         return bmc_fru;
     }
 
     // returns fru id;
-    uint8_t get_fruid() const
+    uint8_t getFruID() const
     {
         return fruid;
     }
 
     // Returns the length.
-    size_t get_len() const
+    size_t getLength() const
     {
         return len;
     }
 
     // Returns the type of the current fru area
-    ipmi_fru_area_type get_type() const
+    ipmi_fru_area_type getType() const
     {
         return type;
     }
 
     // Returns the name
-    const char* get_name() const
+    const char* getName() const
     {
         return name.c_str();
     }
 
     // Returns SD bus name
-    const char* get_bus_name() const
+    const char* getBusName() const
     {
         return bus_name.c_str();
     }
 
     // Retrns SD bus object path
-    const char* get_obj_path() const
+    const char* getObjectPath() const
     {
         return obj_path.c_str();
     }
 
     // Returns SD bus interface name
-    const char* get_intf_name() const
+    const char* getInterfaceName() const
     {
         return intf_name.c_str();
     }
 
     // Returns the data portion
-    inline uint8_t* get_data() const
+    inline uint8_t* getData() const
     {
         return data;
     }
 
     // Accepts a pointer to data and sets it in the object.
-    void set_data(const uint8_t*, const size_t);
+    void setData(const uint8_t*, const size_t);
 
     // Sets the dbus parameters
-    void update_dbus_paths(const char*, const char*, const char*);
+    void updateDbusPaths(const char*, const char*, const char*);
 
   private:
     // Unique way of identifying a FRU
