@@ -11,41 +11,70 @@
 
 using std::uint8_t;
 
+/**
+ * IPMIFruArea represents a piece of a FRU that is accessible over IPMI.
+ */
 class IPMIFruArea
 {
   public:
     IPMIFruArea() = delete;
     ~IPMIFruArea() = default;
 
-    // constructor
+    /**
+     * Construct an IPMIFruArea.
+     *
+     * @param[in] fruID - Fru identifier value
+     * @param[in] type - the type of Fru area.
+     * @param[in] bmcOnlyFru - Is this Fru only accessible via the BMC
+     */
     IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type,
                 bool bmcOnlyFru = false);
 
-    // Sets the present bit
+    /**
+     * Set whether the Fru is present.
+     *
+     * @param[in] present - bool whether it's present or not.
+     */
     inline void setPresent(const bool present)
     {
         isPresent = present;
     }
 
-    // returns fru id;
+    /**
+     * Retrieves the Fru's ID.
+     *
+     * @return the Fru ID.
+     */
     uint8_t getFruID() const
     {
         return fruID;
     }
 
-    // Returns the length.
+    /**
+     *  Returns the length of the Fru data.
+     *
+     * @return the number of bytes.
+     */
     size_t getLength() const
     {
         return data.size();
     }
 
-    // Returns the type of the current fru area
+    /**
+     * Returns the type of the current fru area.
+     *
+     * @return the type of fru area
+     */
     ipmi_fru_area_type getType() const
     {
         return type;
     }
 
-    // Returns the name
+    /**
+     * Returns the Fru area name.
+     *
+     * @return the Fru area name
+     */
     const char* getName() const
     {
         return name.c_str();
