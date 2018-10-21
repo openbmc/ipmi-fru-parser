@@ -63,10 +63,3 @@ void IPMIFruArea::updateDbusPaths(const char* bus, const char* path,
     obj_path = path;
     intf_name = intf;
 }
-
-//-------------------
-// Destructor
-//-------------------
-IPMIFruArea::~IPMIFruArea()
-{
-}
