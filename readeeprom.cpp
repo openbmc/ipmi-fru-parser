@@ -25,9 +25,6 @@ int main(int argc, char** argv)
     int rc = 0;
     uint8_t fruid = 0;
 
-    // Handle to per process system bus
-    sd_bus* bus_type = NULL;
-
     // Read the arguments.
     auto cli_options = std::make_unique<ArgumentParser>(argc, argv);
 
@@ -57,23 +54,11 @@ int main(int argc, char** argv)
     // Finished getting options out, so release the parser.
     cli_options.release();
 
-    // Get a handle to System Bus
-    rc = sd_bus_open_system(&bus_type);
-    if (rc < 0)
-    {
-        log<level::ERR>("Failed to connect to system bus",
-                        entry("ERRNO=%s", std::strerror(-rc)));
-    }
-    else
-    {
-        // Now that we have the file that contains the eeprom data, go read it
-        // and update the Inventory DB.
-        bool bmc_fru = true;
-        rc = validateFRUArea(fruid, eeprom_file.c_str(), bus_type, bmc_fru);
-    }
-
-    // Cleanup
-    sd_bus_unref(bus_type);
+    // Now that we have the file that contains the eeprom data, go read it
+    // and update the Inventory DB.
+    auto bus = sdbusplus::bus::new_default();
+    bool bmc_fru = true;
+    rc = validateFRUArea(fruid, eeprom_file.c_str(), bus, bmc_fru);
 
     return (rc < 0 ? EXIT_FAILURE : EXIT_SUCCESS);
 }
