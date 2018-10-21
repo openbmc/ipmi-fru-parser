@@ -45,11 +45,11 @@ struct common_header
  * Validate a FRU.
  *
  * @param[in] fruid - The ID to use for this FRU.
- * @param[in] fru_file_name - the filename of the FRU.
+ * @param[in] fruFilename - the filename of the FRU.
  * @param[in] bus - an sdbusplus systemd bus for publishing the information.
- * @param[in] bmc_fru - If a particular area accessible only by BMC.
+ * @param[in] bmcOnlyFru - If a particular area accessible only by BMC.
  */
-int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
-                    sdbusplus::bus::bus& bus, const bool bmc_fru);
+int validateFRUArea(const uint8_t fruid, const char* fruFilename,
+                    sdbusplus::bus::bus& bus, const bool bmcOnlyFru);
 
 #endif
