@@ -38,7 +38,7 @@ class IPMIFruArea
     // Returns the length.
     size_t getLength() const
     {
-        return len;
+        return data.size();
     }
 
     // Returns the type of the current fru area
@@ -72,9 +72,9 @@ class IPMIFruArea
     }
 
     // Returns the data portion
-    inline uint8_t* getData() const
+    inline const uint8_t* getData() const
     {
-        return data;
+        return data.data();
     }
 
     // Accepts a pointer to data and sets it in the object.
@@ -93,9 +93,6 @@ class IPMIFruArea
     // Name of the fru area. ( BOARD/CHASSIS/PRODUCT )
     std::string name;
 
-    // Length of a specific fru area.
-    size_t len = 0;
-
     // Special bit for BMC readable eeprom only.
     bool bmcOnlyFru = false;
 
@@ -106,7 +103,7 @@ class IPMIFruArea
     bool isValid = false;
 
     // Actual area data.
-    uint8_t* data = nullptr;
+    std::vector<uint8_t> data;
 
     // fru inventory dbus name
     std::string busName;
