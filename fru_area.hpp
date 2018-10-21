@@ -70,12 +70,6 @@ class IPMIFruArea
         iv_present = present;
     }
 
-    // Sets the valid bit for a corresponding area.
-    inline void set_valid(const bool valid)
-    {
-        iv_valid = valid;
-    }
-
     // If a particular area accessible only by BMC
     inline bool is_bmc_fru() const
     {
