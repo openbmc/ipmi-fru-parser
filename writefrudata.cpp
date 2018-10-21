@@ -101,7 +101,9 @@ std::string getFRUValue(const std::string& section, const std::string& key,
         {
             size_t delimiterpos = fruValue.find(delimiter);
             if (delimiterpos != std::string::npos)
+            {
                 fruValue = fruValue.substr(delimiterpos + 1);
+            }
         }
     }
     return fruValue;
