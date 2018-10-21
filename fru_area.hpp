@@ -13,43 +13,6 @@ using std::uint8_t;
 
 class IPMIFruArea
 {
-  private:
-    // Unique way of identifying a FRU
-    uint8_t fruid = 0;
-
-    // Type of the fru matching offsets in common header
-    ipmi_fru_area_type type = IPMI_FRU_AREA_INTERNAL_USE;
-
-    // Name of the fru area. ( BOARD/CHASSIS/PRODUCT )
-    std::string name;
-
-    // Length of a specific fru area.
-    size_t len = 0;
-
-    // Special bit for BMC readable eeprom only.
-    bool bmc_fru = false;
-
-    // If a FRU is physically present.
-    bool isPresent = false;
-
-    // Whether a particular area is valid ?
-    bool isValid = false;
-
-    // Actual area data.
-    uint8_t* data = nullptr;
-
-    // fru inventory dbus name
-    std::string bus_name;
-
-    // fru inventory dbus object path
-    std::string obj_path;
-
-    // fru inventory dbus interface name
-    std::string intf_name;
-
-    // Default constructor disabled.
-    IPMIFruArea();
-
   public:
     // constructor
     IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
@@ -117,6 +80,43 @@ class IPMIFruArea
 
     // Sets the dbus parameters
     void update_dbus_paths(const char*, const char*, const char*);
+
+  private:
+    // Unique way of identifying a FRU
+    uint8_t fruid = 0;
+
+    // Type of the fru matching offsets in common header
+    ipmi_fru_area_type type = IPMI_FRU_AREA_INTERNAL_USE;
+
+    // Name of the fru area. ( BOARD/CHASSIS/PRODUCT )
+    std::string name;
+
+    // Length of a specific fru area.
+    size_t len = 0;
+
+    // Special bit for BMC readable eeprom only.
+    bool bmc_fru = false;
+
+    // If a FRU is physically present.
+    bool isPresent = false;
+
+    // Whether a particular area is valid ?
+    bool isValid = false;
+
+    // Actual area data.
+    uint8_t* data = nullptr;
+
+    // fru inventory dbus name
+    std::string bus_name;
+
+    // fru inventory dbus object path
+    std::string obj_path;
+
+    // fru inventory dbus interface name
+    std::string intf_name;
+
+    // Default constructor disabled.
+    IPMIFruArea();
 };
 
 #endif
