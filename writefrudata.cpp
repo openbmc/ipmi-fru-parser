@@ -463,9 +463,9 @@ int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
             // of the fields populated. Update the data portion now.
             for (auto& iter : fru_area_vec)
             {
-                if ((iter)->getType() == get_fru_area_type(fru_entry))
+                if (iter->getType() == get_fru_area_type(fru_entry))
                 {
-                    (iter)->setData(area_data, area_len);
+                    iter->setData(area_data, area_len);
                 }
             }
         } // If we have fru data present
@@ -597,13 +597,13 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
 #ifdef __IPMI_DEBUG__
     for (auto& iter : fru_area_vec)
     {
-        std::printf("FRU ID : [%d]\n", (iter)->getFruID());
-        std::printf("AREA NAME : [%s]\n", (iter)->getName());
-        std::printf("TYPE : [%d]\n", (iter)->getType());
-        std::printf("LEN : [%d]\n", (iter)->getLength());
-        std::printf("BUS NAME : [%s]\n", (iter)->getBusName());
-        std::printf("OBJ PATH : [%s]\n", (iter)->getObjectPath());
-        std::printf("INTF NAME :[%s]\n", (iter)->getIntfName());
+        std::printf("FRU ID : [%d]\n", iter->getFruID());
+        std::printf("AREA NAME : [%s]\n", iter->getName());
+        std::printf("TYPE : [%d]\n", iter->getType());
+        std::printf("LEN : [%d]\n", iter->getLength());
+        std::printf("BUS NAME : [%s]\n", iter->getBusName());
+        std::printf("OBJ PATH : [%s]\n", iter->getObjectPath());
+        std::printf("INTF NAME :[%s]\n", iter->getIntfName());
     }
 #endif
 
