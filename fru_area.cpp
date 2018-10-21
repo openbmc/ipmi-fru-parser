@@ -47,7 +47,7 @@ IPMIFruArea::IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
 // For a FRU area type, accepts the data and updates
 // area specific data.
 //-----------------------------------------------------
-void IPMIFruArea::set_data(const uint8_t* value, const size_t length)
+void IPMIFruArea::setData(const uint8_t* value, const size_t length)
 {
     len = length;
     data = new uint8_t[len];
@@ -57,8 +57,8 @@ void IPMIFruArea::set_data(const uint8_t* value, const size_t length)
 //-----------------------------------------------------
 // Sets the dbus parameters
 //-----------------------------------------------------
-void IPMIFruArea::update_dbus_paths(const char* bus, const char* path,
-                                    const char* intf)
+void IPMIFruArea::updateDbusPaths(const char* bus, const char* path,
+                                  const char* intf)
 {
     bus_name = bus;
     obj_path = path;
