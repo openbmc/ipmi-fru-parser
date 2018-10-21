@@ -280,7 +280,7 @@ int updateInventory(FruAreaVector& area_vec, sdbusplus::bus::bus& bus)
 // and returns the 8 bit checksum
 // This algo is per IPMI V2.0 spec
 //-------------------------------------------------
-unsigned char calculate_crc(const unsigned char* data, size_t len)
+unsigned char calculateCRC(const unsigned char* data, size_t len)
 {
     char crc = 0;
     size_t byte = 0;
@@ -296,7 +296,7 @@ unsigned char calculate_crc(const unsigned char* data, size_t len)
 //---------------------------------------------------------------------
 // Accepts a fru area offset in commom hdr and tells which area it is.
 //---------------------------------------------------------------------
-ipmi_fru_area_type get_fru_area_type(uint8_t area_offset)
+ipmi_fru_area_type getFruAreaType(uint8_t area_offset)
 {
     ipmi_fru_area_type type = IPMI_FRU_AREA_TYPE_MAX;
 
@@ -332,7 +332,7 @@ ipmi_fru_area_type get_fru_area_type(uint8_t area_offset)
 ///-----------------------------------------------
 // Validates the data for crc and mandatory fields
 ///-----------------------------------------------
-int verify_fru_data(const uint8_t* data, const size_t len)
+int verifyFruData(const uint8_t* data, const size_t len)
 {
     uint8_t checksum = 0;
     int rc = -1;
@@ -354,7 +354,7 @@ int verify_fru_data(const uint8_t* data, const size_t len)
 
     // See if the calculated CRC matches with the embedded one.
     // CRC to be calculated on all except the last one that is CRC itself.
-    checksum = calculate_crc(data, len - 1);
+    checksum = calculateCRC(data, len - 1);
     if (checksum != data[len - 1])
     {
 #ifdef __IPMI_DEBUG__
@@ -378,7 +378,7 @@ int verify_fru_data(const uint8_t* data, const size_t len)
 ///----------------------------------------------------
 // Checks if a particular fru area is populated or not
 ///----------------------------------------------------
-bool remove_invalid_area(const std::unique_ptr<IPMIFruArea>& fru_area)
+bool removeInvalidArea(const std::unique_ptr<IPMIFruArea>& fru_area)
 {
     // Filter the ones that are empty
     if (!(fru_area->getLength()))
@@ -392,8 +392,8 @@ bool remove_invalid_area(const std::unique_ptr<IPMIFruArea>& fru_area)
 // Populates various FRU areas
 // @prereq : This must be called only after validating common header.
 ///----------------------------------------------------------------------------------
-int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
-                            FruAreaVector& fru_area_vec)
+int ipmiPopulateFruAreas(uint8_t* fru_data, const size_t data_len,
+                         FruAreaVector& fru_area_vec)
 {
     int rc = -1;
 
@@ -445,7 +445,7 @@ int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
                         area_len);
 
             // Validate the crc
-            rc = verify_fru_data(area_data, area_len);
+            rc = verifyFruData(area_data, area_len);
             if (rc < 0)
             {
                 log<level::ERR>("Err validating fru area",
@@ -462,7 +462,7 @@ int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
             // of the fields populated. Update the data portion now.
             for (auto& iter : fru_area_vec)
             {
-                if (iter->getType() == get_fru_area_type(fru_entry))
+                if (iter->getType() == getFruAreaType(fru_entry))
                 {
                     iter->setData(area_data, area_len);
                 }
@@ -473,7 +473,7 @@ int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
     // Not all the fields will be populated in a fru data. Mostly all cases will
     // not have more than 2 or 3.
     fru_area_vec.erase(std::remove_if(fru_area_vec.begin(), fru_area_vec.end(),
-                                      remove_invalid_area),
+                                      removeInvalidArea),
                        fru_area_vec.end());
 
     return EXIT_SUCCESS;
@@ -483,7 +483,7 @@ int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
 // Validates the fru data per ipmi common header constructs.
 // Returns with updated common_hdr and also file_size
 //----------------------------------------------------------
-int ipmi_validate_common_hdr(const uint8_t* fru_data, const size_t data_len)
+int ipmiValidateCommonHeader(const uint8_t* fru_data, const size_t data_len)
 {
     int rc = -1;
 
@@ -499,7 +499,7 @@ int ipmi_validate_common_hdr(const uint8_t* fru_data, const size_t data_len)
     }
 
     // Verify the crc and size
-    rc = verify_fru_data(common_hdr, sizeof(common_hdr));
+    rc = verifyFruData(common_hdr, sizeof(common_hdr));
     if (rc < 0)
     {
         log<level::ERR>("Failed to validate common header");
@@ -528,7 +528,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
     {
         // Create an object and push onto a vector.
         std::unique_ptr<IPMIFruArea> fru_area = std::make_unique<IPMIFruArea>(
-            fruid, get_fru_area_type(fru_entry), bmc_fru);
+            fruid, getFruAreaType(fru_entry), bmc_fru);
 
         // Physically being present
         bool present = access(fru_file_name, F_OK) == 0;
@@ -573,7 +573,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
     std::fclose(fru_fp);
     fru_fp = NULL;
 
-    rc = ipmi_validate_common_hdr(fru_data, data_len);
+    rc = ipmiValidateCommonHeader(fru_data, data_len);
     if (rc < 0)
     {
         return cleanupError(fru_fp, fru_area_vec);
@@ -581,7 +581,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
 
     // Now that we validated the common header, populate various fru sections if
     // we have them here.
-    rc = ipmi_populate_fru_areas(fru_data, data_len, fru_area_vec);
+    rc = ipmiPopulateFruAreas(fru_data, data_len, fru_area_vec);
     if (rc < 0)
     {
         log<level::ERR>("Populating FRU areas failed", entry("FRU=%d", fruid));
