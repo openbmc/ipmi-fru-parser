@@ -14,6 +14,8 @@ using std::uint8_t;
 class IPMIFruArea
 {
   public:
+    IPMIFruArea() = delete;
+
     // constructor
     IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
                 bool bmc_fru = false);
@@ -114,9 +116,6 @@ class IPMIFruArea
 
     // fru inventory dbus interface name
     std::string intf_name;
-
-    // Default constructor disabled.
-    IPMIFruArea();
 };
 
 #endif
