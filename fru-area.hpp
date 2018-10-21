@@ -51,16 +51,13 @@ class ipmi_fru
     // fru inventory dbus interface name
     std::string iv_intf_name;
 
-    // sd_bus handle
-    sd_bus* iv_bus_type = nullptr;
-
     // Default constructor disabled.
     ipmi_fru();
 
   public:
     // constructor
     ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
-             sd_bus* bus_type, bool bmc_fru = false);
+             bool bmc_fru = false);
 
     // Destructor
     virtual ~ipmi_fru();

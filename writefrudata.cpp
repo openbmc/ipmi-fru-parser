@@ -278,12 +278,11 @@ int updateInventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
 // Constructor
 //----------------------------------------------------------------
 ipmi_fru::ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
-                   sd_bus* bus_type, bool bmc_fru)
+                   bool bmc_fru)
 {
     iv_fruid = fruid;
     iv_type = type;
     iv_bmc_fru = bmc_fru;
-    iv_bus_type = bus_type;
     iv_valid = false;
     iv_data = NULL;
     iv_present = false;
@@ -602,7 +601,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
     {
         // Create an object and push onto a vector.
         std::unique_ptr<ipmi_fru> fru_area = std::make_unique<ipmi_fru>(
-            fruid, get_fru_area_type(fru_entry), bus_type, bmc_fru);
+            fruid, get_fru_area_type(fru_entry), bmc_fru);
 
         // Physically being present
         bool present = access(fru_file_name, F_OK) == 0;
