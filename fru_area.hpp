@@ -17,8 +17,8 @@ class IPMIFruArea
     IPMIFruArea() = delete;
 
     // constructor
-    IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
-                bool bmc_fru = false);
+    IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type,
+                bool bmcOnlyFru = false);
 
     // Destructor
     virtual ~IPMIFruArea();
@@ -32,7 +32,7 @@ class IPMIFruArea
     // returns fru id;
     uint8_t getFruID() const
     {
-        return fruid;
+        return fruID;
     }
 
     // Returns the length.
@@ -56,19 +56,19 @@ class IPMIFruArea
     // Returns SD bus name
     const char* getBusName() const
     {
-        return bus_name.c_str();
+        return busName.c_str();
     }
 
     // Retrns SD bus object path
     const char* getObjectPath() const
     {
-        return obj_path.c_str();
+        return objectPath.c_str();
     }
 
     // Returns SD bus interface name
     const char* getInterfaceName() const
     {
-        return intf_name.c_str();
+        return interfaceName.c_str();
     }
 
     // Returns the data portion
@@ -85,7 +85,7 @@ class IPMIFruArea
 
   private:
     // Unique way of identifying a FRU
-    uint8_t fruid = 0;
+    uint8_t fruID = 0;
 
     // Type of the fru matching offsets in common header
     ipmi_fru_area_type type = IPMI_FRU_AREA_INTERNAL_USE;
@@ -97,7 +97,7 @@ class IPMIFruArea
     size_t len = 0;
 
     // Special bit for BMC readable eeprom only.
-    bool bmc_fru = false;
+    bool bmcOnlyFru = false;
 
     // If a FRU is physically present.
     bool isPresent = false;
@@ -109,13 +109,13 @@ class IPMIFruArea
     uint8_t* data = nullptr;
 
     // fru inventory dbus name
-    std::string bus_name;
+    std::string busName;
 
     // fru inventory dbus object path
-    std::string obj_path;
+    std::string objectPath;
 
     // fru inventory dbus interface name
-    std::string intf_name;
+    std::string interfaceName;
 };
 
 #endif
