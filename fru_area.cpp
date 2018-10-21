@@ -11,10 +11,10 @@ using namespace phosphor::logging;
 //----------------------------------------------------------------
 // Constructor
 //----------------------------------------------------------------
-IPMIFruArea::IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
-                         bool bmc_fru) :
-    fruid(fruid),
-    type(type), bmc_fru(bmc_fru)
+IPMIFruArea::IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type,
+                         bool bmcOnlyFru) :
+    fruID(fruID),
+    type(type), bmcOnlyFru(bmcOnlyFru)
 {
     if (type == IPMI_FRU_AREA_INTERNAL_USE)
     {
@@ -60,9 +60,9 @@ void IPMIFruArea::setData(const uint8_t* value, const size_t length)
 void IPMIFruArea::updateDbusPaths(const char* bus, const char* path,
                                   const char* intf)
 {
-    bus_name = bus;
-    obj_path = path;
-    intf_name = intf;
+    busName = bus;
+    objectPath = path;
+    interfaceName = intf;
 }
 
 //-------------------
