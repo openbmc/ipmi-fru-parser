@@ -12,9 +12,6 @@
 #include <string>
 #include <vector>
 
-class IPMIFruArea;
-typedef std::vector<std::unique_ptr<IPMIFruArea>> fru_area_vec_t;
-
 class IPMIFruArea
 {
   private:

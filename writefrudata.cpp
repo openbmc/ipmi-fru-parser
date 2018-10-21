@@ -27,6 +27,8 @@ using namespace phosphor::logging;
 extern const FruMap frus;
 extern const std::map<Path, InterfaceMap> extras;
 
+using FruAreaVector = std::vector<std::unique_ptr<IPMIFruArea>>;
+
 namespace
 {
 
@@ -34,7 +36,7 @@ namespace
 // Cleanup routine
 // Must always be called as last reference to fru_fp.
 //------------------------------------------------------------
-int cleanupError(FILE* fru_fp, fru_area_vec_t& fru_area_vec)
+int cleanupError(FILE* fru_fp, FruAreaVector& fru_area_vec)
 {
     if (fru_fp != NULL)
     {
@@ -142,7 +144,7 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
 // Takes FRU data, invokes Parser for each fru record area and updates
 // Inventory
 //------------------------------------------------------------------------
-int updateInventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
+int updateInventory(FruAreaVector& area_vec, sd_bus* bus_sd)
 {
     // Generic error reporter
     int rc = 0;
@@ -466,7 +468,7 @@ bool remove_invalid_area(const std::unique_ptr<IPMIFruArea>& fru_area)
 // @prereq : This must be called only after validating common header.
 ///----------------------------------------------------------------------------------
 int ipmi_populate_fru_areas(uint8_t* fru_data, const size_t data_len,
-                            fru_area_vec_t& fru_area_vec)
+                            FruAreaVector& fru_area_vec)
 {
     int rc = -1;
 
@@ -594,7 +596,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
 
     // Vector that holds individual IPMI FRU AREAs. Although MULTI and INTERNAL
     // are not used, keeping it here for completeness.
-    fru_area_vec_t fru_area_vec;
+    FruAreaVector fru_area_vec;
 
     for (uint8_t fru_entry = IPMI_FRU_INTERNAL_OFFSET;
          fru_entry < (sizeof(struct common_header) - 2); fru_entry++)
