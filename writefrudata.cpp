@@ -277,8 +277,8 @@ int updateInventory(fru_area_vec_t& area_vec, sd_bus* bus_sd)
 //----------------------------------------------------------------
 // Constructor
 //----------------------------------------------------------------
-ipmi_fru::ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
-                   bool bmc_fru)
+IPMIFruArea::IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
+                         bool bmc_fru)
 {
     iv_fruid = fruid;
     iv_type = type;
@@ -318,7 +318,7 @@ ipmi_fru::ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
 // For a FRU area type, accepts the data and updates
 // area specific data.
 //-----------------------------------------------------
-void ipmi_fru::set_data(const uint8_t* data, const size_t len)
+void IPMIFruArea::set_data(const uint8_t* data, const size_t len)
 {
     iv_len = len;
     iv_data = new uint8_t[len];
@@ -328,8 +328,8 @@ void ipmi_fru::set_data(const uint8_t* data, const size_t len)
 //-----------------------------------------------------
 // Sets the dbus parameters
 //-----------------------------------------------------
-void ipmi_fru::update_dbus_paths(const char* bus_name, const char* obj_path,
-                                 const char* intf_name)
+void IPMIFruArea::update_dbus_paths(const char* bus_name, const char* obj_path,
+                                    const char* intf_name)
 {
     iv_bus_name = bus_name;
     iv_obj_path = obj_path;
@@ -339,7 +339,7 @@ void ipmi_fru::update_dbus_paths(const char* bus_name, const char* obj_path,
 //-------------------
 // Destructor
 //-------------------
-ipmi_fru::~ipmi_fru()
+IPMIFruArea::~IPMIFruArea()
 {
     if (iv_data != NULL)
     {
@@ -451,7 +451,7 @@ int verify_fru_data(const uint8_t* data, const size_t len)
 ///----------------------------------------------------
 // Checks if a particular fru area is populated or not
 ///----------------------------------------------------
-bool remove_invalid_area(const std::unique_ptr<ipmi_fru>& fru_area)
+bool remove_invalid_area(const std::unique_ptr<IPMIFruArea>& fru_area)
 {
     // Filter the ones that are empty
     if (!(fru_area->get_len()))
@@ -600,7 +600,7 @@ int validateFRUArea(const uint8_t fruid, const char* fru_file_name,
          fru_entry < (sizeof(struct common_header) - 2); fru_entry++)
     {
         // Create an object and push onto a vector.
-        std::unique_ptr<ipmi_fru> fru_area = std::make_unique<ipmi_fru>(
+        std::unique_ptr<IPMIFruArea> fru_area = std::make_unique<IPMIFruArea>(
             fruid, get_fru_area_type(fru_entry), bmc_fru);
 
         // Physically being present

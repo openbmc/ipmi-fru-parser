@@ -12,10 +12,10 @@
 #include <string>
 #include <vector>
 
-class ipmi_fru;
-typedef std::vector<std::unique_ptr<ipmi_fru>> fru_area_vec_t;
+class IPMIFruArea;
+typedef std::vector<std::unique_ptr<IPMIFruArea>> fru_area_vec_t;
 
-class ipmi_fru
+class IPMIFruArea
 {
   private:
     // Unique way of identifying a FRU
@@ -52,15 +52,15 @@ class ipmi_fru
     std::string iv_intf_name;
 
     // Default constructor disabled.
-    ipmi_fru();
+    IPMIFruArea();
 
   public:
     // constructor
-    ipmi_fru(const uint8_t fruid, const ipmi_fru_area_type type,
-             bool bmc_fru = false);
+    IPMIFruArea(const uint8_t fruid, const ipmi_fru_area_type type,
+                bool bmc_fru = false);
 
     // Destructor
-    virtual ~ipmi_fru();
+    virtual ~IPMIFruArea();
 
     // If a particular area has been marked valid / invalid
     inline bool is_valid() const
