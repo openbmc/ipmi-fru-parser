@@ -4,13 +4,12 @@
 #include "frup.hpp"
 #include "writefrudata.hpp"
 
-#include <stddef.h>
-#include <stdint.h>
-#include <systemd/sd-bus.h>
-
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
+
+using std::uint8_t;
 
 class IPMIFruArea
 {
