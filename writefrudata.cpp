@@ -31,10 +31,14 @@ using FruAreaVector = std::vector<std::unique_ptr<IPMIFruArea>>;
 namespace
 {
 
-//------------------------------------------------------------
-// Cleanup routine
-// Must always be called as last reference to fruFilePointer.
-//------------------------------------------------------------
+/**
+ * Cleanup routine
+ * Must always be called as last reference to fruFilePointer.
+ *
+ * @param[in] fruFilePointer - fru file pointer to close
+ * @param[in] fruAreaVec - vector of Fru areas
+ * @return -1
+ */
 int cleanupError(FILE* fruFilePointer, FruAreaVector& fruAreaVec)
 {
     if (fruFilePointer != NULL)
@@ -50,10 +54,16 @@ int cleanupError(FILE* fruFilePointer, FruAreaVector& fruAreaVec)
     return -1;
 }
 
-//------------------------------------------------------------------------
-// Gets the value of the key from the fru dictionary of the given section.
-// FRU dictionary is parsed fru data for all the sections.
-//------------------------------------------------------------------------
+/**
+ * Gets the value of the key from the fru dictionary of the given section.
+ * FRU dictionary is parsed fru data for all the sections.
+ *
+ * @param[in] section - Fru section name
+ * @param[in] key - key for secion
+ * @param[in] delimiter - delimiter for parsing custom fields
+ * @param[in] fruData - the fru data to search for the section
+ * @return fru value
+ */
 std::string getFRUValue(const std::string& section, const std::string& key,
                         const std::string& delimiter, IPMIFruInfo& fruData)
 {
@@ -109,7 +119,14 @@ std::string getFRUValue(const std::string& section, const std::string& key,
     return fruValue;
 }
 
-// Get the inventory service from the mapper.
+/**
+ * Get the inventory service from the mapper.
+ *
+ * @param[in] bus - sdbusplus handle to use for dbus call
+ * @param[in] intf - interface
+ * @param[in] path - the object path
+ * @return the dbus service that owns the interface for that path
+ */
 auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
                 const std::string& path)
 {
@@ -142,9 +159,14 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
     return mapperResponse.begin()->first;
 }
 
-// Takes FRU data, invokes Parser for each fru record area and updates
-// Inventory
-//------------------------------------------------------------------------
+/**
+ * Takes FRU data, invokes Parser for each fru record area and updates
+ * inventory.
+ *
+ * @param[in] areaVector - vector of Fru areas
+ * @param[in] bus - handle to sdbus for calling methods, etc
+ * @return return non-zero of failure
+ */
 int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
 {
     // Generic error reporter
@@ -276,11 +298,13 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
 
 } // namespace
 
-//------------------------------------------------
-// Takes the pointer to stream of bytes and length
-// and returns the 8 bit checksum
-// This algo is per IPMI V2.0 spec
-//-------------------------------------------------
+/**
+ * Takes the pointer to stream of bytes and length and returns the 8 bit checksum.  This algo is per IPMI V2.0 spec
+ *
+ * @param[in] data - data for running crc
+ * @param[in] len - the length over which to run the crc
+ * @return the crc value
+ */
 unsigned char calculateCRC(const unsigned char* data, size_t len)
 {
     char crc = 0;
@@ -294,9 +318,12 @@ unsigned char calculateCRC(const unsigned char* data, size_t len)
     return (-crc);
 }
 
-//---------------------------------------------------------------------
-// Accepts a fru area offset in commom hdr and tells which area it is.
-//---------------------------------------------------------------------
+/**
+ * Accepts a fru area offset in commom hdr and tells which area it is.
+ *
+ * @param[in] areaOffset - offset to lookup the area type
+ * @return the ipmi_fru_area_type
+ */
 ipmi_fru_area_type getFruAreaType(uint8_t areaOffset)
 {
     ipmi_fru_area_type type = IPMI_FRU_AREA_TYPE_MAX;
@@ -330,9 +357,13 @@ ipmi_fru_area_type getFruAreaType(uint8_t areaOffset)
     return type;
 }
 
-///-----------------------------------------------
-// Validates the data for crc and mandatory fields
-///-----------------------------------------------
+/**
+ * Validates the data for crc and mandatory fields.
+ *
+ * @param[in] data - the data to verify
+ * @param[in] len - the length of the region to verify
+ * @return non-zero on failure
+ */
 int verifyFruData(const uint8_t* data, const size_t len)
 {
     uint8_t checksum = 0;
@@ -376,9 +407,12 @@ int verifyFruData(const uint8_t* data, const size_t len)
     return EXIT_SUCCESS;
 }
 
-///----------------------------------------------------
-// Checks if a particular fru area is populated or not
-///----------------------------------------------------
+/**
+ * Checks if a particular fru area is populated or not.
+ *
+ * @param[in] reference to fru area pointer
+ * @return true if the area is empty
+ */
 bool removeInvalidArea(const std::unique_ptr<IPMIFruArea>& fruArea)
 {
     // Filter the ones that are empty
@@ -389,10 +423,14 @@ bool removeInvalidArea(const std::unique_ptr<IPMIFruArea>& fruArea)
     return false;
 }
 
-///----------------------------------------------------------------------------------
-// Populates various FRU areas
-// @prereq : This must be called only after validating common header.
-///----------------------------------------------------------------------------------
+/**
+ * Populates various FRU areas.
+ *
+ * @prereq : This must be called only after validating common header
+ * @param[in] fruData - pointer to the fru bytes
+ * @param[in] dataLen - the length of the fru data
+ * @param[in] fruAreaVec - the fru area vector to update
+ */
 int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                          FruAreaVector& fruAreaVec)
 {
@@ -479,10 +517,14 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
     return EXIT_SUCCESS;
 }
 
-///---------------------------------------------------------
-// Validates the fru data per ipmi common header constructs.
-// Returns with updated struct common_header and also file_size
-//----------------------------------------------------------
+/**
+ * Validates the fru data per ipmi common header constructs.
+ * Returns with updated struct common_header and also file_size
+ *
+ * @param[in] fruData - the fru data
+ * @param[in] dataLen - the length of the data
+ * @return non-zero on failure
+ */
 int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
 {
     int rc = -1;
@@ -509,9 +551,6 @@ int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
     return EXIT_SUCCESS;
 }
 
-///-----------------------------------------------------
-// Accepts the filename and validates per IPMI FRU spec
-//----------------------------------------------------
 int validateFRUArea(const uint8_t fruid, const char* fruFilename,
                     sdbusplus::bus::bus& bus, const bool bmcOnlyFru)
 {
