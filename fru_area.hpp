@@ -58,28 +58,10 @@ class IPMIFruArea
     // Destructor
     virtual ~IPMIFruArea();
 
-    // If a particular area has been marked valid / invalid
-    inline bool is_valid() const
-    {
-        return iv_valid;
-    }
-
     // Sets the present bit
     inline void set_present(const bool present)
     {
         iv_present = present;
-    }
-
-    // Sets the valid bit for a corresponding area.
-    inline void set_valid(const bool valid)
-    {
-        iv_valid = valid;
-    }
-
-    // If a particular area accessible only by BMC
-    inline bool is_bmc_fru() const
-    {
-        return iv_bmc_fru;
     }
 
     // returns fru id;
