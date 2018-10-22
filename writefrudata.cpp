@@ -158,8 +158,9 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     {
         fruid = fruArea->getFruID();
         // Fill the container with information
-        rc = parse_fru_area((fruArea)->getType(), (void*)(fruArea)->getData(),
-                            (fruArea)->getLength(), fruData);
+        rc = parse_fru_area(fruArea->getType(),
+                            static_cast<const void*>(fruArea->getData()),
+                            fruArea->getLength(), fruData);
         if (rc < 0)
         {
             log<level::ERR>("Error parsing FRU records");
