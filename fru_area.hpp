@@ -17,6 +17,8 @@ using std::uint8_t;
 class IPMIFruArea
 {
   public:
+    static std::string getTypeFromName(ipmi_fru_area_type type);
+
     IPMIFruArea() = delete;
     ~IPMIFruArea() = default;
 
