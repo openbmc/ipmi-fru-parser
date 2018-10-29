@@ -17,6 +17,14 @@ using std::uint8_t;
 class IPMIFruArea
 {
   public:
+    /**
+     * Grab the name for an area given the type.
+     *
+     * @param[in] type - the FRU area type
+     * @return the name to use for this area.
+     */
+    static std::string getNameFromType(ipmi_fru_area_type type);
+
     IPMIFruArea() = delete;
     ~IPMIFruArea() = default;
 
