@@ -4,6 +4,7 @@ AC_INIT([ipmi-fru-parser], [1.0], [https://github.com/openbmc/ipmi-fru-parser/is
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror foreign dist-xz])
 AM_SILENT_RULES([yes])
+AC_LANG([C++])
 
 # Checks for programs.
 AC_PROG_CXX
