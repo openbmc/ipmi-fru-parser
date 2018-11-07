@@ -1,9 +1,3 @@
-#include "writefrudata.hpp"
-
-#include "fru_area.hpp"
-#include "frup.hpp"
-#include "types.hpp"
-
 #include <host-ipmid/ipmid-api.h>
 #include <unistd.h>
 
@@ -11,6 +5,8 @@
 #include <cstdio>
 #include <cstring>
 #include <exception>
+#include <fru_area.hpp>
+#include <frup.hpp>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -18,7 +14,9 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sstream>
+#include <types.hpp>
 #include <vector>
+#include <writefrudata.hpp>
 
 using namespace ipmi::vpd;
 using namespace phosphor::logging;
@@ -30,7 +28,6 @@ using FruAreaVector = std::vector<std::unique_ptr<IPMIFruArea>>;
 
 namespace
 {
-
 //------------------------------------------------------------
 // Cleanup routine
 // Must always be called as last reference to fruFilePointer.
@@ -142,6 +139,63 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
     return mapperResponse.begin()->first;
 }
 
+// MultiRecord area record name and num matching.
+// It is used by ipmiUpdateMultirecord function.
+std::map<std::string, ImpiMultirecordType> multirecordMap = {
+    {"PowerSupply", POWER_SUPPLY_INFO}, {"DcOutput", DC_OUTPUT}};
+
+//------------------------------------------------------------------------
+// Adding property values for Power Supply Information record
+//------------------------------------------------------------------------
+void ipmiUpdatePsuInfo(const PowerSupplyInfo& data, PropertyMap& props)
+{
+    props.emplace("OverallCapacity",
+                  static_cast<int64_t>(data.overallCapacity));
+    props.emplace("PeakVA", static_cast<int64_t>(data.peakVa));
+    props.emplace("InrushCurrent", static_cast<int64_t>(data.inrushCurrent));
+    props.emplace("InrushInterval", static_cast<int64_t>(data.inrushInterval));
+    props.emplace("LowInputVoltage1", static_cast<int64_t>(data.lowInVoltage1));
+    props.emplace("HighInputVoltage1",
+                  static_cast<int64_t>(data.highInVoltage1));
+    props.emplace("LowInputVoltage2", static_cast<int64_t>(data.lowInVoltage2));
+    props.emplace("HighInputVoltage2",
+                  static_cast<int64_t>(data.highInVoltage2));
+    props.emplace("LowInputFrequency",
+                  static_cast<int64_t>(data.lowInFrequency));
+    props.emplace("HighInputFrequency",
+                  static_cast<int64_t>(data.highInFrequency));
+    props.emplace("InDropoutTolerance",
+                  static_cast<int64_t>(data.inDropoutTolerance));
+    props.emplace("HoldUpTime", static_cast<int64_t>(data.holdUpTime()));
+    props.emplace("PeakCapacity", static_cast<int64_t>(data.peakCapacity()));
+    props.emplace("Voltage1", static_cast<int64_t>(data.voltage1()));
+    props.emplace("Voltage2", static_cast<int64_t>(data.voltage2()));
+    props.emplace("TotalWattage", static_cast<int64_t>(data.totalWattage));
+    props.emplace("TachometerLow", static_cast<int64_t>(data.tachometerLow));
+    props.emplace("HotSwap", data.hotSwap());
+    props.emplace("PinPolarity", data.pinPolarity());
+    props.emplace("Autoswitch", data.autoswitch());
+    props.emplace("PowerFactor", data.powerCorrection());
+    props.emplace("PredictiveFail", data.predictiveFail());
+}
+
+//------------------------------------------------------------------------
+// Adding property values for DC Output record
+//------------------------------------------------------------------------
+void ipmiUpdateDcLoad(const DcOutputInfo& data, PropertyMap& props)
+{
+    props.emplace("OutputNumber", static_cast<int64_t>(data.outNumber()));
+    props.emplace("NominalVoltage", static_cast<int64_t>(data.nominalVoltage));
+    props.emplace("MaxNegativeVoltage",
+                  static_cast<int64_t>(data.maxNegativeVoltage));
+    props.emplace("MaxPositiveVoltage",
+                  static_cast<int64_t>(data.maxPositiveVoltage));
+    props.emplace("RippleAndNoise", static_cast<int64_t>(data.rippleAndNoise));
+    props.emplace("MinCurrentDraw", static_cast<int64_t>(data.minCurrentDraw));
+    props.emplace("MaxCurrentDraw", static_cast<int64_t>(data.maxCurrentDraw));
+    props.emplace("Standby", data.standby());
+}
+
 // Takes FRU data, invokes Parser for each fru record area and updates
 // Inventory
 //------------------------------------------------------------------------
@@ -151,6 +205,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     int rc = 0;
     uint8_t fruid = 0;
     IPMIFruInfo fruData;
+    IPMIMultiInfo multiData;
 
     // For each FRU area, extract the needed data , get it parsed and update
     // the Inventory.
@@ -160,7 +215,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
         // Fill the container with information
         rc = parse_fru_area(fruArea->getType(),
                             static_cast<const void*>(fruArea->getData()),
-                            fruArea->getLength(), fruData);
+                            fruArea->getLength(), fruData, multiData);
         if (rc < 0)
         {
             log<level::ERR>("Error parsing FRU records");
@@ -192,8 +247,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     auto iter = frus.find(fruid);
     if (iter == frus.end())
     {
-        log<level::ERR>("Unable to get the fru info",
-                        entry("FRU=%d", static_cast<int>(fruid)));
+        log<level::ERR>("Unable to get the fru info", entry("FRU=%d", fruid));
         return -1;
     }
 
@@ -201,7 +255,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     if (instanceList.size() <= 0)
     {
         log<level::DEBUG>("Object list empty for this FRU",
-                          entry("FRU=%d", static_cast<int>(fruid)));
+                          entry("FRU=%d", fruid));
     }
 
     ObjectMap objects;
@@ -209,6 +263,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     {
         InterfaceMap interfaces;
         const auto& extrasIter = extras.find(instance.path);
+        bool skipObject = false;
 
         for (const auto& interfaceList : instance.interfaces)
         {
@@ -217,6 +272,49 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
             {
                 std::string value;
                 decltype(auto) pdata = properties.second;
+
+                // if object refers to multirecord data, skip it
+                if (pdata.section == "MultiRecord" &&
+                    properties.first == "Data")
+                {
+                    auto mapIt = multirecordMap.find(pdata.property);
+                    if (mapIt == multirecordMap.end())
+                        continue;
+
+                    int i = 0;
+                    for (auto it = multiData.begin(); it != multiData.end();
+                         ++it)
+                    {
+                        if (it->type == mapIt->second)
+                        {
+                            PropertyMap props;
+                            InterfaceMap interfaces;
+                            switch (mapIt->second)
+                            {
+                                case POWER_SUPPLY_INFO:
+                                    ipmiUpdatePsuInfo(it->data.powerSupplyInfo,
+                                                      props);
+                                    break;
+                                case DC_OUTPUT:
+                                    ipmiUpdateDcLoad(it->data.dcOutputInfo,
+                                                     props);
+                                    break;
+                                default:
+                                    continue;
+                                    break;
+                            }
+                            interfaces.emplace(std::move(interfaceList.first),
+                                               std::move(props));
+                            sdbusplus::message::object_path path =
+                                instance.path + std::to_string(i);
+                            objects.emplace(path, interfaces);
+                            ++i;
+                        }
+                    }
+
+                    skipObject = true;
+                    continue;
+                }
 
                 if (!pdata.section.empty() && !pdata.property.empty())
                 {
@@ -255,7 +353,11 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
                 }
             }
         }
-        objects.emplace(objectPath, interfaces);
+
+        if (!skipObject)
+        {
+            objects.emplace(objectPath, interfaces);
+        }
     }
 
     auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
@@ -427,6 +529,30 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
 
             // Size of this area will be the 2nd byte in the fru area header.
             size_t areaLen = areaHeader[1] * IPMI_EIGHT_BYTES;
+
+            // We skip checking for some entries because:
+            //  * The `Internal Use Area` has an unknown format
+            //    and we can't validate it.
+            //  * The `MultiRecord Area` has different format and
+            //    it will checked later.
+            bool isCheckable = (fruEntry != IPMI_FRU_INTERNAL_OFFSET &&
+                                fruEntry != IPMI_FRU_MULTI_OFFSET);
+
+            if (!isCheckable)
+            {
+                areaLen = dataLen - areaOffset;
+                for (uint8_t i = fruEntry + 1;
+                     i < (sizeof(struct common_header) - 2); ++i)
+                {
+                    if (fruData[i] > fruData[fruEntry])
+                    {
+                        areaLen =
+                            (fruData[i] - fruData[fruEntry]) * IPMI_EIGHT_BYTES;
+                        break;
+                    }
+                }
+            }
+
             uint8_t areaData[areaLen] = {0};
 
             log<level::DEBUG>("Fru Data", entry("SIZE=%d", dataLen),
@@ -445,18 +571,21 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
             // Save off the data.
             std::memcpy(areaData, &((uint8_t*)fruData)[areaOffset], areaLen);
 
-            // Validate the crc
-            rc = verifyFruData(areaData, areaLen);
-            if (rc < 0)
+            if (isCheckable)
             {
-                log<level::ERR>("Err validating fru area",
-                                entry("OFFSET=%d", areaOffset));
-                return rc;
-            }
-            else
-            {
-                log<level::DEBUG>("Successfully verified area checksum.",
-                                  entry("OFFSET=%d", areaOffset));
+                // Validate the crc
+                rc = verifyFruData(areaData, areaLen);
+                if (rc < 0)
+                {
+                    log<level::ERR>("Err validating fru area",
+                                    entry("OFFSET=%d", areaOffset));
+                    continue;
+                }
+                else
+                {
+                    log<level::DEBUG>("Successfully verified area checksum.",
+                                      entry("OFFSET=%d", areaOffset));
+                }
             }
 
             // We already have a vector that is passed to us containing all
@@ -520,8 +649,8 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     size_t bytesRead = 0;
     int rc = -1;
 
-    // Vector that holds individual IPMI FRU AREAs. Although MULTI and INTERNAL
-    // are not used, keeping it here for completeness.
+    // Vector that holds individual IPMI FRU AREAs. Although INTERNAL
+    // is not used, keeping it here for completeness.
     FruAreaVector fruAreaVec;
 
     for (uint8_t fruEntry = IPMI_FRU_INTERNAL_OFFSET;
