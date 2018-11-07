@@ -52,4 +52,10 @@ struct common_header
 int validateFRUArea(const uint8_t fruid, const char* fruFilename,
                     sdbusplus::bus::bus& bus, const bool bmcOnlyFru);
 
+/**
+ * Takes the pointer to stream of bytes and length
+ * and returns the 8 bit checksum
+ * This algo is per IPMI V2.0 spec
+ */
+unsigned char calculateCRC(const unsigned char* data, size_t len);
 #endif
