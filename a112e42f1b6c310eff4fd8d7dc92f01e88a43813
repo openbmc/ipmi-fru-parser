@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "7ca3b1d0_0afed99d",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "021a3b76_91e27b81",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 2
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f7c01bd_20a4b133",
         "filename": "multirecord.cpp",
         "patchSetId": 3
@@ -131,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "23187b3d_73329a57",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "897640f1_234deb75",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c2260b7_db522257",
         "filename": "multirecord.cpp",
         "patchSetId": 3
@@ -142,6 +184,30 @@
       "writtenOn": "2018-07-31T15:57:12Z",
       "side": 1,
       "message": "whitespace at the end of the line.",
+      "range": {
+        "startLine": 122,
+        "startChar": 40,
+        "endLine": 122,
+        "endChar": 41
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24d47a40_fa3fa450",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c2260b7_db522257",
       "range": {
         "startLine": 122,
         "startChar": 40,
@@ -171,6 +237,24 @@
     },
     {
       "key": {
+        "uuid": "ab7f43cf_f6e6a7a1",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d548c524_6b4515af",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e11576d_a9b133b6",
         "filename": "multirecord.cpp",
         "patchSetId": 3
@@ -182,6 +266,30 @@
       "writtenOn": "2018-08-01T02:17:12Z",
       "side": 1,
       "message": "\"TACHOMETER\"",
+      "range": {
+        "startLine": 162,
+        "startChar": 21,
+        "endLine": 162,
+        "endChar": 34
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87f59abb_95012ce7",
+        "filename": "multirecord.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e11576d_a9b133b6",
       "range": {
         "startLine": 162,
         "startChar": 21,
@@ -371,6 +479,30 @@
     },
     {
       "key": {
+        "uuid": "fc11fa3a_2dfebd18",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4980cb91_1c943df4",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "752a1665_10a20746",
         "filename": "multirecord.hpp",
         "patchSetId": 3
@@ -394,6 +526,30 @@
     },
     {
       "key": {
+        "uuid": "9014c51b_43cc1330",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "752a1665_10a20746",
+      "range": {
+        "startLine": 63,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 27
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1eda3eaa_aebfdc00",
         "filename": "multirecord.hpp",
         "patchSetId": 3
@@ -405,6 +561,30 @@
       "writtenOn": "2018-08-01T02:17:12Z",
       "side": 1,
       "message": "Please remove the bitfield",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39d4fde4_6a3fa7bd",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eda3eaa_aebfdc00",
       "range": {
         "startLine": 76,
         "startChar": 6,
@@ -464,6 +644,30 @@
     },
     {
       "key": {
+        "uuid": "7084b3af_42184047",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bfc5b74_de4266ed",
+      "range": {
+        "startLine": 94,
+        "startChar": 11,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43bdcbe1_6c5d9fd3",
         "filename": "multirecord.hpp",
         "patchSetId": 3
@@ -475,6 +679,30 @@
       "writtenOn": "2018-08-01T02:17:12Z",
       "side": 1,
       "message": "\"Multirecord\"",
+      "range": {
+        "startLine": 128,
+        "startChar": 5,
+        "endLine": 128,
+        "endChar": 19
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba45e931_f672a271",
+        "filename": "multirecord.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43bdcbe1_6c5d9fd3",
       "range": {
         "startLine": 128,
         "startChar": 5,
@@ -504,6 +732,24 @@
     },
     {
       "key": {
+        "uuid": "82e13ff1_1ef56323",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3c89fc4_19a7daf4",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8594adba_dce036e4",
         "filename": "writefrudata.cpp",
         "patchSetId": 3
@@ -518,6 +764,24 @@
       "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fda8795_5d4ca61f",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8594adba_dce036e4",
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -568,6 +832,30 @@
     },
     {
       "key": {
+        "uuid": "69c68cf6_cc24067c",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4e30eb3_0eb734be",
+      "range": {
+        "startLine": 323,
+        "startChar": 29,
+        "endLine": 323,
+        "endChar": 35
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91d15c01_fb6db83f",
         "filename": "writefrudata.cpp",
         "patchSetId": 3
@@ -579,6 +867,30 @@
       "writtenOn": "2018-08-01T02:17:12Z",
       "side": 1,
       "message": "\"OverallCapacity\"",
+      "range": {
+        "startLine": 325,
+        "startChar": 19,
+        "endLine": 325,
+        "endChar": 33
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de6ac5dc_f0c5b29f",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91d15c01_fb6db83f",
       "range": {
         "startLine": 325,
         "startChar": 19,
@@ -614,6 +926,30 @@
     },
     {
       "key": {
+        "uuid": "71d6f28c_b888ca66",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0274e3e_5110c79e",
+      "range": {
+        "startLine": 350,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 85
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fc82285_bbd4549e",
         "filename": "writefrudata.cpp",
         "patchSetId": 3
@@ -637,6 +973,30 @@
     },
     {
       "key": {
+        "uuid": "fa461ab5_94130588",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fc82285_bbd4549e",
+      "range": {
+        "startLine": 357,
+        "startChar": 19,
+        "endLine": 357,
+        "endChar": 31
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e8d04c7_c06b6b76",
         "filename": "writefrudata.cpp",
         "patchSetId": 3
@@ -648,6 +1008,30 @@
       "writtenOn": "2018-08-01T02:17:12Z",
       "side": 1,
       "message": "Again, does it make sense to take the specific DC output type? This will also save you quite a few characters and stop you from exceeding the line character limit here and above.",
+      "range": {
+        "startLine": 374,
+        "startChar": 28,
+        "endLine": 374,
+        "endChar": 34
+      },
+      "revId": "a112e42f1b6c310eff4fd8d7dc92f01e88a43813",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6edbe87b_4fc7ffe6",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-11-09T14:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e8d04c7_c06b6b76",
       "range": {
         "startLine": 374,
         "startChar": 28,
