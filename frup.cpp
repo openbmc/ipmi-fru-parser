@@ -661,7 +661,7 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
             /* We need the data represented as 0x...... */
             if (vpd_val_len > 0)
             {
-                strncpy(bin_in_ascii, "0x", 2);
+                memcpy(bin_in_ascii, "0x", 2);
             }
 #if IPMI_FRU_PARSER_DEBUG
             printf("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] :"
