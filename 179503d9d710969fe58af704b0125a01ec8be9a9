@@ -69,6 +69,24 @@
       "revId": "179503d9d710969fe58af704b0125a01ec8be9a9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36bff522_23c9870e",
+        "filename": "multirecord.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2018-11-26T21:57:38Z",
+      "side": 1,
+      "message": "\u003e I see nothing wrong\n\nSo mixed licensing within the same program -might- be legal - I honestly don\u0027t know - so I agree with you it isn\u0027t -wrong- but from a legal standpoint it would certainly be simpler to just have one license.\n\nIf you really want to go this route I\u0027ll have to convince myself we aren\u0027t doing anything wrong in terms of Apache/GPL compatibility.\n\nhttps://www.apache.org/licenses/GPL-compatibility.html",
+      "parentUuid": "f6ed0ed4_4dbdb692",
+      "revId": "179503d9d710969fe58af704b0125a01ec8be9a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
