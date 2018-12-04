@@ -617,6 +617,26 @@ cleanup:
     return (rv);
 }
 
+char _bcd_plus_to_char(char nibble) {
+    if (nibble >= 0 && nibble <= 9) {
+        return '0' + nibble;
+    }
+    switch (nibble) {
+        case 0xa:
+            return ' ';
+        case 0xb:
+            return '-';
+        case 0xc:
+            return '.';
+        default:
+            return 0;
+    }
+}
+
+char _compressed_ascii_to_char(char ascii6) {
+    return 0x20 + (ascii6 & 0x3f);
+}
+
 void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
                      IPMIFruInfo& info)
 {
@@ -629,24 +649,31 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
     /* Needed to convert each uint8_t byte to a ascii */
     char bin_byte[3] = {0};
 
-    /*
-     * Max number of characters needed to represent 1 unsigned byte in string
-     * is number of bytes multiplied by 2. Extra 3 for 0x and a ending '\0';
-     */
-    char bin_in_ascii_len = vpd_val_len * 2 + 3;
+    /* Maximum length for generated string value */
+    char str_value_len = 0;
 
-    /* Binary converted to ascii in array */
-    char* bin_in_ascii = (char*)malloc(bin_in_ascii_len);
+    /* Generated string value */
+    char *str_value = NULL;
+
+    /* Target index in output string */
+    int str_value_idx = 0;
 
     /* For reading byte from the area */
     int val = 0;
 
-    char* bin_copy = &((char*)bin_in_ascii)[2];
+    char *bin_copy = &((char *)str_value)[2];
 
     switch (type_code)
     {
         case 0:
-            memset(bin_in_ascii, 0x0, bin_in_ascii_len);
+            /*
+             * Max number of characters needed to represent 1 unsigned
+             * byte in string is number of bytes multiplied by 2. Extra
+             * 3 for 0x and a ending '\0';
+             */
+            str_value_len = vpd_val_len * 2 + 3;
+            str_value = (char *)malloc(str_value_len);
+            memset(str_value, 0x0, str_value_len);
 
             /* Offset 1 is where actual data starts */
             for (val = 1; val <= vpd_val_len; val++)
@@ -661,15 +688,101 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
             /* We need the data represented as 0x...... */
             if (vpd_val_len > 0)
             {
-                memcpy(bin_in_ascii, "0x", 2);
+                memcpy(str_value, "0x", 2);
             }
 #if IPMI_FRU_PARSER_DEBUG
             printf("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] :"
                    " Len = [%d] : Val = [%s]\n",
-                   vpd_key_names[vpd_key_id], vpd_val_len, bin_in_ascii);
+                   vpd_key_names[vpd_key_id], vpd_val_len, str_value);
 #endif
             info[vpd_key_id] =
-                std::make_pair(vpd_key_names[vpd_key_id], bin_in_ascii);
+                std::make_pair(vpd_key_names[vpd_key_id], str_value);
+            break;
+
+        case 1: // BCD plus
+            /* We have 2 characters in each byte. Plus NUL terminator */
+            str_value_len = vpd_val_len * 2 + 1;
+            str_value = (char *)malloc(str_value_len);
+            memset(str_value, 0x0, str_value_len);
+            /* Offset 1 is where actual data starts */
+            for(val = 1; val <= vpd_val_len ; val++)
+            {
+                str_value[str_value_idx] =
+                    _bcd_plus_to_char((vpd_key_val[val] >> 4) & 0xf);
+                if (str_value[str_value_idx] != 0) {
+                    str_value_idx++;
+                }
+
+                str_value[str_value_idx] =
+                    _bcd_plus_to_char(vpd_key_val[val] & 0xf);
+                if (str_value[str_value_idx] != 0) {
+                  str_value_idx++;
+                }
+            }
+
+#if IPMI_FRU_PARSER_DEBUG
+            printf("_append_to_dict: VPD Key = [%s] : Type Code=[BCDplus]"
+                   " : Len = [%d] : Val = [%s]\n",
+                   vpd_key_names [vpd_key_id], vpd_val_len, str_value);
+#endif
+            info[vpd_key_id] = std::make_pair(vpd_key_names[vpd_key_id],
+                                              str_value);
+            break;
+
+        case 2: // 6-bit ASCII, packed
+            /*
+             * We have 4 characters in 3 bytes. Add one to round up.
+             * Plus NUL terminator
+             */
+            str_value_len = (((vpd_val_len / 3) + 1) * 4) + 1;
+            str_value = (char *)malloc(str_value_len);
+            memset(str_value, 0x0, str_value_len);
+            /* Offset 1 is where actual data starts */
+            for(val = 1; val <= vpd_val_len ; val++)
+            {
+                str_value[str_value_idx] =
+                    _compressed_ascii_to_char(vpd_key_val[val] & 0x3f);
+                if (str_value[str_value_idx] != 0) {
+                    str_value_idx++;
+                }
+                if (val+1 > vpd_val_len) {
+                    break;
+                }
+                str_value[str_value_idx] =
+                    _compressed_ascii_to_char(
+                        ((vpd_key_val[val] >> 6) & 0x3) |
+                        ((vpd_key_val[val+1] & 0xf) << 2));
+                if (str_value[str_value_idx] != 0) {
+                    str_value_idx++;
+                }
+                if (val+2 > vpd_val_len) {
+                    val++;
+                    break;
+                }
+                str_value[str_value_idx] =
+                    _compressed_ascii_to_char(
+                        ((vpd_key_val[val+1] >> 4) & 0xf) |
+                        ((vpd_key_val[val+2] & 0x3) << 4));
+                if (str_value[str_value_idx] != 0) {
+                    str_value_idx++;
+                }
+                str_value[str_value_idx] =
+                    _compressed_ascii_to_char(
+                        (vpd_key_val[val+2] >> 2) & 0x3f);
+                if (str_value[str_value_idx] != 0) {
+                    str_value_idx++;
+                }
+                val += 2;
+            }
+
+#if IPMI_FRU_PARSER_DEBUG
+            printf("_append_to_dict: VPD Key = [%s] : "
+                   "Type Code=[6bitASCIIcompressed]"
+                   " : Len = [%d] : Val = [%s]\n",
+                   vpd_key_names [vpd_key_id], vpd_val_len, str_value);
+#endif
+            info[vpd_key_id] = std::make_pair(vpd_key_names[vpd_key_id],
+                                              str_value);
             break;
 
         case 3:
@@ -684,10 +797,10 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
             break;
     }
 
-    if (bin_in_ascii)
+    if (str_value)
     {
-        free(bin_in_ascii);
-        bin_in_ascii = NULL;
+        free(str_value);
+        str_value = NULL;
     }
 }
 
