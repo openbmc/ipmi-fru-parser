@@ -366,7 +366,7 @@ ipmi_fru_area_type getFruAreaType(uint8_t areaOffset)
  * @param[in] len - the length of the region to verify
  * @return non-zero on failure
  */
-int verifyFruData(const uint8_t* data, const size_t len)
+int verifyFruData(const uint8_t* data, const size_t len, bool validateCrc)
 {
     uint8_t checksum = 0;
     int rc = -1;
@@ -386,25 +386,28 @@ int verifyFruData(const uint8_t* data, const size_t len)
     }
 #endif
 
-    // See if the calculated CRC matches with the embedded one.
-    // CRC to be calculated on all except the last one that is CRC itself.
-    checksum = calculateCRC(data, len - 1);
-    if (checksum != data[len - 1])
+    if (validateCrc)
     {
+        // See if the calculated CRC matches with the embedded one.
+        // CRC to be calculated on all except the last one that is CRC itself.
+        checksum = calculateCRC(data, len - 1);
+        if (checksum != data[len - 1])
+        {
 #ifdef __IPMI_DEBUG__
-        log<level::ERR>(
-            "Checksum mismatch",
-            entry("Calculated=0x%X", static_cast<uint32_t>(checksum)),
-            entry("Embedded=0x%X", static_cast<uint32_t>(data[len])));
+            log<level::ERR>(
+                "Checksum mismatch",
+                entry("Calculated=0x%X", static_cast<uint32_t>(checksum)),
+                entry("Embedded=0x%X", static_cast<uint32_t>(data[len])));
 #endif
-        return rc;
-    }
+            return rc;
+        }
 #ifdef __IPMI_DEBUG__
-    else
-    {
-        log<level::DEBUG>("Checksum matches");
-    }
+        else
+        {
+            log<level::DEBUG>("Checksum matches");
+        }
 #endif
+    }
 
     return EXIT_SUCCESS;
 }
@@ -484,8 +487,11 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
             // Save off the data.
             std::memcpy(areaData, &((uint8_t*)fruData)[areaOffset], areaLen);
 
-            // Validate the crc
-            rc = verifyFruData(areaData, areaLen);
+            // Validate the crc, but not for the internal use area, since its
+            // contents are not defined in the spec and it may not end with a
+            // CRC byte.
+            bool validateCrc = fruEntry != IPMI_FRU_INTERNAL_OFFSET;
+            rc = verifyFruData(areaData, areaLen, validateCrc);
             if (rc < 0)
             {
                 log<level::ERR>("Err validating FRU area",
@@ -494,7 +500,7 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
             }
             else
             {
-                log<level::DEBUG>("Successfully verified area checksum.",
+                log<level::DEBUG>("Successfully verified area.",
                                   entry("OFFSET=%d", areaOffset));
             }
 
@@ -543,7 +549,7 @@ int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
     }
 
     // Verify the CRC and size
-    rc = verifyFruData(commonHdr, sizeof(commonHdr));
+    rc = verifyFruData(commonHdr, sizeof(commonHdr), true);
     if (rc < 0)
     {
         log<level::ERR>("Failed to validate common header");
