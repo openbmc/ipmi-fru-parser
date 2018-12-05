@@ -31,16 +31,6 @@ class IPMIFruArea
                 bool bmcOnlyFru = false);
 
     /**
-     * Set whether the FRU is present.
-     *
-     * @param[in] present - True if present.
-     */
-    inline void setPresent(const bool present)
-    {
-        isPresent = present;
-    }
-
-    /**
      * Retrieves the FRU's ID.
      *
      * @return the FRU ID.
@@ -110,12 +100,6 @@ class IPMIFruArea
 
     // Special bit for BMC readable eeprom only.
     bool bmcOnlyFru = false;
-
-    // If a FRU is physically present.
-    bool isPresent = false;
-
-    // Whether a particular area is valid ?
-    bool isValid = false;
 
     // Actual area data.
     std::vector<uint8_t> data;
