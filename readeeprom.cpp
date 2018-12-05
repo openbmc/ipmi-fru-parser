@@ -37,6 +37,8 @@ int main(int argc, char** argv)
         exit_with_error("eeprom data not found.", argv);
     }
 
+    auto merge_eeprom_file = (*cli_options)["merge_eeprom"];
+
     auto fruid_str = (*cli_options)["fruid"];
     if (fruid_str == ArgumentParser::empty_string)
     {
@@ -59,7 +61,8 @@ int main(int argc, char** argv)
     // and update the Inventory DB.
     auto bus = sdbusplus::bus::new_default();
     bool bmc_fru = true;
-    rc = validateFRUArea(fruid, eeprom_file.c_str(), bus, bmc_fru);
+    rc = validateFRUArea(fruid, eeprom_file.c_str(), merge_eeprom_file.c_str(),
+                         bus, bmc_fru);
 
     return (rc < 0 ? EXIT_FAILURE : EXIT_SUCCESS);
 }
