@@ -559,17 +559,9 @@ int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
     return EXIT_SUCCESS;
 }
 
-int validateFRUArea(const uint8_t fruid, const char* fruFilename,
-                    sdbusplus::bus::bus& bus, const bool bmcOnlyFru)
+void createFRUAreas(const uint8_t fruid, const bool bmcOnlyFru,
+                    FruAreaVector& fruAreaVec)
 {
-    size_t dataLen = 0;
-    size_t bytesRead = 0;
-    int rc = -1;
-
-    // Vector that holds individual IPMI FRU AREAs. Although MULTI and INTERNAL
-    // are not used, keeping it here for completeness.
-    FruAreaVector fruAreaVec;
-
     for (uint8_t fruEntry = IPMI_FRU_INTERNAL_OFFSET;
          fruEntry < (sizeof(struct common_header) - 2); fruEntry++)
     {
@@ -577,12 +569,16 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
         std::unique_ptr<IPMIFruArea> fruArea = std::make_unique<IPMIFruArea>(
             fruid, getFruAreaType(fruEntry), bmcOnlyFru);
 
-        // Physically being present
-        bool present = access(fruFilename, F_OK) == 0;
-        fruArea->setPresent(present);
-
         fruAreaVec.emplace_back(std::move(fruArea));
     }
+}
+
+int readFRUFile(const uint8_t fruid, const char* fruFilename,
+                const bool bmcOnlyFru, FruAreaVector& fruAreaVec)
+{
+    size_t dataLen = 0;
+    size_t bytesRead = 0;
+    int rc = -1;
 
     FILE* fruFilePointer = std::fopen(fruFilename, "rb");
     if (fruFilePointer == NULL)
@@ -637,6 +633,26 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     else
     {
         log<level::DEBUG>("Populated FRU areas", entry("FILE=%s", fruFilename));
+    }
+
+    return rc;
+}
+
+int validateFRUArea(const uint8_t fruid, const char* fruFilename,
+                    sdbusplus::bus::bus& bus, const bool bmcOnlyFru)
+{
+    int rc = -1;
+
+    // Vector that holds individual IPMI FRU AREAs. Although MULTI and INTERNAL
+    // are not used, keeping it here for completeness.
+    FruAreaVector fruAreaVec;
+
+    createFRUAreas(fruid, bmcOnlyFru, fruAreaVec);
+
+    rc = readFRUFile(fruid, fruFilename, bmcOnlyFru, fruAreaVec);
+    if (rc < 0)
+    {
+        log<level::ERR>("Error reading FRU.", entry("FILE=%s", fruFilename));
     }
 
 #ifdef __IPMI_DEBUG__
