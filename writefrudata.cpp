@@ -639,7 +639,8 @@ int readFRUFile(const uint8_t fruid, const char* fruFilename,
 }
 
 int validateFRUArea(const uint8_t fruid, const char* fruFilename,
-                    sdbusplus::bus::bus& bus, const bool bmcOnlyFru)
+                    const char* fruMergeFilename, sdbusplus::bus::bus& bus,
+                    const bool bmcOnlyFru)
 {
     int rc = -1;
 
@@ -653,6 +654,16 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     if (rc < 0)
     {
         log<level::ERR>("Error reading FRU.", entry("FILE=%s", fruFilename));
+    }
+
+    if (fruMergeFilename != NULL && strlen(fruMergeFilename) > 0)
+    {
+        rc = readFRUFile(fruid, fruMergeFilename, bmcOnlyFru, fruAreaVec);
+        if (rc < 0)
+        {
+            log<level::ERR>("Error reading FRU to merge.",
+                            entry("FILE=%s", fruMergeFilename));
+        }
     }
 
 #ifdef __IPMI_DEBUG__

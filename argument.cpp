@@ -44,6 +44,10 @@ void ArgumentParser::usage(char** argv)
     std::cerr << "Options:" << std::endl;
     std::cerr << " --eeprom=<eeprom file path> Absolute file name of eeprom"
               << std::endl;
+    std::cerr << " --merge_eeprom=<file path>  Optional absolute file name of "
+              << std::endl
+              << "                             eeprom to merge on top of "
+              << "--eeprom" << std::endl;
     std::cerr << " --fruid=<FRU ID>            valid fru id in integer"
               << std::endl;
     std::cerr << " --help                      display help" << std::endl;
@@ -51,12 +55,13 @@ void ArgumentParser::usage(char** argv)
 
 const option ArgumentParser::options[] = {
     {"eeprom", required_argument, NULL, 'e'},
+    {"merge_eeprom", required_argument, NULL, 'm'},
     {"fruid", required_argument, NULL, 'f'},
     {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0},
 };
 
-const char* ArgumentParser::optionstr = "e:f:?h";
+const char* ArgumentParser::optionstr = "e:f:m:?h";
 
 const std::string ArgumentParser::true_string = "true";
 const std::string ArgumentParser::empty_string = "";
