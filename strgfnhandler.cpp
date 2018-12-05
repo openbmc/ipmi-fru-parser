@@ -103,7 +103,7 @@ ipmi_ret_t ipmiStorageWriteFruData(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     // FRU file to the inventory controller on DBus for the correct number
     sdbusplus::bus::bus bus{bus_type};
     bool bmcOnlyFru = false;
-    validateFRUArea(reqptr->frunum, fruFilename, bus, bmcOnlyFru);
+    validateFRUArea(reqptr->frunum, fruFilename, NULL, bus, bmcOnlyFru);
 
     return rc;
 }

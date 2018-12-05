@@ -46,10 +46,13 @@ struct common_header
  *
  * @param[in] fruid - The ID to use for this FRU.
  * @param[in] fruFilename - the filename of the FRU.
+ * @param[in] fruMergeFilename - optional filename of FRU to merge on top of
+ *            fruFilename
  * @param[in] bus - an sdbusplus systemd bus for publishing the information.
  * @param[in] bmcOnlyFru - If a particular area accessible only by BMC.
  */
 int validateFRUArea(const uint8_t fruid, const char* fruFilename,
-                    sdbusplus::bus::bus& bus, const bool bmcOnlyFru);
+                    const char* fruMergeFilename, sdbusplus::bus::bus& bus,
+                    const bool bmcOnlyFru);
 
 #endif
