@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a55a381_e059d322",
+        "filename": "multirecord.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-12-06T17:16:01Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "4e278967_29cc7afe",
+      "range": {
+        "startLine": 33,
+        "startChar": 7,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86f51084_96f5ec74",
         "filename": "multirecord.cpp",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b0636ac7_5c3389c4",
+        "filename": "multirecord.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-12-06T17:16:01Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "86f51084_96f5ec74",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 11
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1b1a100_9d3969c6",
         "filename": "writefrudata.cpp",
         "patchSetId": 11
@@ -59,6 +107,24 @@
       "writtenOn": "2018-12-06T00:50:56Z",
       "side": 1,
       "message": "I think you could replace it with a foreach.",
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0548af77_b3b0c059",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-12-06T17:16:01Z",
+      "side": 1,
+      "message": "I guess so",
+      "parentUuid": "e1b1a100_9d3969c6",
       "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -93,6 +159,42 @@
       "writtenOn": "2018-12-06T07:24:13Z",
       "side": 1,
       "message": "Or just use `clang-format` :)",
+      "parentUuid": "37a3dce1_bf689b55",
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584f9528_a3bb1ec2",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-12-06T17:16:01Z",
+      "side": 1,
+      "message": "No, it behaves inadequately for me. For instance, it puts opening curlies for functions on the same like with the function parameter list. Also it introduces too many changes in places that this patch didn\u0027t even touch.",
+      "parentUuid": "8e5ff19e_d2239b3b",
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "123f8423_7c2cd6a8",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-12-06T17:16:01Z",
+      "side": 1,
+      "message": "Sure, will do.",
       "parentUuid": "37a3dce1_bf689b55",
       "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
@@ -147,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "397ac29a_7882cc66",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-12-06T17:16:01Z",
+      "side": 1,
+      "message": "Will refactor this and the outer loop to make it more clear.",
+      "parentUuid": "2556d22d_972674a9",
+      "range": {
+        "startLine": 599,
+        "startChar": 15,
+        "endLine": 600,
+        "endChar": 65
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5048d816_a72cc9f9",
         "filename": "writefrudata.cpp",
         "patchSetId": 11
@@ -158,6 +284,30 @@
       "writtenOn": "2018-12-06T07:24:13Z",
       "side": 1,
       "message": "Is it really required to define these variables? \nThey are used only once. In my opinion, there\u0027s enough of the comments.",
+      "range": {
+        "startLine": 636,
+        "startChar": 0,
+        "endLine": 637,
+        "endChar": 73
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49c3bbac_7821fabe",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2018-12-06T17:16:01Z",
+      "side": 1,
+      "message": "Yes. This is for clarity and ease of reading. These variables don\u0027t affect performance or footprint.",
+      "parentUuid": "5048d816_a72cc9f9",
       "range": {
         "startLine": 636,
         "startChar": 0,
