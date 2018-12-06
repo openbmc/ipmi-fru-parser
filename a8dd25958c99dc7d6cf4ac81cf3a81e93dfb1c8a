@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e278967_29cc7afe",
+        "filename": "multirecord.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-12-06T00:50:56Z",
+      "side": 1,
+      "message": "size_t",
+      "range": {
+        "startLine": 33,
+        "startChar": 7,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86f51084_96f5ec74",
+        "filename": "multirecord.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-12-06T00:50:56Z",
+      "side": 1,
+      "message": "size_t",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 11
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1b1a100_9d3969c6",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-12-06T00:50:56Z",
+      "side": 1,
+      "message": "I think you could replace it with a foreach.",
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37a3dce1_bf689b55",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-12-06T00:50:56Z",
+      "side": 1,
+      "message": "Please add braces around the content of the conditional to save the next poor soul :)",
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2556d22d_972674a9",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-12-06T00:50:56Z",
+      "side": 1,
+      "message": "Could you comment to describe the exact range you\u0027re iterating? This is a little confusing.",
+      "range": {
+        "startLine": 599,
+        "startChar": 15,
+        "endLine": 600,
+        "endChar": 65
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
