@@ -82,6 +82,24 @@
     },
     {
       "key": {
+        "uuid": "8e5ff19e_d2239b3b",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-12-06T07:24:13Z",
+      "side": 1,
+      "message": "Or just use `clang-format` :)",
+      "parentUuid": "37a3dce1_bf689b55",
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2556d22d_972674a9",
         "filename": "writefrudata.cpp",
         "patchSetId": 11
@@ -98,6 +116,53 @@
         "startChar": 15,
         "endLine": 600,
         "endChar": 65
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55d8d6bf_dc64b7e0",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-12-06T07:24:13Z",
+      "side": 1,
+      "message": "It already exists at the lines 561-564.\nI suggest to define the `const auto fruEntryEnd \u003d sizeof(struct common_header) - 2)` at line 565 (after the comments) and then use it everywhere it is required.",
+      "parentUuid": "2556d22d_972674a9",
+      "range": {
+        "startLine": 599,
+        "startChar": 15,
+        "endLine": 600,
+        "endChar": 65
+      },
+      "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5048d816_a72cc9f9",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1000219
+      },
+      "writtenOn": "2018-12-06T07:24:13Z",
+      "side": 1,
+      "message": "Is it really required to define these variables? \nThey are used only once. In my opinion, there\u0027s enough of the comments.",
+      "range": {
+        "startLine": 636,
+        "startChar": 0,
+        "endLine": 637,
+        "endChar": 73
       },
       "revId": "a8dd25958c99dc7d6cf4ac81cf3a81e93dfb1c8a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
