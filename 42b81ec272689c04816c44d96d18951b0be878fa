@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db231912_9b6826fb",
+        "filename": "multirecord.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "constexpr size_t",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 21
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c398b718_e5529b7b",
+        "filename": "multirecord.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "The external while loop condition does not comprehend that this function is parsing in variable sized chunks, which makes it so this memcpy into the temporary MultirecordHeader can possibly overflow.\n\nThe parseRecord function needs a length parameter so it can do bounds checking on its input.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeeeef57_5d298955",
+        "filename": "multirecord.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "need to check that the header.recordLength is still less than the incoming number of bytes.",
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c67337d8_281dd0c5",
+        "filename": "multirecord.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "enum class",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "445c176a_a60b9b20",
+        "filename": "multirecord.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "These should be lowerCamelCase.",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 18
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7d8cf4_64d05c7a",
+        "filename": "multirecord.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "constexpr instead of #define",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0042560_40ce28b5",
+        "filename": "multirecord.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "I am torn here. I come from a world of C development, where this sort of thing is the norm.... But I bitfields are evil. So this is probably the easiest way to describe this, even though macros are frowned upon in modern C++.\n\nBut it should probably be lowerCamelCase as well (it looks like a function, so name it like a function).",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 15
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71971c0f_e3ed2d82",
+        "filename": "multirecord.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "lowerCamelCase, please. For these MR_ params and the lines that follow.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 31
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b61f34c0_572cf0e3",
+        "filename": "multirecord.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2018-12-12T17:08:11Z",
+      "side": 1,
+      "message": "unions are frowned upon in modern c++. Can this be done with a std::variant?",
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
