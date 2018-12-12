@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "df0b3ec9_e45f1f5a",
+        "filename": "multirecord.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-12-12T19:38:54Z",
+      "side": 1,
+      "message": "Also, prefer std::memcpy",
+      "parentUuid": "c398b718_e5529b7b",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aeeeef57_5d298955",
         "filename": "multirecord.cpp",
         "patchSetId": 14
@@ -145,6 +169,30 @@
       "writtenOn": "2018-12-12T17:08:11Z",
       "side": 1,
       "message": "I am torn here. I come from a world of C development, where this sort of thing is the norm.... But I bitfields are evil. So this is probably the easiest way to describe this, even though macros are frowned upon in modern C++.\n\nBut it should probably be lowerCamelCase as well (it looks like a function, so name it like a function).",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 15
+      },
+      "revId": "42b81ec272689c04816c44d96d18951b0be878fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d86e577_3dce2980",
+        "filename": "multirecord.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2018-12-12T19:38:54Z",
+      "side": 1,
+      "message": "Vernon, could probably be done as an inline func if you\u0027re worried about it..",
+      "parentUuid": "d0042560_40ce28b5",
       "range": {
         "startLine": 48,
         "startChar": 8,
