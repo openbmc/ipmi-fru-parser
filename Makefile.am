@@ -16,6 +16,7 @@ phosphor_read_eeprom_LDADD = libwritefrudata.la
 
 lib_LTLIBRARIES = libwritefrudata.la
 libwritefrudata_la_SOURCES = frup.cpp \
+	multirecord.cpp \
 	fru-gen.cpp \
 	fru_area.cpp \
 	writefrudata.cpp \
