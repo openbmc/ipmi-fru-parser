@@ -159,6 +159,12 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
     return mapperResponse.begin()->first;
 }
 
+// MultiRecord area record name and num matching.
+// It is used by ipmiUpdateMultirecord function.
+std::map<std::string, IpmiMultirecordType> multirecordMap = {
+    {"PowerSupply", IpmiMultirecordType::powerSupplyInfo},
+    {"DcOutput", IpmiMultirecordType::dcOutput}};
+
 /**
  * Takes FRU data, invokes Parser for each FRU record area and updates
  * inventory.
@@ -173,6 +179,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     int rc = 0;
     uint8_t fruid = 0;
     IPMIFruInfo fruData;
+    IPMIMultiInfo multiData;
 
     // For each FRU area, extract the needed data , get it parsed and update
     // the Inventory.
@@ -182,7 +189,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
         // Fill the container with information
         rc = parse_fru_area(fruArea->getType(),
                             static_cast<const void*>(fruArea->getData()),
-                            fruArea->getLength(), fruData);
+                            fruArea->getLength(), fruData, multiData);
         if (rc < 0)
         {
             log<level::ERR>("Error parsing FRU records");
@@ -231,6 +238,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     {
         InterfaceMap interfaces;
         const auto& extrasIter = extras.find(instance.path);
+        bool skipObject = false;
 
         for (const auto& interfaceList : instance.interfaces)
         {
@@ -239,6 +247,35 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
             {
                 std::string value;
                 decltype(auto) pdata = properties.second;
+
+                // if object refers to multirecord data, skip it
+                if (pdata.section == "MultiRecord" &&
+                    properties.first == "Data")
+                {
+                    auto mapIt = multirecordMap.find(pdata.property);
+                    if (mapIt == multirecordMap.end())
+                        continue;
+
+                    int i = 0;
+                    for (auto& mr : multiData)
+                    {
+                        if (mr->type() == mapIt->second)
+                        {
+                            PropertyMap props;
+                            InterfaceMap interfaces;
+                            mr->updatePropertyMap(props);
+                            interfaces.emplace(std::move(interfaceList.first),
+                                               std::move(props));
+                            sdbusplus::message::object_path path =
+                                instance.path + std::to_string(i);
+                            objects.emplace(path, interfaces);
+                            ++i;
+                        }
+                    }
+
+                    skipObject = true;
+                    continue;
+                }
 
                 if (!pdata.section.empty() && !pdata.property.empty())
                 {
@@ -277,7 +314,11 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
                 }
             }
         }
-        objects.emplace(objectPath, interfaces);
+
+        if (!skipObject)
+        {
+            objects.emplace(objectPath, interfaces);
+        }
     }
 
     auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
@@ -300,14 +341,15 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
 } // namespace
 
 /**
- * Takes the pointer to stream of bytes and length and returns the 8 bit
- * checksum.  This algo is per IPMI V2.0 spec
+ * Take a pointer to an array of bytes, and a length,
+ * and return the 8-bit checksum as per IPMI Platform Management Information
+ * Storage Definition v1.0 document revision 1.2.
  *
- * @param[in] data - data for running crc
- * @param[in] len - the length over which to run the crc
- * @return the CRC value
+ * @param[in] data - The pointer to the array of bytes
+ * @param[in] len - The length of the array
+ * @return the checksum value
  */
-unsigned char calculateCRC(const unsigned char* data, size_t len)
+uint8_t calculateChecksum(const unsigned char* data, size_t len)
 {
     char crc = 0;
     size_t byte = 0;
@@ -360,13 +402,15 @@ ipmi_fru_area_type getFruAreaType(uint8_t areaOffset)
 }
 
 /**
- * Validates the data for CRC and mandatory fields.
+ * Validates the data for checksum and mandatory fields.
  *
  * @param[in] data - the data to verify
  * @param[in] len - the length of the region to verify
+ * @param[in] useChecksum - whether or not to verify the checksum for the area
  * @return non-zero on failure
  */
-int verifyFruData(const uint8_t* data, const size_t len)
+static int verifyFruData(const uint8_t* data, const size_t len,
+                         bool useChecksum)
 {
     uint8_t checksum = 0;
     int rc = -1;
@@ -386,9 +430,16 @@ int verifyFruData(const uint8_t* data, const size_t len)
     }
 #endif
 
+    // If the area (e.g. Internal Area) doesn't need checksum checking,
+    // then we have nothing to do and report a success once we get here.
+    if (!useChecksum)
+    {
+        return EXIT_SUCCESS;
+    }
+
     // See if the calculated CRC matches with the embedded one.
     // CRC to be calculated on all except the last one that is CRC itself.
-    checksum = calculateCRC(data, len - 1);
+    checksum = calculateChecksum(data, len - 1);
     if (checksum != data[len - 1])
     {
 #ifdef __IPMI_DEBUG__
@@ -443,12 +494,12 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
     // than the offset of any if the FRU areas mentioned in the common header,
     // then we do not have a complete file.
     for (uint8_t fruEntry = IPMI_FRU_INTERNAL_OFFSET;
-         fruEntry < (sizeof(struct common_header) - 2); fruEntry++)
+         fruEntry <= IPMI_FRU_MULTI_OFFSET; ++fruEntry)
     {
         rc = -1;
         // Actual offset in the payload is the offset mentioned in common header
         // multiplied by 8. Common header is always the first 8 bytes.
-        size_t areaOffset = fruData[fruEntry] * IPMI_EIGHT_BYTES;
+        size_t areaOffset = fruData[fruEntry] * IPMI_BLOCK_SIZE;
         if (areaOffset && (dataLen < (areaOffset + 2)))
         {
             // Our file size is less than what it needs to be. +2 because we are
@@ -465,7 +516,45 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                         sizeof(areaHeader));
 
             // Size of this area will be the 2nd byte in the FRU area header.
-            size_t areaLen = areaHeader[1] * IPMI_EIGHT_BYTES;
+            size_t areaLen = areaHeader[1] * IPMI_BLOCK_SIZE;
+
+            // The area length is usually taken from the area header.
+            // Some areas however lack that information.
+            bool hasSizeHdr = (fruEntry != IPMI_FRU_INTERNAL_OFFSET &&
+                               fruEntry != IPMI_FRU_MULTI_OFFSET);
+
+            // For areas without a header, take areaLen from common header
+            if (!hasSizeHdr)
+            {
+                // First assume that this area spans till the end of FRU data
+                // and there are no areas behind it.
+                areaLen = dataLen - areaOffset;
+
+                // Now check if there is any other area listed in the common
+                // header that starts after this one. If so, then this
+                // area can't span past that point.
+                //
+                // Areas' data aren't obliged to go in the same order as
+                // they are listed in the common header, so start with the
+                // very first one.
+                for (uint8_t i = IPMI_FRU_INTERNAL_OFFSET;
+                     i < IPMI_FRU_MULTI_OFFSET; ++i)
+                {
+                    if (i == fruEntry)
+                    {
+                        // Don't check self
+                        continue;
+                    }
+
+                    if (fruData[i] > fruData[fruEntry])
+                    {
+                        areaLen =
+                            (fruData[i] - fruData[fruEntry]) * IPMI_BLOCK_SIZE;
+                        break;
+                    }
+                }
+            }
+
             uint8_t areaData[areaLen] = {0};
 
             log<level::DEBUG>("FRU Data", entry("SIZE=%d", dataLen),
@@ -484,18 +573,30 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
             // Save off the data.
             std::memcpy(areaData, &((uint8_t*)fruData)[areaOffset], areaLen);
 
-            // Validate the crc
-            rc = verifyFruData(areaData, areaLen);
-            if (rc < 0)
+            // Validate the area if possible.
+            //  * Internal Use Area doesn't have a specified format
+            //    and we can't validate checksum, but it still has
+            //    a standard version header that needs to be checked,
+            //    but doesn't have a checksum;
+            //  * MultiRecord Area has a different format and
+            //    is checked elsewhere.
+            bool isCheckable = (fruEntry != IPMI_FRU_MULTI_OFFSET);
+            bool useChecksum = hasSizeHdr; // No header means no checksum
+
+            if (isCheckable)
             {
-                log<level::ERR>("Err validating FRU area",
-                                entry("OFFSET=%d", areaOffset));
-                return rc;
-            }
-            else
-            {
-                log<level::DEBUG>("Successfully verified area checksum.",
-                                  entry("OFFSET=%d", areaOffset));
+                rc = verifyFruData(areaData, areaLen, useChecksum);
+                if (rc < 0)
+                {
+                    log<level::ERR>("Err validating FRU area",
+                                    entry("OFFSET=%d", areaOffset));
+                    continue;
+                }
+                else
+                {
+                    log<level::DEBUG>("FRU area looks valid.",
+                                      entry("OFFSET=%d", areaOffset));
+                }
             }
 
             // We already have a vector that is passed to us containing all
@@ -543,7 +644,7 @@ int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
     }
 
     // Verify the CRC and size
-    rc = verifyFruData(commonHdr, sizeof(commonHdr));
+    rc = verifyFruData(commonHdr, sizeof(commonHdr), true);
     if (rc < 0)
     {
         log<level::ERR>("Failed to validate common header");
