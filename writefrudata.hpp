@@ -39,7 +39,7 @@ struct common_header
 #define IPMI_FRU_PRODUCT_OFFSET offsetof(struct common_header, product_offset)
 #define IPMI_FRU_MULTI_OFFSET offsetof(struct common_header, multi_offset)
 #define IPMI_FRU_HDR_CRC_OFFSET offsetof(struct common_header, crc)
-#define IPMI_EIGHT_BYTES 8
+#define IPMI_BLOCK_SIZE 8 // Size of FRU allocation block, in bytes
 
 /**
  * Validate a FRU.
@@ -52,4 +52,14 @@ struct common_header
 int validateFRUArea(const uint8_t fruid, const char* fruFilename,
                     sdbusplus::bus::bus& bus, const bool bmcOnlyFru);
 
+/**
+ * Take a pointer to an array of bytes, and a length,
+ * and return the 8-bit checksum as per IPMI Platform Management Information
+ * Storage Definition v1.0 document revision 1.2.
+ *
+ * @param[in] data - The pointer to the array of bytes
+ * @param[in] len - The length of the array
+ * @return the checksum value
+ */
+uint8_t calculateChecksum(const unsigned char* data, size_t len);
 #endif
