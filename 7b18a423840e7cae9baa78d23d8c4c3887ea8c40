@@ -22,6 +22,30 @@
       "revId": "7b18a423840e7cae9baa78d23d8c4c3887ea8c40",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "386a3775_0af5268f",
+        "filename": "multirecord.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-01-02T22:28:48Z",
+      "side": 1,
+      "message": "This line is indeed awful. Let me step back and take another look at the patchset as a whole; I think it shouldn\u0027t be done this way, and whether that means we drop enum class or we get the sizes differently I\u0027m not sure yet.",
+      "parentUuid": "60b17c3d_8bad3dde",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 79
+      },
+      "revId": "7b18a423840e7cae9baa78d23d8c4c3887ea8c40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
