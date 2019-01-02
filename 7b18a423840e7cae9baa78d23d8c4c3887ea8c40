@@ -46,6 +46,30 @@
       "revId": "7b18a423840e7cae9baa78d23d8c4c3887ea8c40",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83c867c_c0da9f7c",
+        "filename": "multirecord.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-01-02T23:11:42Z",
+      "side": 1,
+      "message": "Alexander + Yadro etc, I took another look. I noticed the following:\n\n- I\u0027m not wild about the \"cool trick\" to get the count of types by sticking an unlabeled enum at the end of IpmiMultirecordType, but I can follow it, so fine.\n- The fact that this is ugly is kind of a \"design feature\" of enum class. This is a hacky way to do a lookup table with enums, and the language is telling you so.\n- This lookup table only has two out of 10 values implemented, and doesn\u0027t give any built in indication that an \"unimplemented\" value has been accessed.\n\nSo, here\u0027s my opinion (nothing more, nothing less):\nKeep the enum class and listen to what it\u0027s telling you. This weird lookup table is not the right way of doing things. Use a helper function, and use the helper function to warn or error when an unimplemented type is called.  It may seem redundant to do a switch on the enum type and assign a value, but it will be easier to understand and maintain than this kind of lookup, and you will be able to make it more featureful (ie support returning an error, warning, exception, whatever you want).",
+      "parentUuid": "386a3775_0af5268f",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 79
+      },
+      "revId": "7b18a423840e7cae9baa78d23d8c4c3887ea8c40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
