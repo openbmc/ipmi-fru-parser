@@ -1,0 +1,11 @@
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+1: Vernon Mauery <vernon.mauery@linux.intel.com>
+Ok-To-Test+1: Vernon Mauery <vernon.mauery@linux.intel.com>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+1: Kun Yi <kunyi731@gmail.com>
+Code-Review+2: Emily Shaffer <emilyshaffer@google.com>
+Submitted-by: Oskar Senft <osk@google.com>
+Submitted-at: Mon, 11 Feb 2019 18:20:54 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/16458
+Project: openbmc/ipmi-fru-parser
+Branch: refs/heads/master
