@@ -25,10 +25,11 @@ PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus],,\
     [AC_MSG_ERROR([Requires sdbusplus package.])])
 PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging],,\
     [AC_MSG_ERROR([The openbmc/phosphor-logging package is required])])
+PKG_CHECK_MODULES([LIBIPMID], [libipmid],,\
+    [AC_MSG_ERROR([The openbmc/phosphor-host-ipmid package is required])])
 
 # Checks for header files.
 AC_CHECK_HEADER(systemd/sd-bus.h, ,[AC_MSG_ERROR([Could not find systemd/sd-bus.h...systemd development package required])])
-AC_CHECK_HEADER(host-ipmid/ipmid-api.h, ,[AC_MSG_ERROR([Could not find host-ipmid/ipmid-api.h...host-ipmid package required])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AX_CXX_COMPILE_STDCXX_17([noext])

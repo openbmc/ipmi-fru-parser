@@ -28,15 +28,18 @@ libwritefrudata_la_LDFLAGS = $(SYSTEMD_LIBS) \
 libwritefrudata_la_CXXFLAGS = $(SYSTEMD_CFLAGS) \
 	$(libmapper_CFLAGS) \
 	$(SDBUSPLUS_CFLAGS) \
-	$(PHOSPHOR_LOGGING_CFLAGS)
+	$(PHOSPHOR_LOGGING_CFLAGS) \
+	$(LIBIPMID_CFLAGS)
 
 libstrgfnhandlerdir = ${libdir}/ipmid-providers
 libstrgfnhandler_LTLIBRARIES = libstrgfnhandler.la
 libstrgfnhandler_la_SOURCES = strgfnhandler.cpp
 libstrgfnhandler_la_LDFLAGS = $(PHOSPHOR_LOGGING_LIBS) \
+	$(LIBIPMID_LIBS) \
 	-version-info 1:0:0 -shared
 libstrgfnhandler_la_LIBADD = libwritefrudata.la
-libstrgfnhandler_la_CXXFLAGS = $(PHOSPHOR_LOGGING_CFLAGS)
+libstrgfnhandler_la_CXXFLAGS = $(PHOSPHOR_LOGGING_CFLAGS) \
+	$(LIBIPMID_CFLAGS)
 
 fru-gen.cpp:
 	$(AM_V_GEN)@FRUGEN@ -o $(top_builddir) generate-cpp

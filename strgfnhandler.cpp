@@ -1,6 +1,6 @@
 #include "writefrudata.hpp"
 
-#include <host-ipmid/ipmid-api.h>
+#include <ipmid/api.h>
 #include <unistd.h>
 
 #include <cstdio>
