@@ -23,10 +23,10 @@ AC_CHECK_LIB([mapper], [mapper_get_service],,\
 PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221])
 PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus])
 PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging])
+PKG_CHECK_MODULES([LIBIPMID], [libipmid])
 
 # Checks for header files.
 AC_CHECK_HEADER(systemd/sd-bus.h, ,[AC_MSG_ERROR([Could not find systemd/sd-bus.h...systemd development package required])])
-AC_CHECK_HEADER(host-ipmid/ipmid-api.h, ,[AC_MSG_ERROR([Could not find host-ipmid/ipmid-api.h...host-ipmid package required])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AX_CXX_COMPILE_STDCXX_17([noext])
