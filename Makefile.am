@@ -5,7 +5,7 @@ CLEANFILES=$(BUILT_SOURCES)
 
 sbin_PROGRAMS = phosphor-read-eeprom
 
-phosphor_read_eeprom_SOURCES = readeeprom.cpp argument.cpp
+phosphor_read_eeprom_SOURCES = readeeprom.cpp
 phosphor_read_eeprom_LDFLAGS = $(SYSTEMD_LIBS) \
 	$(libmapper_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS)

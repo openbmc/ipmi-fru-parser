@@ -1,6 +1,6 @@
-#include "argument.hpp"
 #include "writefrudata.hpp"
 
+#include <CLI/CLI.hpp>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -19,7 +19,6 @@ static void exit_with_error(const char* err, char** argv)
 
 static uint8_t parse_fruid_or_exit(const char* fruid_str, char** argv)
 {
-    const uint8_t MAX_FRU_ID = 0xfe;
     unsigned long fruid;
     char* endptr = NULL;
 
@@ -62,30 +61,17 @@ int main(int argc, char** argv)
 {
     int rc = 0;
     uint8_t fruid;
+    std::string eeprom_file;
+    const uint8_t MAX_FRU_ID = 0xfe;
+
+    CLI::App app{"OpenBMC IPMI-FRU-Parser"};
+    app.add_option("-e,--eeprom", eeprom_file, "Absolute file name of eeprom")
+        ->check(CLI::ExistingFile);
+    app.add_option("-f,--fruid", fruid, "valid fru id in integer")
+        ->check(CLI::Range(0, MAX_FRU_ID));
 
     // Read the arguments.
-    auto cli_options = std::make_unique<ArgumentParser>(argc, argv);
-
-    // Parse out each argument.
-    auto eeprom_file = (*cli_options)["eeprom"];
-    if (eeprom_file == ArgumentParser::empty_string)
-    {
-        // User has not passed in the appropriate argument value
-        exit_with_error("eeprom data not found.", argv);
-    }
-
-    auto fruid_str = (*cli_options)["fruid"];
-    if (fruid_str == ArgumentParser::empty_string)
-    {
-        // User has not passed in the appropriate argument value
-        exit_with_error("fruid data not found.", argv);
-    }
-
-    // Extract the fruid
-    fruid = parse_fruid_or_exit(fruid_str.c_str(), argv);
-
-    // Finished getting options out, so release the parser.
-    cli_options.release();
+    CLI11_PARSE(app, argc, argv);
 
     // Now that we have the file that contains the eeprom data, go read it
     // and update the Inventory DB.
