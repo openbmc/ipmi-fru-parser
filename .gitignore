@@ -39,6 +39,7 @@ __pycache__
 *.so.*
 
 # Autotools
+autom4te.cache/
 .deps
 .dirstamp
 .libs
