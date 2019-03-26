@@ -24,6 +24,12 @@ PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221])
 PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus])
 PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging])
 PKG_CHECK_MODULES([LIBIPMID], [libipmid])
+# We need the header only CLI library
+AC_CHECK_HEADERS(
+    [CLI/CLI.hpp],
+    [],
+    [AC_MSG_ERROR([Could not find CLI11 CLI/CLI.hpp])]
+)
 
 # Checks for header files.
 AC_CHECK_HEADER(systemd/sd-bus.h, ,[AC_MSG_ERROR([Could not find systemd/sd-bus.h...systemd development package required])])
