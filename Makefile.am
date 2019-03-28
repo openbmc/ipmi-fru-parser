@@ -3,7 +3,7 @@ AM_DEFAULT_SOURCE_EXT = .cpp
 
 CLEANFILES=$(BUILT_SOURCES)
 
-sbin_PROGRAMS = phosphor-read-eeprom
+bin_PROGRAMS = phosphor-read-eeprom
 
 phosphor_read_eeprom_SOURCES = readeeprom.cpp
 phosphor_read_eeprom_LDFLAGS = $(SYSTEMD_LIBS) \
