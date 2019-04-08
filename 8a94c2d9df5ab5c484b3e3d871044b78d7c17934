@@ -1,0 +1,296 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38c66a99_0a537a31",
+        "filename": "multirecord.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "needed?",
+      "range": {
+        "startLine": 70,
+        "startChar": 16,
+        "endLine": 70,
+        "endChar": 17
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "943ad12f_47c9fb5f",
+        "filename": "multirecord.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "auto helps in such obvious code",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 28
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c3b78a0_6a3be257",
+        "filename": "multirecord.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "length",
+      "range": {
+        "startLine": 125,
+        "startChar": 50,
+        "endLine": 125,
+        "endChar": 56
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc88797a_0217da84",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "The preferred documentation format in OpenBMC is doxygen. http://www.doxygen.nl/manual/docblocks.html#cppblock",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fbdac74_4b9062fd",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "Documentation will help.",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e0e85ed_f1329265",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "Documentation will help.",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f94d952_e2c56410",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "Does this correspond to \"Tachometer pulses per rotation/Predictive fail polarity\" in the specification?",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd241843_b2eb9053",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "mrBits take a uint16_t as parameter, combinedWattage is a uint8_t.",
+      "range": {
+        "startLine": 196,
+        "startChar": 22,
+        "endLine": 196,
+        "endChar": 37
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfdd0fbf_b992c793",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "uint16_t?",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 11
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2918b816_1c6ac0c6",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "nit:InRushCurrent?",
+      "range": {
+        "startLine": 251,
+        "startChar": 25,
+        "endLine": 251,
+        "endChar": 29
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5528a04_249735aa",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "nit: InRushInterval?",
+      "range": {
+        "startLine": 253,
+        "startChar": 23,
+        "endLine": 253,
+        "endChar": 37
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7595dea_0079cfbc",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "nit: data_ match the coding guidelines.",
+      "range": {
+        "startLine": 289,
+        "startChar": 20,
+        "endLine": 289,
+        "endChar": 25
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a242d05_b996907f",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "Why is the section skipped for MultiRecord?",
+      "range": {
+        "startLine": 251,
+        "startChar": 57,
+        "endLine": 251,
+        "endChar": 64
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b49646c2_506d3592",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000005
+      },
+      "writtenOn": "2019-04-08T09:16:56Z",
+      "side": 1,
+      "message": "Are there D-Bus interfaces and properties already defined for the multi record entries.",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
