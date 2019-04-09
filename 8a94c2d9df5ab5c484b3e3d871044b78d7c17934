@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2d74a6da_0c96dcd9",
+        "filename": "multirecord.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "Nope. A typo or some leftover probably. Will remove. Thanks for noticing.",
+      "parentUuid": "38c66a99_0a537a31",
+      "range": {
+        "startLine": 70,
+        "startChar": 16,
+        "endLine": 70,
+        "endChar": 17
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "943ad12f_47c9fb5f",
         "filename": "multirecord.cpp",
         "patchSetId": 18
@@ -36,6 +60,30 @@
       "writtenOn": "2019-04-08T09:16:56Z",
       "side": 1,
       "message": "auto helps in such obvious code",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 28
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb26846a_379ef937",
+        "filename": "multirecord.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "not much of a help (the statement still won\u0027t fit in 80 chars and will keep looking ugly just like all C++ code does ;) ), but I will change.",
+      "parentUuid": "943ad12f_47c9fb5f",
       "range": {
         "startLine": 101,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c314dd0a_1ab851b7",
+        "filename": "multirecord.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "Thanks for noticing.",
+      "parentUuid": "1c3b78a0_6a3be257",
+      "range": {
+        "startLine": 125,
+        "startChar": 50,
+        "endLine": 125,
+        "endChar": 56
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc88797a_0217da84",
         "filename": "multirecord.hpp",
         "patchSetId": 18
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "c532e99a_077de481",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "Do you want doxy-style documentation even for internal entities? I thought it\u0027s mainly for automatic generation of API docs.",
+      "parentUuid": "dc88797a_0217da84",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fbdac74_4b9062fd",
         "filename": "multirecord.hpp",
         "patchSetId": 18
@@ -99,6 +189,24 @@
       "writtenOn": "2019-04-08T09:16:56Z",
       "side": 1,
       "message": "Documentation will help.",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e83decf_e8e77e73",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "Well, IPMI FRU spec is the documentation. Better references/names could be helpful, that\u0027s true.",
+      "parentUuid": "3fbdac74_4b9062fd",
       "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -139,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "919ed1a6_0edefda6",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "Yes. Probably the name isn\u0027t good enough indeed. I\u0027ll rethink this.",
+      "parentUuid": "6f94d952_e2c56410",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd241843_b2eb9053",
         "filename": "multirecord.hpp",
         "patchSetId": 18
@@ -150,6 +276,30 @@
       "writtenOn": "2019-04-08T09:16:56Z",
       "side": 1,
       "message": "mrBits take a uint16_t as parameter, combinedWattage is a uint8_t.",
+      "range": {
+        "startLine": 196,
+        "startChar": 22,
+        "endLine": 196,
+        "endChar": 37
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1013bcec_ac76aadd",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "uint8_t is silently promoted to uint16_t, isn\u0027t it?",
+      "parentUuid": "fd241843_b2eb9053",
       "range": {
         "startLine": 196,
         "startChar": 22,
@@ -185,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "f7f1e2fc_b1efb58a",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "No, it\u0027s the field at offset 0 in Table 18-2 of IPMI FRU spec. Unlike other fields in that table, its length is just 1. Hence uint8_t.",
+      "parentUuid": "cfdd0fbf_b992c793",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 11
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2918b816_1c6ac0c6",
         "filename": "multirecord.hpp",
         "patchSetId": 18
@@ -196,6 +370,30 @@
       "writtenOn": "2019-04-08T09:16:56Z",
       "side": 1,
       "message": "nit:InRushCurrent?",
+      "range": {
+        "startLine": 251,
+        "startChar": 25,
+        "endLine": 251,
+        "endChar": 29
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "517eac51_20adba39",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "This is a literal copy of IPMI FRU spec. See Table 18-1, offset 4.",
+      "parentUuid": "2918b816_1c6ac0c6",
       "range": {
         "startLine": 251,
         "startChar": 25,
@@ -231,6 +429,30 @@
     },
     {
       "key": {
+        "uuid": "162d120a_032cabcd",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "This is a literal copy of IPMI FRU spec. See Table 18-1, offset 5.",
+      "parentUuid": "c5528a04_249735aa",
+      "range": {
+        "startLine": 253,
+        "startChar": 23,
+        "endLine": 253,
+        "endChar": 37
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7595dea_0079cfbc",
         "filename": "multirecord.hpp",
         "patchSetId": 18
@@ -242,6 +464,30 @@
       "writtenOn": "2019-04-08T09:16:56Z",
       "side": 1,
       "message": "nit: data_ match the coding guidelines.",
+      "range": {
+        "startLine": 289,
+        "startChar": 20,
+        "endLine": 289,
+        "endChar": 25
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb8e7061_0d61965b",
+        "filename": "multirecord.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "ok, will call it `privateData`.",
+      "parentUuid": "b7595dea_0079cfbc",
       "range": {
         "startLine": 289,
         "startChar": 20,
@@ -277,6 +523,30 @@
     },
     {
       "key": {
+        "uuid": "cc4887fb_e59e0168",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "In case of usual FRUs each path in config.yaml (e.g. /system/chassis/motherboard/dimm127) corresponds to exactly one patch in d-bus. That path is added in line 320 below:\n        if (!skipObject)\n        {\n\u003e\u003e\u003e\u003e        objects.emplace(objectPath, interfaces);\n        }\n\nIn case of MultiRecord FRUs, path for each MR section (e.g. /system/chassis/motherboard/powersupply0/dc_output) may correspond to multiple paths in d-bus (in case of CRPS PSU by Compuware that is four!), their count isn\u0027t fixed and isn\u0027t known beforehand. They are processed/added separately in the Multirecord handling code in line 271:\n\n                    int i \u003d 0;\n                    for (auto\u0026 mr : multiData)\n                    {\n                        if (mr-\u003etype() \u003d\u003d mapIt-\u003esecond)\n                        {\n                            PropertyMap props;\n                            InterfaceMap interfaces;\n                            mr-\u003eupdatePropertyMap(props);\n                            interfaces.emplace(std::move(interfaceList.first),\n                                               std::move(props));\n                            sdbusplus::message::object_path path \u003d\n                                instance.path + std::to_string(i);\n\u003e\u003e\u003e\u003e                        objects.emplace(path, interfaces);\n                            ++i;\n                        }\n                    }\n\nThat\u0027s why there is no need to execute the code in line 320 for multirecord entries, otherwise you\u0027d get some duplicates.\n\nI will write a more verbose comment about that here.",
+      "parentUuid": "6a242d05_b996907f",
+      "range": {
+        "startLine": 251,
+        "startChar": 57,
+        "endLine": 251,
+        "endChar": 64
+      },
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b49646c2_506d3592",
         "filename": "writefrudata.cpp",
         "patchSetId": 18
@@ -288,6 +558,24 @@
       "writtenOn": "2019-04-08T09:16:56Z",
       "side": 1,
       "message": "Are there D-Bus interfaces and properties already defined for the multi record entries.",
+      "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6d79ea8_c32574e2",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-09T13:52:25Z",
+      "side": 1,
+      "message": "This is a GREAT catch! We do have interfaces and properties, but we forgot to submit a patch to Gerrit for it! And you\u0027re the first in several months of reviews to have noticed that!\nI\u0027ve just pushed a new change and created a topic:\nhttps://gerrit.openbmc-project.xyz/c/openbmc/phosphor-dbus-interfaces/+/20369\nWill as well add the topic to this change with the next patchset commit.",
+      "parentUuid": "b49646c2_506d3592",
       "revId": "8a94c2d9df5ab5c484b3e3d871044b78d7c17934",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
