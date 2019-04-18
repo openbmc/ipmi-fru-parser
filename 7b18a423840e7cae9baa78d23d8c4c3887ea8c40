@@ -94,6 +94,52 @@
       "revId": "7b18a423840e7cae9baa78d23d8c4c3887ea8c40",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b43f8486_f9e42d08",
+        "filename": "multirecord.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000266
+      },
+      "writtenOn": "2019-04-18T03:08:15Z",
+      "side": 1,
+      "message": "Do we need to init this variable before using for each while loop?",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 23
+      },
+      "revId": "7b18a423840e7cae9baa78d23d8c4c3887ea8c40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e363a37c_d03fe922",
+        "filename": "multirecord.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000266
+      },
+      "writtenOn": "2019-04-18T03:08:15Z",
+      "side": 1,
+      "message": "In case of error of parsing record, the reason can be:\n+ Data shorter than header length\n+ Invalid header checksum\n+ Invalid record checksum\n+ Etc\nand it means that the FRU multi-record data is not valid.\nI don\u0027t think we need to continue checking the next record.\n\nWe only check the next record when the reason is \"Unsupported record type\" (recordType \u003e MAX_PARSE_TYPE).\n\nPlease consider to handle the error cases.",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 168,
+        "endChar": 19
+      },
+      "revId": "7b18a423840e7cae9baa78d23d8c4c3887ea8c40",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
