@@ -1,0 +1,486 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ceac15c_de5270b5",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "rather than static inline, make it constexpr\n\nThis is pretty clever; I like it.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d97c37c_dedeb137",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "for a constexpr function, this should be \u0027constexpr const MaskShift ms[]\u0027",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 10
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b7ea7e8_1e38031d",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "nbits",
+      "range": {
+        "startLine": 116,
+        "startChar": 36,
+        "endLine": 116,
+        "endChar": 39
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80461e25_2b3817ec",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "these multi-byte fields (while little endian in the spec), should be accessed with le16toh (or something equivalent) in case the machine is not little endian. My preference would be to do this as part of the constructor, so that whenever it is accessed later, the bytes are already in host order.",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 12
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "043aac07_b7227f19",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "please group all the member variables together so they are easier to find.",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 25
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c7a7fa_b6b9ff58",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "these might do better as a class enum",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 0
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7597d734_d92342c2",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "also, do you want do delete the default constructor?",
+      "range": {
+        "startLine": 255,
+        "startChar": 4,
+        "endLine": 255,
+        "endChar": 20
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fd168bf_44bda473",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "use the explicit keyword to ensure that the constructor doesn\u0027t get used for the wrong purpose.",
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de90f2c7_3d9f69ec",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "explicit PowerSupplyClass(const uint8_t* data)\n    : pData(*reinterpret_cast\u003cconst PowerSupplyInfo *\u003e(data))\n{\n}\n\nThat lets the compiler figure out the initialization better.",
+      "range": {
+        "startLine": 256,
+        "startChar": 3,
+        "endLine": 258,
+        "endChar": 5
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "006c10a8_0ab10cc8",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "since this is only called in a context that is doing a move, why not just create the thing on the stack and let the compiler optimize your code rather than passing by value?",
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fcffc51_526b7cfd",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "same notes as above for power supply",
+      "range": {
+        "startLine": 316,
+        "startChar": 3,
+        "endLine": 319,
+        "endChar": 5
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fb8a20e_3e175975",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "if you make all the virtual functions final, the compiler can optimize better.",
+      "range": {
+        "startLine": 320,
+        "startChar": 4,
+        "endLine": 320,
+        "endChar": 11
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3417576d_c20b6fdb",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "Rather than this hard-to-read size lookup array, use a function that uses a switch statement on the type. It doesn\u0027t change the runtime size much and it makes the code much more readable.\n\nenums and switch statements were made for each other.",
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e18019e_9a800532",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "why this layer of templates instead of calling std::make_unique\u003c\u003e() directly? I don\u0027t think this adds anything.",
+      "range": {
+        "startLine": 366,
+        "startChar": 15,
+        "endLine": 366,
+        "endChar": 36
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3725a9fb_3074e3d9",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "because this is creating a new thing rather than retrieving an existing thing, createMultirecordInfo makes more sense.",
+      "range": {
+        "startLine": 369,
+        "startChar": 12,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef98288_7d63fcf9",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "use nullptr instead of NULL, here and throughout.",
+      "range": {
+        "startLine": 395,
+        "startChar": 15,
+        "endLine": 395,
+        "endChar": 19
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46f6aea_b5976898",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "length",
+      "range": {
+        "startLine": 435,
+        "startChar": 50,
+        "endLine": 435,
+        "endChar": 56
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad3c6b90_ebbc54de",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "needs curly braces",
+      "range": {
+        "startLine": 482,
+        "startChar": 0,
+        "endLine": 482,
+        "endChar": 46
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e70d797_42859185",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "const? and maybe static?",
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6817d4a_c1f9bae7",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "this is not doing what you think it is. interfaceList.first is a const and cannot be moved.",
+      "range": {
+        "startLine": 280,
+        "startChar": 47,
+        "endLine": 280,
+        "endChar": 56
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7743cc07_322ea0b6",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "rather than using this skipObject logic, why not just check the size of the interfaces map and only add if there is something there?",
+      "range": {
+        "startLine": 331,
+        "startChar": 8,
+        "endLine": 334,
+        "endChar": 9
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaaeef9c_7fac7626",
+        "filename": "writefrudata.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-22T17:56:18Z",
+      "side": 1,
+      "message": "constexpr instead of #define",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 67
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
