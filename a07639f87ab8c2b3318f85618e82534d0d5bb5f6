@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53fd4734_a10c2070",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8ceac15c_de5270b5",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d97c37c_dedeb137",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -45,6 +69,30 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40bc49a9_61e5a609",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack. But `constexpr` implies `const` for object declarations.",
+      "parentUuid": "0d97c37c_dedeb137",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 10
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fcc491c6_5c50713e",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3b7ea7e8_1e38031d",
+      "range": {
+        "startLine": 116,
+        "startChar": 36,
+        "endLine": 116,
+        "endChar": 39
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80461e25_2b3817ec",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -91,6 +163,30 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c50f6c81_e44a828e",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "True. My bad, missed this during review. Will fix.",
+      "parentUuid": "80461e25_2b3817ec",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 12
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "3b5b4712_240647c5",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Sorry, they are in the memory/specification order. This structure is used as a parser and is initialized by copying a raw byte array into it. I will update the comments for these structures to explain that.\n\nWill move the accessors out of this parsing structure into the embracing class. Will do the byteswapping there too.",
+      "parentUuid": "043aac07_b7227f19",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 25
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31c7a7fa_b6b9ff58",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -137,6 +257,30 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a33ad5_77ea6ea3",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Then it will require writing that enum\u0027s name each time, which just adds unnecessary verbosity, IMO. These will all go as the embracing classes private members. They are used immediately near the definition. I don\u0027t see any profit in using enum class here.",
+      "parentUuid": "31c7a7fa_b6b9ff58",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 0
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +324,48 @@
     },
     {
       "key": {
+        "uuid": "5b583813_1c390e9b",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8fd168bf_44bda473",
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c16d4a54_6797e973",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7597d734_d92342c2",
+      "range": {
+        "startLine": 255,
+        "startChar": 4,
+        "endLine": 255,
+        "endChar": 20
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de90f2c7_3d9f69ec",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "d08841dd_68f772d4",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "de90f2c7_3d9f69ec",
+      "range": {
+        "startLine": 256,
+        "startChar": 3,
+        "endLine": 258,
+        "endChar": 5
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "006c10a8_0ab10cc8",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -217,6 +427,24 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b852fc0_3f2aa726",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "006c10a8_0ab10cc8",
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -243,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "d2c1b6d7_ad3c9ba3",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6fcffc51_526b7cfd",
+      "range": {
+        "startLine": 316,
+        "startChar": 3,
+        "endLine": 319,
+        "endChar": 5
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fb8a20e_3e175975",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -266,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "cbc533c5_9fefd43d",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0fb8a20e_3e175975",
+      "range": {
+        "startLine": 320,
+        "startChar": 4,
+        "endLine": 320,
+        "endChar": 11
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3417576d_c20b6fdb",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -280,6 +556,24 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f9fb313_ecfe7810",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Already addressed as a follow-up to Emily\u0027s comment.",
+      "parentUuid": "3417576d_c20b6fdb",
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -306,6 +600,30 @@
     },
     {
       "key": {
+        "uuid": "50fc3085_81c8a3fa",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Because C++ is ugly and tautological! :(\n\nstd::make_unique\u003cPowerSupplyClass\u003e(PowerSupplyClass(recordData))\n\nis a lot uglier and harder to read than\n\ncreate\u003cPowerSupplyClass\u003e(recordData)\n\nI\u0027ll though rename `create` to `unique` to make it even easier readable.",
+      "parentUuid": "3e18019e_9a800532",
+      "range": {
+        "startLine": 366,
+        "startChar": 15,
+        "endLine": 366,
+        "endChar": 36
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3725a9fb_3074e3d9",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -326,6 +644,30 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83bc602f_88a8f00c",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "This function has no reason to exist at all. It is only called from one place and will be embedded there.",
+      "parentUuid": "3725a9fb_3074e3d9",
+      "range": {
+        "startLine": 369,
+        "startChar": 12,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -352,6 +694,30 @@
     },
     {
       "key": {
+        "uuid": "2c172b50_05fcf974",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Already did that in my copy. Thanks. Will arrive with the next patch set.",
+      "parentUuid": "7ef98288_7d63fcf9",
+      "range": {
+        "startLine": 395,
+        "startChar": 15,
+        "endLine": 395,
+        "endChar": 19
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b46f6aea_b5976898",
         "filename": "multirecord.cpp",
         "patchSetId": 19
@@ -372,6 +738,30 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a531e26_c3c6ec7b",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b46f6aea_b5976898",
+      "range": {
+        "startLine": 435,
+        "startChar": 50,
+        "endLine": 435,
+        "endChar": 56
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -398,6 +788,30 @@
     },
     {
       "key": {
+        "uuid": "8691c360_6df3f738",
+        "filename": "multirecord.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Yes, and the switch must be inside them. Will do.",
+      "parentUuid": "ad3c6b90_ebbc54de",
+      "range": {
+        "startLine": 482,
+        "startChar": 0,
+        "endLine": 482,
+        "endChar": 46
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e70d797_42859185",
         "filename": "writefrudata.cpp",
         "patchSetId": 19
@@ -412,6 +826,24 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bda2c34d_9f140164",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5e70d797_42859185",
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -438,6 +870,30 @@
     },
     {
       "key": {
+        "uuid": "bb6af705_6dab107f",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "True. Will remove this move.",
+      "parentUuid": "f6817d4a_c1f9bae7",
+      "range": {
+        "startLine": 280,
+        "startChar": 47,
+        "endLine": 280,
+        "endChar": 56
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7743cc07_322ea0b6",
         "filename": "writefrudata.cpp",
         "patchSetId": 19
@@ -461,6 +917,30 @@
     },
     {
       "key": {
+        "uuid": "1249f7c0_bcfcd3b6",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Because there is always something in there. But we either have already done this emplace in line 284 above, or we need to do it here. The loop is processing records from the yaml config. As the comment in 251:264 explains, for each such record that is a normal FRU, there will be created just one `interfaces` map that will be emplaced here in 333. For multi-record FRUs there can be many `interfaces` maps created, each emplaced separately back in 284. That is, the record may describe an object called \u0027.../system/chassis/motherboard/powersupply0/dc_output\u0027, in line 284 there may get created multiple instances like `.../dc_output0`, `.../dc_output1`, etc. We do not want to also separately add the `.../dc_output` without the postfix number here. Hence the skipObject logic.\n\nI will rename the `interfaces` inside the Multirecord `if` to `mrinterfaces` to avoid confusion.\nWill also rename `skipObject` to `multiRecordObject`.",
+      "parentUuid": "7743cc07_322ea0b6",
+      "range": {
+        "startLine": 331,
+        "startChar": 8,
+        "endLine": 334,
+        "endChar": 9
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aaaeef9c_7fac7626",
         "filename": "writefrudata.hpp",
         "patchSetId": 19
@@ -481,6 +961,30 @@
       "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65f457b9_4a0c3450",
+        "filename": "writefrudata.hpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-24T17:43:37Z",
+      "side": 1,
+      "message": "Probably, but that should have been addressed in commit c9508db8 where this block of defines was introduced. We here just rename the meaningless EIGHT_BYTES to BLOCK_SIZE.\nI thing refactoring of these definitions needs another gerrit change or otherwise we\u0027ll end up changing the whole code base.",
+      "parentUuid": "aaaeef9c_7fac7626",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 67
+      },
+      "revId": "a07639f87ab8c2b3318f85618e82534d0d5bb5f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
