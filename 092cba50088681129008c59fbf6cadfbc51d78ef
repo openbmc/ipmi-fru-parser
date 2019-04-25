@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fc7af9a5_9e5bf26d",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-25T17:10:33Z",
+      "side": 1,
+      "message": "I would strongly discourage using a map for the weight of it. maps are way overused (IMO) in our codebase when a much cleaner mechanism could be used.\n\nIn this case, I would suggest making this table into a switch statement, because that will catch the case when a new enum value is added but not handled.",
+      "parentUuid": "f0603302_fb85fdb6",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c552991a_26c93b29",
         "filename": "multirecord.cpp",
         "patchSetId": 20
@@ -245,6 +263,30 @@
       "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c577be8b_b338613f",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2019-04-25T17:10:33Z",
+      "side": 1,
+      "message": "I may have made a mistake in my suggestion. Rather than passing in a uint8_t *, it would be better to just pass in a reference to the class. If done properly, it could compile to the same thing, but the check for size of uint8_t buffer would be done at the same place the buffer was consumed.\n\nclass PowerSupplyClass : public MultirecordInfo\n{\n  public:\n    explicit PowerSupplyClass(PowerSupplyInfo\u0026\u0026 info)\n     : pData(std::forward\u003cPowerSupplyInFo\u003e(info))\n    {\n    }\n...\n};\n\n...\nuint8_t *data;\nsize_t dataLen \u003d payloadLen;\nif (dataLen \u003c sizeof(PowerSupplyInfo))\n{\n    return error;\n}\nauto psu \u003d std::make_unique\u003cPowerSupplyClass\u003e(\n                *reinterpret_cast\u003cPowerSupplyInfo*\u003e(data));\n\nI am not sure if this would work or not, I am just thinking out loud. But I like this sort of approach better because it puts the",
+      "parentUuid": "c1fc9e34_cb42b464",
+      "range": {
+        "startLine": 183,
+        "startChar": 59,
+        "endLine": 183,
+        "endChar": 63
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
