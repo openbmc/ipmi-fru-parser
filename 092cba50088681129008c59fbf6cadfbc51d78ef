@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0cf5be3e_c3c8f1ea",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "It was indenting in the `// Table XX` comments, aligning them as if they were a continuation of the previous line comment.\n\nRant:\nHonestly, I don\u0027t like the idea of clang-format vetoing the commits, because the program is pretty dumb and can\u0027t always tell what the proper formatting would be.\nFor instance, as you will see, in the new version (upcoming PS21) of mrBits(), clang-format wants to join the closing curly brace in map definition, making it a reading hell (`}}};`). Leaving the last curly it on the next line would be much more readable, but there is no such option with clang-format running in automatic procrustean mode.\n\nIt would be great if there was a button like \u0027Yes, I know, I did this intentionally\u0027. Putting in the clang-format comments is pretty ugly to my taste.",
+      "parentUuid": "7d86f001_54dab1ef",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb0227e_c7a159d8",
         "filename": "multirecord.cpp",
         "patchSetId": 20
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ee67cdec_c7f0c0b0",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Ok. Will do. Most other voltages per spec are in these units.",
+      "parentUuid": "ddb0227e_c7a159d8",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1159a38_90bcbda2",
         "filename": "multirecord.cpp",
         "patchSetId": 20
@@ -50,6 +86,24 @@
       "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0603302_fb85fdb6",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Well... I was using designated initializers like `[paramEolst] \u003d {1, 7}`, but it turned out that those are C99-only and are not allowed in all-glorious-and-marvelous ISO C++. So I removed them. I understand your concern though and share it.\n\nUsing `std::map` will definitely introduce some overhead (both for runtime and for eyes reading the code) and will prevent this function from remaining `constexpr`, but I\u0027ll change the code to use a map as it seems the best of C++ compliant solutions.",
+      "parentUuid": "c1159a38_90bcbda2",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "19b8f61b_beb8d523",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "You\u0027re welcome",
+      "parentUuid": "c552991a_26c93b29",
+      "range": {
+        "startLine": 142,
+        "startChar": 42,
+        "endLine": 142,
+        "endChar": 67
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23586d79_5de80f81",
         "filename": "multirecord.cpp",
         "patchSetId": 20
@@ -96,6 +174,30 @@
       "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f004acd3_3b0628fa",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Well. The best I can think of, is renaming PowerSupplyInfo structure into PowerSupplyInfoData and removing \u0027Class\u0027 from this class.",
+      "parentUuid": "23586d79_5de80f81",
+      "range": {
+        "startLine": 178,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "c1fc9e34_cb42b464",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "It is guaranteed in lines 447:462 of PS20. Will add a comment here.",
+      "parentUuid": "7d40525b_15f5effc",
+      "range": {
+        "startLine": 183,
+        "startChar": 59,
+        "endLine": 183,
+        "endChar": 63
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ab8f029_f28b648e",
         "filename": "multirecord.cpp",
         "patchSetId": 20
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "a86c292b_99c95abd",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "As I explained in the interface change, let\u0027s leave it int64_t for now.\nIt\u0027s all due to allowed variants in ipmi::vpd::Value.",
+      "parentUuid": "1ab8f029_f28b648e",
+      "range": {
+        "startLine": 200,
+        "startChar": 34,
+        "endLine": 200,
+        "endChar": 41
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3b8c88f_48b2ebf6",
         "filename": "multirecord.cpp",
         "patchSetId": 20
@@ -159,6 +309,24 @@
       "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8b5b992_170f6e06",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b3b8c88f_48b2ebf6",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "73d7b174_2a104526",
+        "filename": "multirecord.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Sure, that\u0027s a typo. Thanks for noticing.",
+      "parentUuid": "55186139_4d049e85",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 7
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2c05c39_cb1f3d7a",
         "filename": "writefrudata.cpp",
         "patchSetId": 20
@@ -205,6 +397,30 @@
       "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2fd740b_bccedfb5",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b2c05c39_cb1f3d7a",
+      "range": {
+        "startLine": 279,
+        "startChar": 40,
+        "endLine": 279,
+        "endChar": 47
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -231,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "9d7cfb5d_79bf1a5e",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "01845a78_889c9271",
+      "range": {
+        "startLine": 280,
+        "startChar": 41,
+        "endLine": 280,
+        "endChar": 53
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b64666e_e2756175",
         "filename": "writefrudata.cpp",
         "patchSetId": 20
@@ -245,6 +485,24 @@
       "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56b747be_6dc331be",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "You\u0027re right, but I guess it\u0027s too late to split it. It will only make the overall review process even slower now. I\u0027ll keep this in mind though for future commits.",
+      "parentUuid": "8b64666e_e2756175",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -271,6 +529,30 @@
     },
     {
       "key": {
+        "uuid": "7f48448b_9bf54e00",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Thank you for this comment. Although the comment in question looks to have become stale long before our changes, your comment made me read some more code around, and I found that there was another similar loop where a similar change was desirable, so PS21 will have that change too.",
+      "parentUuid": "927e7f0c_7b5a079b",
+      "range": {
+        "startLine": 511,
+        "startChar": 31,
+        "endLine": 511,
+        "endChar": 51
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4b37927_2bf6825f",
         "filename": "writefrudata.cpp",
         "patchSetId": 20
@@ -294,6 +576,30 @@
     },
     {
       "key": {
+        "uuid": "231c130c_13c5af67",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b4b37927_2bf6825f",
+      "range": {
+        "startLine": 519,
+        "startChar": 53,
+        "endLine": 519,
+        "endChar": 69
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1fcbce7_3ebc27be",
         "filename": "writefrudata.cpp",
         "patchSetId": 20
@@ -308,6 +614,24 @@
       "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2c790b9_b163e915",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1000192
+      },
+      "writtenOn": "2019-04-25T14:38:11Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "d1fcbce7_3ebc27be",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
