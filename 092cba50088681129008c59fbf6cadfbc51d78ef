@@ -1,0 +1,313 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d86f001_54dab1ef",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "Out of curiosity, what was clang-format giving you trouble about here?",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddb0227e_c7a159d8",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "Nit: Rather than rephrase the name of the method, maybe you could state _why_ you need 10mV units (and therefore the converter method) :)",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1159a38_90bcbda2",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure that I like this. If someone modifies IpmiMultiRecordParam, they must know to modify ms[] as well - and they must do it in the exact same order. This strikes me as very fragile - especially considering that there are fields missing from the spec, and you\u0027ve made no warning in your comments on either code area.\n\nA less fragile approach could be to use a map\u003cIpmiMultirecordParam, MaskShift\u003e - or, if you don\u0027t like the overhead, you could switch on `p` here and choose the correct offset that way, which is more verbose but lighter weight than an STL container.\n\nSpecifically, I\u0027m worried about our new developer coming over and tacking \"psuVoltageCombined\" on line 59 (PS20), and then committing it, saying, \"I\u0027ll do the implementation next week.\" And nobody notices, because it\u0027s just a new enum, it should be safe, and anyway this person isn\u0027t using the DC Output stuff in their project yet - and now your ms[] is broken.",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c552991a_26c93b29",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "Nice - thanks for specifying this.",
+      "range": {
+        "startLine": 142,
+        "startChar": 42,
+        "endLine": 142,
+        "endChar": 67
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23586d79_5de80f81",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "The naming is a little weak, here and below. Can you do better than naming a class with \"Class\" in the name :) (minor nit)",
+      "range": {
+        "startLine": 178,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d40525b_15f5effc",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "Where are you getting your guarantees that the length is right?\n\nIf you don\u0027t guarantee it elsewhere, my opinion is that you shouldn\u0027t use the init list, and should instead check the length and then set pData to the buffer.\n\nThis same comment holds for DcOutputClass.",
+      "range": {
+        "startLine": 183,
+        "startChar": 59,
+        "endLine": 183,
+        "endChar": 63
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ab8f029_f28b648e",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "Make sure you fix these if you change the type in DBus as vmauery suggested.",
+      "range": {
+        "startLine": 200,
+        "startChar": 34,
+        "endLine": 200,
+        "endChar": 41
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b8c88f_48b2ebf6",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "Yeah, the indent creep of this code is really bad. It\u0027s causing you to exceed 80col line widths, which is contrary to the OpenBMC standard (and an accessibility issue). You could either add a newline for the argument to entries when necessary:\nentry(\"IN_DROPOUT_TOLERANCE\u003d\" PRIu8,\n    psi.inDropoutTolerance),\n\nor you could break out to a helper:\n\nswitch (record.type)\n{\n  case IpmiMultirecordType::powerSupplyInfo:\n    dumpPowerSupplyInfo(record.data.powerSupplyInfo);\n    break;\n  case IpmiMultirecordType::dcOutput:\n    dumpDcOutputInfo(record.data.dcOutputInfo);\n    break;\n  default:\n    ...\n}",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55186139_4d049e85",
+        "filename": "multirecord.hpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "spec says \"asf\"",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 7
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c05c39_cb1f3d7a",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "lowerCamel",
+      "range": {
+        "startLine": 279,
+        "startChar": 40,
+        "endLine": 279,
+        "endChar": 47
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01845a78_889c9271",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "lowerCamel",
+      "range": {
+        "startLine": 280,
+        "startChar": 41,
+        "endLine": 280,
+        "endChar": 53
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b64666e_e2756175",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "Thanks for your effort clarifying this comment.\n\nThere\u0027s a possible argument to be made that the rework in checksum that you did here and below would be better used in a different review. At this point, I don\u0027t really care, and want to get your review in :) but maybe something to think of for next time - this rework inflates the size of your review and makes it more intimidating (and less likely to be reviewed in timely fashion). If you had submitted it on its own, people would have said, \"cool, a rephrase and small bugfixes for checksum - this is readable, that\u0027s a quick +1!\" but here it is tied to a lot of heavy new logic, and it\u0027s making an already difficult review even scarier. :)",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "927e7f0c_7b5a079b",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "This comment is now stale.",
+      "range": {
+        "startLine": 511,
+        "startChar": 31,
+        "endLine": 511,
+        "endChar": 51
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4b37927_2bf6825f",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "This is stale.",
+      "range": {
+        "startLine": 519,
+        "startChar": 53,
+        "endLine": 519,
+        "endChar": 69
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1fcbce7_3ebc27be",
+        "filename": "writefrudata.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-25T01:53:56Z",
+      "side": 1,
+      "message": "Nice job commenting your code here - I like it.",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
