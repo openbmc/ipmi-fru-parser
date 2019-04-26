@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ee2c265a_cfd94f95",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-26T16:09:43Z",
+      "side": 1,
+      "message": "FWIW, I know lots of folks are using auto-formatting in their editors (me included) - so explicitly turning off clang-format is better than hushing the clang presubmit check, because it will become pretty difficult for someone to modify the code _without_ reformatting it later.\n\nBy the way, I think the clang-format rules are checked into each repo, so if you ever feel like sewage diving for the greater good... :)",
+      "parentUuid": "0cf5be3e_c3c8f1ea",
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddb0227e_c7a159d8",
         "filename": "multirecord.cpp",
         "patchSetId": 20
@@ -278,6 +296,30 @@
       "side": 1,
       "message": "I may have made a mistake in my suggestion. Rather than passing in a uint8_t *, it would be better to just pass in a reference to the class. If done properly, it could compile to the same thing, but the check for size of uint8_t buffer would be done at the same place the buffer was consumed.\n\nclass PowerSupplyClass : public MultirecordInfo\n{\n  public:\n    explicit PowerSupplyClass(PowerSupplyInfo\u0026\u0026 info)\n     : pData(std::forward\u003cPowerSupplyInFo\u003e(info))\n    {\n    }\n...\n};\n\n...\nuint8_t *data;\nsize_t dataLen \u003d payloadLen;\nif (dataLen \u003c sizeof(PowerSupplyInfo))\n{\n    return error;\n}\nauto psu \u003d std::make_unique\u003cPowerSupplyClass\u003e(\n                *reinterpret_cast\u003cPowerSupplyInfo*\u003e(data));\n\nI am not sure if this would work or not, I am just thinking out loud. But I like this sort of approach better because it puts the",
       "parentUuid": "c1fc9e34_cb42b464",
+      "range": {
+        "startLine": 183,
+        "startChar": 59,
+        "endLine": 183,
+        "endChar": 63
+      },
+      "revId": "092cba50088681129008c59fbf6cadfbc51d78ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0f4deb8_905badcd",
+        "filename": "multirecord.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000099
+      },
+      "writtenOn": "2019-04-26T16:09:43Z",
+      "side": 1,
+      "message": "Vernon, your comment got truncated. Do you still have the rest of it on your stack somewhere?",
+      "parentUuid": "c577be8b_b338613f",
       "range": {
         "startLine": 183,
         "startChar": 59,
