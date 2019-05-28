@@ -195,22 +195,6 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     // Each Interface is having Dbus properties.
     // Each Dbus Property would be having metaData(eg section,VpdPropertyName).
 
-    // Here we are just printing the object,interface and the properties.
-    // which needs to be called with the new inventory manager implementation.
-    using namespace std::string_literals;
-    static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
-    static const auto path = "/xyz/openbmc_project/inventory"s;
-    std::string service;
-    try
-    {
-        service = getService(bus, intf, path);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << "\n";
-        return -1;
-    }
-
     auto iter = frus.find(fruid);
     if (iter == frus.end())
     {
@@ -278,6 +262,25 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
             }
         }
         objects.emplace(objectPath, interfaces);
+    }
+
+    // Here we are just printing the object,interface and the properties.
+    // which needs to be called with the new inventory manager implementation.
+    using namespace std::string_literals;
+    static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
+    static const auto path = "/xyz/openbmc_project/inventory"s;
+    static const auto defaultService = "xyz.openbmc_project.Inventory.Manager"s;
+    std::string service;
+    try
+    {
+        service = getService(bus, intf, path);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << e.what() << "\n";
+        // Mapper call could fail if the interface has just been brought up.
+        // Fallback to the new manager interface string and try method call.
+        service = defaultService;
     }
 
     auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
