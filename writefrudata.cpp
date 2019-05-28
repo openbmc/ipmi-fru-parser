@@ -120,46 +120,6 @@ std::string getFRUValue(const std::string& section, const std::string& key,
 }
 
 /**
- * Get the inventory service from the mapper.
- *
- * @param[in] bus - sdbusplus handle to use for dbus call
- * @param[in] intf - interface
- * @param[in] path - the object path
- * @return the dbus service that owns the interface for that path
- */
-auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
-                const std::string& path)
-{
-    auto mapperCall =
-        bus.new_method_call("xyz.openbmc_project.ObjectMapper",
-                            "/xyz/openbmc_project/object_mapper",
-                            "xyz.openbmc_project.ObjectMapper", "GetObject");
-
-    mapperCall.append(path);
-    mapperCall.append(std::vector<std::string>({intf}));
-    std::map<std::string, std::vector<std::string>> mapperResponse;
-
-    try
-    {
-        auto mapperResponseMsg = bus.call(mapperCall);
-        mapperResponseMsg.read(mapperResponse);
-    }
-    catch (const sdbusplus::exception::SdBusError& ex)
-    {
-        log<level::ERR>("Exception from sdbus call",
-                        entry("WHAT=%s", ex.what()));
-        throw;
-    }
-
-    if (mapperResponse.begin() == mapperResponse.end())
-    {
-        throw std::runtime_error("ERROR in reading the mapper response");
-    }
-
-    return mapperResponse.begin()->first;
-}
-
-/**
  * Takes FRU data, invokes Parser for each FRU record area and updates
  * inventory.
  *
@@ -194,22 +154,6 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     // Each instance object implements certain interfaces.
     // Each Interface is having Dbus properties.
     // Each Dbus Property would be having metaData(eg section,VpdPropertyName).
-
-    // Here we are just printing the object,interface and the properties.
-    // which needs to be called with the new inventory manager implementation.
-    using namespace std::string_literals;
-    static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
-    static const auto path = "/xyz/openbmc_project/inventory"s;
-    std::string service;
-    try
-    {
-        service = getService(bus, intf, path);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << "\n";
-        return -1;
-    }
 
     auto iter = frus.find(fruid);
     if (iter == frus.end())
@@ -279,6 +223,13 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
         }
         objects.emplace(objectPath, interfaces);
     }
+
+    // Here we are just printing the object,interface and the properties.
+    // which needs to be called with the new inventory manager implementation.
+    using namespace std::string_literals;
+    static const auto service = "xyz.openbmc_project.Inventory.Manager"s;
+    static const auto intf = "xyz.openbmc_project.Inventory.Manager"s;
+    static const auto path = "/xyz/openbmc_project/inventory"s;
 
     auto pimMsg = bus.new_method_call(service.c_str(), path.c_str(),
                                       intf.c_str(), "Notify");
