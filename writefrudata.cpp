@@ -214,7 +214,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     auto iter = frus.find(fruid);
     if (iter == frus.end())
     {
-        log<level::ERR>("Unable to get the FRU info",
+        log<level::ERR>("Unable to find FRUID in generated list",
                         entry("FRU=%d", static_cast<int>(fruid)));
         return -1;
     }
