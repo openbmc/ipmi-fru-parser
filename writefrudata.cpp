@@ -290,7 +290,9 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     }
     catch (const sdbusplus::exception::SdBusError& ex)
     {
-        log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()));
+        log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()),
+                        entry("SERVICE=%s", service.c_str()),
+                        entry("PATH=%s", path.c_str()));
         return -1;
     }
 
