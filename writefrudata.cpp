@@ -445,8 +445,6 @@ bool removeInvalidArea(const std::unique_ptr<IPMIFruArea>& fruArea)
 int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                          FruAreaVector& fruAreaVec)
 {
-    int rc = -1;
-
     // Now walk the common header and see if the file size has atleast the last
     // offset mentioned by the struct common_header. If the file size is less
     // than the offset of any if the FRU areas mentioned in the common header,
@@ -454,7 +452,7 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
     for (uint8_t fruEntry = IPMI_FRU_INTERNAL_OFFSET;
          fruEntry < (sizeof(struct common_header) - 2); fruEntry++)
     {
-        rc = -1;
+        int rc = -1;
         // Actual offset in the payload is the offset mentioned in common header
         // multiplied by 8. Common header is always the first 8 bytes.
         size_t areaOffset = fruData[fruEntry] * IPMI_EIGHT_BYTES;
