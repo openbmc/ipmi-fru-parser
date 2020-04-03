@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 '''Generate PIM rules for ipmi-fru-parser.
 '''
@@ -123,10 +123,10 @@ events:
 def get_cacheable_objs(yaml):
     cacheable = []
 
-    for objdata in data.itervalues():
+    for objdata in data.values():
         if not isinstance(objdata, dict):
             continue
-        for path, ifaces in objdata.iteritems():
+        for path, ifaces in objdata.items():
             if not isinstance(ifaces, dict):
                 continue
 

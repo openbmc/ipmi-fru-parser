@@ -13,9 +13,9 @@ AM_PROG_AR
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AC_PROG_LN_S
-AM_PATH_PYTHON([2.7],
+AM_PATH_PYTHON([3],
     [AC_SUBST([PYTHON], [echo "$PYTHON"])],
-    [AC_MSG_ERROR([Could not find python-2.7 installed...python-2.7 is required])])
+    [AC_MSG_ERROR([Could not find python-3 installed...python-3 is required])])
 
 # Checks for libraries.
 AC_CHECK_LIB([mapper], [mapper_get_service],,\
