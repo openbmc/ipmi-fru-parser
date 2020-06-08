@@ -139,9 +139,13 @@ const char* vpd_key_names[] = {
     "Custom Field 7", /*OPENBMC_VPD_KEY_BOARD_CUSTOM7,*/
     "Custom Field 8", /*OPENBMC_VPD_KEY_BOARD_CUSTOM8,*/
 
-    "Manufacturer",   /* OPENBMC_VPD_KEY_PRODUCT_MFR, */
-    "Name",           /* OPENBMC_VPD_KEY_PRODUCT_NAME, */
-    "Model Number",   /* OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM, */
+    "Manufacturer", /* OPENBMC_VPD_KEY_PRODUCT_MFR, */
+    "Name",         /* OPENBMC_VPD_KEY_PRODUCT_NAME, */
+#ifdef FRU_PART_NUMBER
+    "Part Number", /* OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM, */
+#else
+    "Model Number", /* OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM, */
+#endif
     "Version",        /* OPENBMC_VPD_KEY_PRODUCT_VER, */
     "Serial Number",  /* OPENBMC_VPD_KEY_PRODUCT_SERIAL_NUM, */
     "Asset Tag",      /* OPENBMC_VPD_KEY_PRODUCT_ASSET_TAG, */
