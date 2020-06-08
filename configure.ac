@@ -64,6 +64,18 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
     AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
 )
 
+# Add an option to enable/disable FRU Part Number field instead of a Model field for reading FRU with IPMItool
+AC_ARG_ENABLE([fru-part-number],
+        AS_HELP_STRING([--enable-fru-part-number], [Enable FRU Part Number support for IPMItool])
+    )
+    AS_IF([test "x$enable_fru_part_number" == "xyes"],
+        AC_MSG_NOTICE([Enabling FRU Part Number support])
+        [
+            cpp_flags="-DFRU_PART_NUMBER"
+        ]
+        AC_SUBST([CPPFLAGS], [$cpp_flags])
+)
+
 AS_IF([test "x$YAML_GEN" == "x"], [YAML_GEN="example.yaml"])
 FRUGEN="$PYTHON $srcdir/scripts/fru_gen.py -i $YAML_GEN"
 AC_SUBST(FRUGEN)
