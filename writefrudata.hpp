@@ -40,6 +40,7 @@ struct common_header
 #define IPMI_FRU_MULTI_OFFSET offsetof(struct common_header, multi_offset)
 #define IPMI_FRU_HDR_CRC_OFFSET offsetof(struct common_header, crc)
 #define IPMI_EIGHT_BYTES 8
+#define IPMI_FRU_MULTIREC_HDR_BYTES 5
 
 /**
  * Validate a FRU.

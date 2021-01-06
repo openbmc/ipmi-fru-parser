@@ -362,6 +362,48 @@ ipmi_fru_area_type getFruAreaType(uint8_t areaOffset)
 }
 
 /**
+ * Validates the data for multirecord fields and CRC if selected
+ *
+ * @param[in] data - the data to verify
+ * @param[in] len - the length of the region to verify
+ * @param[in] validateCrc - whether to validate the CRC
+ * @return non-zero on failure
+ */
+int verifyFruMultiRecData(const uint8_t* data, const size_t len,
+                          bool validateCrc)
+{
+    uint8_t checksum = 0;
+    int rc = -1;
+
+    if (!validateCrc)
+    {
+        // There's nothing else to do for this area.
+        return EXIT_SUCCESS;
+    }
+
+    // As per the IPMI platform spec, byte[3] is the record checksum.
+    checksum = calculateCRC(data, len);
+    if (checksum != data[3])
+    {
+#ifdef __IPMI_DEBUG__
+        log<level::ERR>(
+            "Checksum mismatch",
+            entry("Calculated=0x%X", static_cast<uint32_t>(checksum)),
+            entry("Embedded=0x%X", static_cast<uint32_t>(data[3])));
+#endif
+        return rc;
+    }
+#ifdef __IPMI_DEBUG__
+    else
+    {
+        log<level::DEBUG>("Checksum matches");
+    }
+#endif
+
+    return EXIT_SUCCESS;
+}
+
+/**
  * Validates the data for mandatory fields and CRC if selected.
  *
  * @param[in] data - the data to verify
@@ -466,13 +508,22 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
         }
         else if (areaOffset)
         {
-            // Read 2 bytes to know the actual size of area.
-            uint8_t areaHeader[2] = {0};
+            // Read 3 bytes to know the actual size of area.
+            uint8_t areaHeader[3] = {0};
             std::memcpy(areaHeader, &((uint8_t*)fruData)[areaOffset],
                         sizeof(areaHeader));
 
             // Size of this area will be the 2nd byte in the FRU area header.
-            size_t areaLen = areaHeader[1] * IPMI_EIGHT_BYTES;
+            size_t areaLen;
+            if (fruEntry == IPMI_FRU_MULTI_OFFSET)
+            {
+                areaLen = areaHeader[2] + IPMI_FRU_MULTIREC_HDR_BYTES;
+            }
+            else
+            {
+                areaLen = areaHeader[1] * IPMI_EIGHT_BYTES;
+            }
+
             uint8_t areaData[areaLen] = {0};
 
             log<level::DEBUG>("FRU Data", entry("SIZE=%d", dataLen),
@@ -495,7 +546,16 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
             // contents beyond the first byte are not defined in the spec and
             // it may not end with a CRC byte.
             bool validateCrc = fruEntry != IPMI_FRU_INTERNAL_OFFSET;
-            rc = verifyFruData(areaData, areaLen, validateCrc);
+
+            if (fruEntry == IPMI_FRU_MULTI_OFFSET)
+            {
+                rc = verifyFruMultiRecData(areaData, areaLen, validateCrc);
+            }
+            else
+            {
+                rc = verifyFruData(areaData, areaLen, validateCrc);
+            }
+
             if (rc < 0)
             {
                 log<level::ERR>("Err validating FRU area",
