@@ -1,0 +1,8 @@
+Ok-To-Test+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Tom Joseph <rushtotom@gmail.com>
+Submitted-by: Tom Joseph <rushtotom@gmail.com>
+Submitted-at: Wed, 14 Apr 2021 14:24:58 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/ipmi-fru-parser/+/42163
+Project: openbmc/ipmi-fru-parser
+Branch: refs/heads/master
