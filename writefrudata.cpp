@@ -144,7 +144,7 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
         auto mapperResponseMsg = bus.call(mapperCall);
         mapperResponseMsg.read(mapperResponse);
     }
-    catch (const sdbusplus::exception::SdBusError& ex)
+    catch (const sdbusplus::exception::exception& ex)
     {
         log<level::ERR>("Exception from sdbus call",
                         entry("WHAT=%s", ex.what()));
@@ -288,7 +288,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     {
         auto inventoryMgrResponseMsg = bus.call(pimMsg);
     }
-    catch (const sdbusplus::exception::SdBusError& ex)
+    catch (const sdbusplus::exception::exception& ex)
     {
         log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()),
                         entry("SERVICE=%s", service.c_str()),
