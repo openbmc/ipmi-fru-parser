@@ -25,8 +25,8 @@ ipmi_ret_t ipmiStorageWriteFruData(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 {
     FILE* fp = NULL;
     char fruFilename[16] = {0};
-    uint8_t offset = 0;
-    uint16_t len = 0;
+    size_t offset = 0;
+    size_t len = 0;
     ipmi_ret_t rc = IPMI_CC_INVALID;
     const char* mode = NULL;
 
@@ -36,13 +36,13 @@ ipmi_ret_t ipmiStorageWriteFruData(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     // Maintaining a temporary file to pump the data
     std::sprintf(fruFilename, "%s%02x", "/tmp/ipmifru", reqptr->frunum);
 
-    offset = ((uint16_t)reqptr->offsetms) << 8 | reqptr->offsetls;
+    offset = ((size_t)reqptr->offsetms) << 8 | reqptr->offsetls;
 
     // Length is the number of request bytes minus the header itself.
     // The header contains an extra byte to indicate the start of
     // the data (so didn't need to worry about word/byte boundaries)
     // hence the -1...
-    len = ((uint16_t)*dataLen) - (sizeof(write_fru_data_t) - 1);
+    len = ((size_t)*dataLen) - (sizeof(write_fru_data_t) - 1);
 
     // On error there is no response data for this command.
     *dataLen = 0;
