@@ -416,6 +416,12 @@ int verifyFruData(const uint8_t* data, const size_t len, bool validateCrc)
     uint8_t checksum = 0;
     int rc = -1;
 
+    if (!validateCrc)
+    {
+        // There's nothing else to do for this area.
+        return EXIT_SUCCESS;
+    }
+
     // Validate for first byte to always have a value of [1]
     if (data[0] != IPMI_FRU_HDR_BYTE_ZERO)
     {
@@ -430,12 +436,6 @@ int verifyFruData(const uint8_t* data, const size_t len, bool validateCrc)
                           entry("ENTRY=0x%X", static_cast<uint32_t>(data[0])));
     }
 #endif
-
-    if (!validateCrc)
-    {
-        // There's nothing else to do for this area.
-        return EXIT_SUCCESS;
-    }
 
     // See if the calculated CRC matches with the embedded one.
     // CRC to be calculated on all except the last one that is CRC itself.
