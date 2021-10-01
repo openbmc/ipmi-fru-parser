@@ -25,7 +25,7 @@ ipmi_ret_t ipmiStorageWriteFruData(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 {
     FILE* fp = NULL;
     char fruFilename[16] = {0};
-    uint8_t offset = 0;
+    uint16_t offset = 0;
     uint16_t len = 0;
     ipmi_ret_t rc = IPMI_CC_INVALID;
     const char* mode = NULL;
