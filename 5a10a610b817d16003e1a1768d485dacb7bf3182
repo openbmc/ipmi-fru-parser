@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4979ccf7_78f30c94",
+        "filename": "strgfnhandler.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-04T14:43:36Z",
+      "side": 1,
+      "message": "Any reason this can\u0027t be a `size_t`?  I really dislike these \"force a variable to a specific size and hope we don\u0027t overflow\" kind of errors.\n\nThere are also potential uncaught overflows in `len` since line 95 memcpy\u0027s a single byte out of it (who knows if the endianness is even right for that).",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 12
+      },
+      "revId": "5a10a610b817d16003e1a1768d485dacb7bf3182",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
