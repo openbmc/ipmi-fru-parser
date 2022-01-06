@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "4979ccf7_78f30c94",
         "filename": "strgfnhandler.cpp",
@@ -20,10 +21,10 @@
         "endChar": 12
       },
       "revId": "5a10a610b817d16003e1a1768d485dacb7bf3182",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "63299485_5257015d",
         "filename": "strgfnhandler.cpp",
@@ -44,10 +45,10 @@
         "endChar": 12
       },
       "revId": "5a10a610b817d16003e1a1768d485dacb7bf3182",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "53d22173_fabcfeeb",
         "filename": "strgfnhandler.cpp",
@@ -68,10 +69,10 @@
         "endChar": 12
       },
       "revId": "5a10a610b817d16003e1a1768d485dacb7bf3182",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "48872b08_e4fcb5f7",
         "filename": "strgfnhandler.cpp",
@@ -92,8 +93,31 @@
         "endChar": 12
       },
       "revId": "5a10a610b817d16003e1a1768d485dacb7bf3182",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e2f3403_df7d46b6",
+        "filename": "strgfnhandler.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2022-01-06T23:14:08Z",
+      "side": 1,
+      "message": "I agree with Patrick on this. Unless there is a specific (usually HW or packet/protocol) need for an integer to be a specific size, the generic int sizes are more appropriate. \n\nIf you are changing the type, you may as well go with the final answer, even if it makes a slightly larger change.",
+      "parentUuid": "48872b08_e4fcb5f7",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 12
+      },
+      "revId": "5a10a610b817d16003e1a1768d485dacb7bf3182",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
