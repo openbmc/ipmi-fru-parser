@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "163d470d_ebbc9fb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000163
+      },
+      "writtenOn": "2022-01-06T23:09:14Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1: Code-Review+1\n\u003e \n\u003e I would be interested to know why the original code did check byte 0 even when not validating.\n\nThe FRU spec defines byte 0 of the internal use area as the value 1. It is not that the code is not validating the internal use region, it is not checking the CRC, which is exactly what the name of the function implies.\n\nI don\u0027t think this patch follows the spec.",
+      "revId": "499ca3ab43ccc05889d933ba5b7af966480c143a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
