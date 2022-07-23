@@ -127,7 +127,7 @@ std::string getFRUValue(const std::string& section, const std::string& key,
  * @param[in] path - the object path
  * @return the dbus service that owns the interface for that path
  */
-auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
+auto getService(sdbusplus::bus_t& bus, const std::string& intf,
                 const std::string& path)
 {
     auto mapperCall =
@@ -144,7 +144,7 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
         auto mapperResponseMsg = bus.call(mapperCall);
         mapperResponseMsg.read(mapperResponse);
     }
-    catch (const sdbusplus::exception::exception& ex)
+    catch (const sdbusplus::exception_t& ex)
     {
         log<level::ERR>("Exception from sdbus call",
                         entry("WHAT=%s", ex.what()));
@@ -167,7 +167,7 @@ auto getService(sdbusplus::bus::bus& bus, const std::string& intf,
  * @param[in] bus - handle to sdbus for calling methods, etc
  * @return return non-zero of failure
  */
-int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
+int updateInventory(FruAreaVector& areaVector, sdbusplus::bus_t& bus)
 {
     // Generic error reporter
     int rc = 0;
@@ -288,7 +288,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus::bus& bus)
     {
         auto inventoryMgrResponseMsg = bus.call(pimMsg);
     }
-    catch (const sdbusplus::exception::exception& ex)
+    catch (const sdbusplus::exception_t& ex)
     {
         log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()),
                         entry("SERVICE=%s", service.c_str()),
@@ -624,7 +624,7 @@ int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
 }
 
 int validateFRUArea(const uint8_t fruid, const char* fruFilename,
-                    sdbusplus::bus::bus& bus, const bool bmcOnlyFru)
+                    sdbusplus::bus_t& bus, const bool bmcOnlyFru)
 {
     size_t dataLen = 0;
     size_t bytesRead = 0;

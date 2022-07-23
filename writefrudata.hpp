@@ -51,6 +51,6 @@ struct common_header
  * @param[in] bmcOnlyFru - If a particular area accessible only by BMC.
  */
 int validateFRUArea(const uint8_t fruid, const char* fruFilename,
-                    sdbusplus::bus::bus& bus, const bool bmcOnlyFru);
+                    sdbusplus::bus_t& bus, const bool bmcOnlyFru);
 
 #endif
