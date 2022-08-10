@@ -16,6 +16,24 @@
       "message": "@JM, did you get the CLA updated for HPE?  I don\u0027t see Charles on it (hence why his refresh of this commit didn\u0027t trigger CI) and I don\u0027t an update from you in a long while.  I thought you were getting the CLA Managers for HPE revamped.",
       "revId": "c9293563239868d505e66ed1cb4a279a7d72f46e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bbe11d4_f70d8528",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001528
+      },
+      "writtenOn": "2022-08-10T19:56:46Z",
+      "side": 1,
+      "message": "Now that I am on the list should I resubmit my patchset?",
+      "parentUuid": "6c27557d_4807cb8b",
+      "revId": "c9293563239868d505e66ed1cb4a279a7d72f46e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
