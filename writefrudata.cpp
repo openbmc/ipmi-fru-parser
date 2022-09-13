@@ -524,7 +524,7 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                 areaLen = areaHeader[1] * IPMI_EIGHT_BYTES;
             }
 
-            uint8_t areaData[areaLen] = {0};
+            std::vector<uint8_t> areaData(areaLen, 0);
 
             log<level::DEBUG>("FRU Data", entry("SIZE=%d", dataLen),
                               entry("AREA OFFSET=%d", areaOffset),
@@ -540,7 +540,7 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
             }
 
             // Save off the data.
-            std::memcpy(areaData, &((uint8_t*)fruData)[areaOffset], areaLen);
+            std::memcpy(areaData.data(), fruData + areaOffset, areaLen);
 
             // Validate the CRC, but not for the internal use area, since its
             // contents beyond the first byte are not defined in the spec and
@@ -549,11 +549,12 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
 
             if (fruEntry == IPMI_FRU_MULTI_OFFSET)
             {
-                rc = verifyFruMultiRecData(areaData, areaLen, validateCrc);
+                rc = verifyFruMultiRecData(areaData.data(), areaLen,
+                                           validateCrc);
             }
             else
             {
-                rc = verifyFruData(areaData, areaLen, validateCrc);
+                rc = verifyFruData(areaData.data(), areaLen, validateCrc);
             }
 
             if (rc < 0)
@@ -574,7 +575,7 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
             {
                 if (iter->getType() == getFruAreaType(fruEntry))
                 {
-                    iter->setData(areaData, areaLen);
+                    iter->setData(areaData.data(), areaLen);
                 }
             }
         } // If we have FRU data present
@@ -668,10 +669,10 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
 
     // Allocate a buffer to hold entire file content
     dataLen = std::ftell(fruFilePointer);
-    uint8_t fruData[dataLen] = {0};
+    std::vector<uint8_t> fruData(dataLen, 0);
 
     std::rewind(fruFilePointer);
-    bytesRead = std::fread(fruData, dataLen, 1, fruFilePointer);
+    bytesRead = std::fread(fruData.data(), dataLen, 1, fruFilePointer);
     if (bytesRead != 1)
     {
         log<level::ERR>("Failed reading FRU data.",
@@ -684,7 +685,7 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     std::fclose(fruFilePointer);
     fruFilePointer = NULL;
 
-    rc = ipmiValidateCommonHeader(fruData, dataLen);
+    rc = ipmiValidateCommonHeader(fruData.data(), dataLen);
     if (rc < 0)
     {
         return cleanupError(fruFilePointer, fruAreaVec);
@@ -692,7 +693,7 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
 
     // Now that we validated the common header, populate various FRU sections if
     // we have them here.
-    rc = ipmiPopulateFruAreas(fruData, dataLen, fruAreaVec);
+    rc = ipmiPopulateFruAreas(fruData.data(), dataLen, fruAreaVec);
     if (rc < 0)
     {
         log<level::ERR>("Populating FRU areas failed", entry("FRU=%d", fruid));
