@@ -18,8 +18,6 @@ AM_PATH_PYTHON([3],
     [AC_MSG_ERROR([Could not find python-3 installed...python-3 is required])])
 
 # Checks for libraries.
-AC_CHECK_LIB([mapper], [mapper_get_service],,\
-    [AC_MSG_ERROR([Could not find libmapper: phosphor-objmgr package required])])
 PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221])
 PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus])
 PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging])

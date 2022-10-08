@@ -7,10 +7,8 @@ bin_PROGRAMS = phosphor-read-eeprom
 
 phosphor_read_eeprom_SOURCES = readeeprom.cpp
 phosphor_read_eeprom_LDFLAGS = $(SYSTEMD_LIBS) \
-	$(libmapper_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS)
 phosphor_read_eeprom_CXXFLAGS = $(SYSTEMD_CFLAGS) \
-	$(libmapper_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS)
 phosphor_read_eeprom_LDADD = libwritefrudata.la
 
@@ -21,12 +19,10 @@ libwritefrudata_la_SOURCES = frup.cpp \
 	writefrudata.cpp \
 	extra-properties-gen.cpp
 libwritefrudata_la_LDFLAGS = $(SYSTEMD_LIBS) \
-	$(libmapper_LIBS) \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	-version-info 1:0:0 -shared
 libwritefrudata_la_CXXFLAGS = $(SYSTEMD_CFLAGS) \
-	$(libmapper_CFLAGS) \
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
 	$(LIBIPMID_CFLAGS)
