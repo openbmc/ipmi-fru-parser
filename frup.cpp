@@ -177,7 +177,7 @@ static size_t _to_time_str(uint32_t mfg_date_time, char* timestr, uint32_t len)
 
     t = mfg_date_time;
     gmtime_r(&t, &tm);
-    s = strftime(timestr, len, "%F - %H:%M:%S", &tm);
+    s = strftime(timestr, len, "%F - %H:%M:%S UTC", &tm);
 
     return s;
 }
@@ -329,7 +329,6 @@ int ipmi_fru_board_info_area(
     ipmi_fru_field_t* board_custom_fields, unsigned int board_custom_fields_len)
 {
     const uint8_t* areabufptr = (const uint8_t*)areabuf;
-    uint32_t mfg_date_time_tmp = 0;
     unsigned int area_offset = 0;
     unsigned int custom_fields_index = 0;
     uint8_t number_of_data_bytes;
@@ -360,45 +359,20 @@ int ipmi_fru_board_info_area(
 
     if (mfg_date_time)
     {
-        struct tm tm;
-        time_t t;
-
-        /* mfg_date_time is little endian - see spec */
-        mfg_date_time_tmp |= areabufptr[area_offset];
+        unsigned int minutes = areabufptr[area_offset];
         area_offset++;
-        mfg_date_time_tmp |= (areabufptr[area_offset] << 8);
+        minutes |= (areabufptr[area_offset] << 8);
         area_offset++;
-        mfg_date_time_tmp |= (areabufptr[area_offset] << 16);
+        minutes |= (areabufptr[area_offset] << 16);
         area_offset++;
 
-        /* mfg_date_time is in minutes, so multiple by 60 to get seconds */
-        mfg_date_time_tmp *= 60;
+        struct tm fruTime = {};
+        fruTime.tm_year = 1996 - 1900;
+        fruTime.tm_mday = 1;
+        time_t mfg_date_time_tmp = timegm(&fruTime);
+        char timestr[OPENBMC_VPD_VAL_LEN];
+        mfg_date_time_tmp += static_cast<long>(minutes) * 60;
 
-        /* posix says individual calls need not clear/set all portions of
-         * 'struct tm', thus passing 'struct tm' between functions could
-         * have issues.  so we need to memset.
-         */
-        memset(&tm, '\0', sizeof(struct tm));
-
-        /* in fru, epoch is 0:00 hrs 1/1/96
-         *
-         * so convert into ansi epoch
-         */
-
-        tm.tm_year = 96; /* years since 1900 */
-        tm.tm_mon = 0;   /* months since january */
-        tm.tm_mday = 1;  /* 1-31 */
-        tm.tm_hour = 0;
-        tm.tm_min = 0;
-        tm.tm_sec = 0;
-        tm.tm_isdst = -1;
-
-        if ((t = mktime(&tm)) == (time_t)-1)
-        {
-            goto cleanup;
-        }
-
-        mfg_date_time_tmp += (uint32_t)t;
         (*mfg_date_time) = mfg_date_time_tmp;
     }
     else
