@@ -71,6 +71,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8572a536_205cd51f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-11-03T20:54:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47ee8e49_6aa780e9",
+      "range": {
+        "startLine": 18,
+        "startChar": 34,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "724dce3c06368e6547e0ceba68265c9d07d54584",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e50273a0_2d32ea45",
@@ -84,6 +108,24 @@
       "writtenOn": "2022-11-03T17:58:49Z",
       "side": 1,
       "message": "um, this is probably not working properly. Let me check again.",
+      "revId": "724dce3c06368e6547e0ceba68265c9d07d54584",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ba9ca05_27cb5912",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-11-03T20:54:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e50273a0_2d32ea45",
       "revId": "724dce3c06368e6547e0ceba68265c9d07d54584",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -119,6 +161,24 @@
       "side": 1,
       "message": "`mfg_date_time_tmp +\u003d 820454400`. The constant should never change and it\u0027s easy to look up the conversion if you desire.",
       "parentUuid": "d725a26f_5bffb194",
+      "revId": "724dce3c06368e6547e0ceba68265c9d07d54584",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6982e108_25b559e8",
+        "filename": "frup.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-11-03T20:54:47Z",
+      "side": 1,
+      "message": "we could, I\u0027ll let Vernon decide.",
+      "parentUuid": "c6368dce_f38c8e5f",
       "revId": "724dce3c06368e6547e0ceba68265c9d07d54584",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
