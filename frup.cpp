@@ -393,7 +393,7 @@ int ipmi_fru_board_info_area(
         tm.tm_sec = 0;
         tm.tm_isdst = -1;
 
-        if ((t = mktime(&tm)) == (time_t)-1)
+        if ((t = timegm(&tm)) == (time_t)-1)
         {
             goto cleanup;
         }
