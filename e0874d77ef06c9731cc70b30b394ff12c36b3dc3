@@ -22,6 +22,30 @@
       },
       "revId": "e0874d77ef06c9731cc70b30b394ff12c36b3dc3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e28ca5f8_f99e42e9",
+        "filename": "frup.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1000885
+      },
+      "writtenOn": "2022-11-18T22:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6661d40_376d2690",
+      "range": {
+        "startLine": 372,
+        "startChar": 27,
+        "endLine": 372,
+        "endChar": 36
+      },
+      "revId": "e0874d77ef06c9731cc70b30b394ff12c36b3dc3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
