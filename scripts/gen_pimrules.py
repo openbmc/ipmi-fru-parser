@@ -5,7 +5,6 @@
 
 import argparse
 import os
-import sys
 
 import yaml
 from mako.template import Template
