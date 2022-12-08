@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 
-'''Generate PIM rules for ipmi-fru-parser.
-'''
+"""Generate PIM rules for ipmi-fru-parser.
+"""
 
 import argparse
 import os
 import sys
+
 import yaml
 from mako.template import Template
 
-tmpl = '''
+tmpl = """
 description: >
     PIM rules for ipmi-fru-parser inventory objects.
 events:
@@ -117,7 +118,7 @@ events:
                 value:
                   type: ${cacheable_type}
                   value: ${cacheable_cached}
-'''
+"""
 
 
 def get_cacheable_objs(yaml):
@@ -136,48 +137,58 @@ def get_cacheable_objs(yaml):
     return cacheable
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.realpath(__file__))
 
     parser = argparse.ArgumentParser(
-        description='ipmi-fru-parser PIM rule generator.')
+        description="ipmi-fru-parser PIM rule generator."
+    )
     parser.add_argument(
-        '-o', '--output-dir', dest='outputdir',
-        default='.', help='Output directory.')
+        "-o",
+        "--output-dir",
+        dest="outputdir",
+        default=".",
+        help="Output directory.",
+    )
     parser.add_argument(
-        'inventory', metavar='INVENTORY', type=str,
-        help='Path to inventory YAML.')
+        "inventory",
+        metavar="INVENTORY",
+        type=str,
+        help="Path to inventory YAML.",
+    )
 
     args = parser.parse_args()
 
-    with open(args.inventory, 'r') as fd:
+    with open(args.inventory, "r") as fd:
         data = yaml.safe_load(fd.read())
 
-    cacheable_iface_name = 'xyz.openbmc_project.Inventory.Decorator.Cacheable'
-    target_file = os.path.join(args.outputdir, 'ipmi-fru-rules.yaml')
+    cacheable_iface_name = "xyz.openbmc_project.Inventory.Decorator.Cacheable"
+    target_file = os.path.join(args.outputdir, "ipmi-fru-rules.yaml")
     cacheable = []
 
     if isinstance(data, dict):
         cacheable = get_cacheable_objs(data)
     if cacheable:
-        with open(target_file, 'w') as out:
+        with open(target_file, "w") as out:
             out.write(
                 Template(tmpl).render(
                     cacheable_iface=cacheable_iface_name,
-                    cacheable_property='Cached',
-                    cacheable_cached='true',
-                    cacheable_type='boolean',
-                    on_path='/xyz/openbmc_project/state/host0',
-                    on_iface='xyz.openbmc_project.State.Boot.Progress',
-                    on_property='BootProgress',
-                    on_value='xyz.openbmc_project.State.Boot.Progress.ProgressStages.OSStart',
-                    on_type='string',
-                    off_path='/xyz/openbmc_project/state/host0',
-                    off_iface='xyz.openbmc_project.State.Host',
-                    off_property='CurrentHostState',
-                    off_value='xyz.openbmc_project.State.Host.Off',
-                    off_type='string',
-                    cacheable=cacheable))
+                    cacheable_property="Cached",
+                    cacheable_cached="true",
+                    cacheable_type="boolean",
+                    on_path="/xyz/openbmc_project/state/host0",
+                    on_iface="xyz.openbmc_project.State.Boot.Progress",
+                    on_property="BootProgress",
+                    on_value="xyz.openbmc_project.State.Boot.Progress.ProgressStages.OSStart",
+                    on_type="string",
+                    off_path="/xyz/openbmc_project/state/host0",
+                    off_iface="xyz.openbmc_project.State.Host",
+                    off_property="CurrentHostState",
+                    off_value="xyz.openbmc_project.State.Host.Off",
+                    off_type="string",
+                    cacheable=cacheable,
+                )
+            )
 
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
