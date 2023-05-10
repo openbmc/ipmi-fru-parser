@@ -7,6 +7,9 @@
 #include <ipmid/api.h>
 #include <unistd.h>
 
+#include <phosphor-logging/log.hpp>
+#include <sdbusplus/bus.hpp>
+
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
@@ -15,8 +18,6 @@
 #include <iostream>
 #include <map>
 #include <memory>
-#include <phosphor-logging/log.hpp>
-#include <sdbusplus/bus.hpp>
 #include <sstream>
 #include <vector>
 
@@ -67,7 +68,6 @@ int cleanupError(FILE* fruFilePointer, FruAreaVector& fruAreaVec)
 std::string getFRUValue(const std::string& section, const std::string& key,
                         const std::string& delimiter, IPMIFruInfo& fruData)
 {
-
     auto minIndexValue = 0;
     auto maxIndexValue = 0;
     std::string fruValue = "";
@@ -130,10 +130,10 @@ std::string getFRUValue(const std::string& section, const std::string& key,
 auto getService(sdbusplus::bus_t& bus, const std::string& intf,
                 const std::string& path)
 {
-    auto mapperCall =
-        bus.new_method_call("xyz.openbmc_project.ObjectMapper",
-                            "/xyz/openbmc_project/object_mapper",
-                            "xyz.openbmc_project.ObjectMapper", "GetObject");
+    auto mapperCall = bus.new_method_call("xyz.openbmc_project.ObjectMapper",
+                                          "/xyz/openbmc_project/object_mapper",
+                                          "xyz.openbmc_project.ObjectMapper",
+                                          "GetObject");
 
     mapperCall.append(path);
     mapperCall.append(std::vector<std::string>({intf}));
@@ -717,7 +717,6 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     // inventory.
     if (!(fruAreaVec.empty()))
     {
-
 #ifdef __IPMI_DEBUG__
         std::printf("\n SIZE of vector is : [%d] \n", fruAreaVec.size());
 #endif

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <map>
 #include <sdbusplus/message.hpp>
+
+#include <map>
 #include <string>
 #include <variant>
 

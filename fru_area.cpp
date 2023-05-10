@@ -2,9 +2,10 @@
 
 #include "frup.hpp"
 
+#include <phosphor-logging/log.hpp>
+
 #include <cstdint>
 #include <cstring>
-#include <phosphor-logging/log.hpp>
 
 using namespace phosphor::logging;
 
