@@ -127,33 +127,33 @@ const char* vpd_key_names[] = {
     /* OPENBMC_VPD_KEY_BOARD_MFG_DATE, */ /* not a type/len */
     "Manufacturer",                       /* OPENBMC_VPD_KEY_BOARD_MFR, */
     "Name",                               /* OPENBMC_VPD_KEY_BOARD_NAME, */
-    "Serial Number",  /* OPENBMC_VPD_KEY_BOARD_SERIAL_NUM, */
-    "Part Number",    /* OPENBMC_VPD_KEY_BOARD_PART_NUM, */
-    "FRU File ID",    /* OPENBMC_VPD_KEY_BOARD_FRU_FILE_ID, */
-    "Custom Field 1", /*OPENBMC_VPD_KEY_BOARD_CUSTOM1,*/
-    "Custom Field 2", /*OPENBMC_VPD_KEY_BOARD_CUSTOM2,*/
-    "Custom Field 3", /*OPENBMC_VPD_KEY_BOARD_CUSTOM3,*/
-    "Custom Field 4", /*OPENBMC_VPD_KEY_BOARD_CUSTOM4,*/
-    "Custom Field 5", /*OPENBMC_VPD_KEY_BOARD_CUSTOM5,*/
-    "Custom Field 6", /*OPENBMC_VPD_KEY_BOARD_CUSTOM6,*/
-    "Custom Field 7", /*OPENBMC_VPD_KEY_BOARD_CUSTOM7,*/
-    "Custom Field 8", /*OPENBMC_VPD_KEY_BOARD_CUSTOM8,*/
+    "Serial Number",      /* OPENBMC_VPD_KEY_BOARD_SERIAL_NUM, */
+    "Part Number",        /* OPENBMC_VPD_KEY_BOARD_PART_NUM, */
+    "FRU File ID",        /* OPENBMC_VPD_KEY_BOARD_FRU_FILE_ID, */
+    "Custom Field 1",     /*OPENBMC_VPD_KEY_BOARD_CUSTOM1,*/
+    "Custom Field 2",     /*OPENBMC_VPD_KEY_BOARD_CUSTOM2,*/
+    "Custom Field 3",     /*OPENBMC_VPD_KEY_BOARD_CUSTOM3,*/
+    "Custom Field 4",     /*OPENBMC_VPD_KEY_BOARD_CUSTOM4,*/
+    "Custom Field 5",     /*OPENBMC_VPD_KEY_BOARD_CUSTOM5,*/
+    "Custom Field 6",     /*OPENBMC_VPD_KEY_BOARD_CUSTOM6,*/
+    "Custom Field 7",     /*OPENBMC_VPD_KEY_BOARD_CUSTOM7,*/
+    "Custom Field 8",     /*OPENBMC_VPD_KEY_BOARD_CUSTOM8,*/
 
-    "Manufacturer",   /* OPENBMC_VPD_KEY_PRODUCT_MFR, */
-    "Name",           /* OPENBMC_VPD_KEY_PRODUCT_NAME, */
-    "Model Number",   /* OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM, */
-    "Version",        /* OPENBMC_VPD_KEY_PRODUCT_VER, */
-    "Serial Number",  /* OPENBMC_VPD_KEY_PRODUCT_SERIAL_NUM, */
-    "Asset Tag",      /* OPENBMC_VPD_KEY_PRODUCT_ASSET_TAG, */
-    "FRU File ID",    /* OPENBMC_VPD_KEY_PRODUCT_FRU_FILE_ID, */
-    "Custom Field 1", /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM1,*/
-    "Custom Field 2", /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM2,*/
-    "Custom Field 3", /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM3,*/
-    "Custom Field 4", /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM4,*/
-    "Custom Field 5", /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM5,*/
-    "Custom Field 6", /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM6,*/
-    "Custom Field 7", /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM7,*/
-    "Custom Field 8", /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM8,*/
+    "Manufacturer",       /* OPENBMC_VPD_KEY_PRODUCT_MFR, */
+    "Name",               /* OPENBMC_VPD_KEY_PRODUCT_NAME, */
+    "Model Number",       /* OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM, */
+    "Version",            /* OPENBMC_VPD_KEY_PRODUCT_VER, */
+    "Serial Number",      /* OPENBMC_VPD_KEY_PRODUCT_SERIAL_NUM, */
+    "Asset Tag",          /* OPENBMC_VPD_KEY_PRODUCT_ASSET_TAG, */
+    "FRU File ID",        /* OPENBMC_VPD_KEY_PRODUCT_FRU_FILE_ID, */
+    "Custom Field 1",     /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM1,*/
+    "Custom Field 2",     /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM2,*/
+    "Custom Field 3",     /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM3,*/
+    "Custom Field 4",     /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM4,*/
+    "Custom Field 5",     /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM5,*/
+    "Custom Field 6",     /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM6,*/
+    "Custom Field 7",     /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM7,*/
+    "Custom Field 8",     /*OPENBMC_VPD_KEY_PRODUCT_CUSTOM8,*/
 
     "Key Names Table End" /*OPENBMC_VPD_KEY_MAX,*/
 };
@@ -214,8 +214,8 @@ static int _parse_type_length(const void* areabuf, unsigned int areabuflen,
 
     type_code = (type_length & IPMI_FRU_TYPE_LENGTH_TYPE_CODE_MASK) >>
                 IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
-    (*number_of_data_bytes) =
-        type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
+    (*number_of_data_bytes) = type_length &
+                              IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
 
     /* special case: this shouldn't be a length of 0x01 (see type/length
      * byte format in fru information storage definition).
@@ -623,8 +623,8 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
     int type_length = vpd_key_val[0];
     int type_code = (type_length & IPMI_FRU_TYPE_LENGTH_TYPE_CODE_MASK) >>
                     IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
-    int vpd_val_len =
-        type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
+    int vpd_val_len = type_length &
+                      IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
 
     /* Needed to convert each uint8_t byte to a ascii */
     char bin_byte[3] = {0};
@@ -668,8 +668,8 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
                    " Len = [%d] : Val = [%s]\n",
                    vpd_key_names[vpd_key_id], vpd_val_len, bin_in_ascii);
 #endif
-            info[vpd_key_id] =
-                std::make_pair(vpd_key_names[vpd_key_id], bin_in_ascii);
+            info[vpd_key_id] = std::make_pair(vpd_key_names[vpd_key_id],
+                                              bin_in_ascii);
             break;
 
         case 3:
@@ -775,8 +775,8 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
                     printf("Board : Appending [%s] = [%s]\n", vpd_key_names[i],
                            timestr);
 #endif
-                    info[i] =
-                        std::make_pair(vpd_key_names[i], std::string(timestr));
+                    info[i] = std::make_pair(vpd_key_names[i],
+                                             std::string(timestr));
                     continue;
                 }
                 _append_to_dict(i, vpd_info[i].type_length_field, info);

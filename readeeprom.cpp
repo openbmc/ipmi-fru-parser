@@ -1,11 +1,12 @@
 #include "writefrudata.hpp"
 
 #include <CLI/CLI.hpp>
+#include <phosphor-logging/log.hpp>
+
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <memory>
-#include <phosphor-logging/log.hpp>
 
 using namespace phosphor::logging;
 
