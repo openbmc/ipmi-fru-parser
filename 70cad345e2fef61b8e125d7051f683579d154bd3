@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcb97d54_2c10f983",
+        "filename": "frup.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2023-05-31T01:20:26Z",
+      "side": 1,
+      "message": "Just noticed the inconsistent use of space around /* comment */.\nNo idea if there is a setting or consensus across the project.",
+      "revId": "70cad345e2fef61b8e125d7051f683579d154bd3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
