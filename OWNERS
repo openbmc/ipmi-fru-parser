@@ -32,7 +32,7 @@
 # data within them will be kept sorted.
 
 owners:
-- vernon.mauery@linux.intel.com
+- patrick@stwcx.xyz
 
 reviewers:
 - ratankgupta31@gmail.com
@@ -40,9 +40,9 @@ reviewers:
 matchers:
 
 openbmc:
+- name: Patrick Williams
+  email: patrick@stwcx.xyz
+  discord: stwcx
 - name: Ratan Gupta
   email: ratankgupta31@gmail.com
   discord: rgupta
-- name: Vernon Mauery
-  email: vernon.mauery@linux.intel.com
-  discord: vmauery
