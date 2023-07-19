@@ -84,6 +84,7 @@ strgfnhandler_lib = library(
   override_options: [ 'b_lundef=false' ],
   version: meson.project_version(),
   install: true,
+  install_dir: get_option('libdir') / 'ipmid-providers',
 )
 
 executable(
