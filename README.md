@@ -1,11 +1,12 @@
 # ipmi-fru-parser
 
-## To Build
+## Building
+
+
 
 To build this package, do the following steps:
 
-1. `./bootstrap.sh`
-2. `./configure ${CONFIGURE_FLAGS}`
-3. `make`
-
-To full clean the repository again run `./bootstrap.sh clean`.
+```
+meson setup builddir
+ninja -C builddir
+```
