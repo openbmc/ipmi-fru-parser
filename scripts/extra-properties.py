@@ -21,7 +21,7 @@ def main():
     )
     args = parser.parse_args()
 
-    with open(os.path.join(script_dir, args.extra_props_yaml), "r") as fd:
+    with open(args.extra_props_yaml, "r") as fd:
         yamlDict = yaml.safe_load(fd)
 
         # Render the mako template
