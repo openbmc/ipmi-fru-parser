@@ -626,8 +626,11 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
                 /* 2 bytes for data and 1 for terminating '\0' */
                 snprintf(bin_byte, 3, "%02x", vpd_key_val[val]);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
                 /* Its a running string so strip off the '\0' */
                 strncat(bin_copy, bin_byte, 2);
+#pragma GCC diagnostic pop
             }
 
             /* We need the data represented as 0x...... */
