@@ -1,0 +1,13 @@
+option(
+    'fru_yaml',
+    type: 'string',
+    value: 'scripts/example.yaml',
+    description: 'Path to FRU YAML',
+)
+
+option(
+    'properties_yaml',
+    type: 'string',
+    value: 'scripts/extra-properties-example.yaml',
+    description: 'Path to Properties YAML',
+)
