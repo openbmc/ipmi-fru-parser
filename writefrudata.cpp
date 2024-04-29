@@ -581,7 +581,7 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                 }
             }
         } // If we have FRU data present
-    }     // Walk struct common_header
+    } // Walk struct common_header
 
     // Not all the fields will be populated in a FRU data. Mostly all cases will
     // not have more than 2 or 3.

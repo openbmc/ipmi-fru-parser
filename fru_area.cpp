@@ -11,8 +11,7 @@ using namespace phosphor::logging;
 
 IPMIFruArea::IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type,
                          bool bmcOnlyFru) :
-    fruID(fruID),
-    type(type), bmcOnlyFru(bmcOnlyFru)
+    fruID(fruID), type(type), bmcOnlyFru(bmcOnlyFru)
 {
     if (type == IPMI_FRU_AREA_INTERNAL_USE)
     {
