@@ -91,7 +91,7 @@ ipmi_ret_t ipmiStorageWriteFruData(ipmi_netfn_t /*netfn*/, ipmi_cmd_t /*cmd*/,
         return rc;
     }
 
-    // If we got here then set the resonse byte
+    // If we got here then set the response byte
     // to the number of bytes written
     std::memcpy(response, &len, 1);
     *dataLen = 1;

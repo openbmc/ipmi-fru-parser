@@ -62,7 +62,7 @@ int cleanupError(FILE* fruFilePointer, FruAreaVector& fruAreaVec)
  * FRU dictionary is parsed FRU data for all the sections.
  *
  * @param[in] section - FRU section name
- * @param[in] key - key for secion
+ * @param[in] key - key for section
  * @param[in] delimiter - delimiter for parsing custom fields
  * @param[in] fruData - the FRU data to search for the section
  * @return FRU value
@@ -325,7 +325,7 @@ unsigned char calculateCRC(const unsigned char* data, size_t len)
 }
 
 /**
- * Accepts a FRU area offset into a commom header and tells which area it is.
+ * Accepts a FRU area offset into a common header and tells which area it is.
  *
  * @param[in] areaOffset - offset to lookup the area type
  * @return the ipmi_fru_area_type
@@ -489,7 +489,7 @@ bool removeInvalidArea(const std::unique_ptr<IPMIFruArea>& fruArea)
 int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                          FruAreaVector& fruAreaVec)
 {
-    // Now walk the common header and see if the file size has atleast the last
+    // Now walk the common header and see if the file size has at least the last
     // offset mentioned by the struct common_header. If the file size is less
     // than the offset of any if the FRU areas mentioned in the common header,
     // then we do not have a complete file.
