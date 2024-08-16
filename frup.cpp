@@ -216,8 +216,8 @@ static int _parse_type_length(const void* areabuf, unsigned int areabuflen,
 
     type_code = (type_length & IPMI_FRU_TYPE_LENGTH_TYPE_CODE_MASK) >>
                 IPMI_FRU_TYPE_LENGTH_TYPE_CODE_SHIFT;
-    (*number_of_data_bytes) = type_length &
-                              IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
+    (*number_of_data_bytes) =
+        type_length & IPMI_FRU_TYPE_LENGTH_NUMBER_OF_DATA_BYTES_MASK;
 
     /* special case: this shouldn't be a length of 0x01 (see type/length
      * byte format in fru information storage definition).
@@ -245,12 +245,12 @@ static int _parse_type_length(const void* areabuf, unsigned int areabuflen,
     return (0);
 }
 
-int ipmi_fru_chassis_info_area(const void* areabuf, unsigned int areabuflen,
-                               uint8_t* chassis_type,
-                               ipmi_fru_field_t* chassis_part_number,
-                               ipmi_fru_field_t* chassis_serial_number,
-                               ipmi_fru_field_t* chassis_custom_fields,
-                               unsigned int chassis_custom_fields_len)
+int ipmi_fru_chassis_info_area(
+    const void* areabuf, unsigned int areabuflen, uint8_t* chassis_type,
+    ipmi_fru_field_t* chassis_part_number,
+    ipmi_fru_field_t* chassis_serial_number,
+    ipmi_fru_field_t* chassis_custom_fields,
+    unsigned int chassis_custom_fields_len)
 {
     const uint8_t* areabufptr = (const uint8_t*)areabuf;
     unsigned int area_offset = 0;
@@ -497,8 +497,8 @@ int ipmi_fru_product_info_area(
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
-                           &number_of_data_bytes,
-                           product_manufacturer_name) < 0)
+                           &number_of_data_bytes, product_manufacturer_name) <
+        0)
         goto cleanup;
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
@@ -516,8 +516,8 @@ int ipmi_fru_product_info_area(
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
-                           &number_of_data_bytes,
-                           product_part_model_number) < 0)
+                           &number_of_data_bytes, product_part_model_number) <
+        0)
         goto cleanup;
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
@@ -643,8 +643,8 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
                    " Len = [%d] : Val = [%s]\n",
                    vpd_key_names[vpd_key_id], vpd_val_len, bin_in_ascii);
 #endif
-            info[vpd_key_id] = std::make_pair(vpd_key_names[vpd_key_id],
-                                              bin_in_ascii);
+            info[vpd_key_id] =
+                std::make_pair(vpd_key_names[vpd_key_id], bin_in_ascii);
             break;
 
         case 3:
@@ -750,8 +750,8 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
                     printf("Board : Appending [%s] = [%s]\n", vpd_key_names[i],
                            timestr);
 #endif
-                    info[i] = std::make_pair(vpd_key_names[i],
-                                             std::string(timestr));
+                    info[i] =
+                        std::make_pair(vpd_key_names[i], std::string(timestr));
                     continue;
                 }
                 _append_to_dict(i, vpd_info[i].type_length_field, info);

@@ -93,8 +93,9 @@ std::string getFRUValue(const std::string& section, const std::string& key,
     auto first = fruData.cbegin() + minIndexValue;
     auto last = first + (maxIndexValue - minIndexValue) + 1;
 
-    auto itr = std::find_if(first, last,
-                            [&key](const auto& e) { return key == e.first; });
+    auto itr = std::find_if(first, last, [&key](const auto& e) {
+        return key == e.first;
+    });
 
     if (itr != last)
     {
@@ -132,10 +133,10 @@ std::string getFRUValue(const std::string& section, const std::string& key,
 auto getService(sdbusplus::bus_t& bus, const std::string& intf,
                 const std::string& path)
 {
-    auto mapperCall = bus.new_method_call("xyz.openbmc_project.ObjectMapper",
-                                          "/xyz/openbmc_project/object_mapper",
-                                          "xyz.openbmc_project.ObjectMapper",
-                                          "GetObject");
+    auto mapperCall =
+        bus.new_method_call("xyz.openbmc_project.ObjectMapper",
+                            "/xyz/openbmc_project/object_mapper",
+                            "xyz.openbmc_project.ObjectMapper", "GetObject");
 
     mapperCall.append(path);
     mapperCall.append(std::vector<std::string>({intf}));
@@ -539,10 +540,10 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                 return rc;
             }
 
-            auto fruDataView = std::span<uint8_t>(&fruData[areaOffset],
-                                                  areaLen);
-            auto areaData = std::vector<uint8_t>(fruDataView.begin(),
-                                                 fruDataView.end());
+            auto fruDataView =
+                std::span<uint8_t>(&fruData[areaOffset], areaLen);
+            auto areaData =
+                std::vector<uint8_t>(fruDataView.begin(), fruDataView.end());
 
             // Validate the CRC, but not for the internal use area, since its
             // contents beyond the first byte are not defined in the spec and
@@ -581,7 +582,7 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                 }
             }
         } // If we have FRU data present
-    }     // Walk struct common_header
+    } // Walk struct common_header
 
     // Not all the fields will be populated in a FRU data. Mostly all cases will
     // not have more than 2 or 3.
