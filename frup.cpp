@@ -627,7 +627,11 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
                 snprintf(bin_byte, 3, "%02x", vpd_key_val[val]);
 
 #pragma GCC diagnostic push
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#else
 #pragma GCC diagnostic ignored "-Wstringop-truncation"
+#endif
                 /* Its a running string so strip off the '\0' */
                 strncat(bin_copy, bin_byte, 2);
 #pragma GCC diagnostic pop
