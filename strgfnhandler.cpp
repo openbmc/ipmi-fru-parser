@@ -23,12 +23,12 @@ ipmi_ret_t ipmiStorageWriteFruData(
     ipmi_response_t response, ipmi_data_len_t dataLen,
     ipmi_context_t /*context*/)
 {
-    FILE* fp = NULL;
+    FILE* fp = nullptr;
     char fruFilename[16] = {0};
     size_t offset = 0;
     size_t len = 0;
     ipmi_ret_t rc = IPMI_CC_INVALID;
-    const char* mode = NULL;
+    const char* mode = nullptr;
 
     // From the payload, extract the header that has fruid and the offsets
     auto reqptr = static_cast<write_fru_data_t*>(request);
@@ -61,7 +61,7 @@ ipmi_ret_t ipmiStorageWriteFruData(
         mode = "rb+";
     }
 
-    if ((fp = std::fopen(fruFilename, mode)) != NULL)
+    if ((fp = std::fopen(fruFilename, mode)) != nullptr)
     {
         if (std::fseek(fp, offset, SEEK_SET))
         {
@@ -116,6 +116,6 @@ void register_netfn_storage_write_fru()
     std::printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_STORAGE,
                 IPMI_CMD_WRITE_FRU_DATA);
 
-    ipmi_register_callback(NETFUN_STORAGE, IPMI_CMD_WRITE_FRU_DATA, NULL,
+    ipmi_register_callback(NETFUN_STORAGE, IPMI_CMD_WRITE_FRU_DATA, nullptr,
                            ipmiStorageWriteFruData, SYSTEM_INTERFACE);
 }

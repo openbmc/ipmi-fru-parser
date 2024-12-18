@@ -44,7 +44,7 @@ namespace
  */
 int cleanupError(FILE* fruFilePointer, FruAreaVector& fruAreaVec)
 {
-    if (fruFilePointer != NULL)
+    if (fruFilePointer != nullptr)
     {
         std::fclose(fruFilePointer);
     }
@@ -653,7 +653,7 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     }
 
     FILE* fruFilePointer = std::fopen(fruFilename, "rb");
-    if (fruFilePointer == NULL)
+    if (fruFilePointer == nullptr)
     {
         log<level::ERR>("Unable to open FRU file",
                         entry("FILE=%s", fruFilename),
@@ -687,7 +687,7 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
 
     // We are done reading.
     std::fclose(fruFilePointer);
-    fruFilePointer = NULL;
+    fruFilePointer = nullptr;
 
     rc = ipmiValidateCommonHeader(fruData.data(), dataLen);
     if (rc < 0)
