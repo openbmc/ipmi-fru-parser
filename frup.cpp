@@ -296,7 +296,7 @@ int ipmi_fru_chassis_info_area(
     while (area_offset < areabuflen &&
            areabufptr[area_offset] != IPMI_FRU_SENTINEL_VALUE)
     {
-        ipmi_fru_field_t* field_ptr = NULL;
+        ipmi_fru_field_t* field_ptr = nullptr;
 
         if (chassis_custom_fields && chassis_custom_fields_len)
         {
@@ -424,7 +424,7 @@ int ipmi_fru_board_info_area(
     while (area_offset < areabuflen &&
            areabufptr[area_offset] != IPMI_FRU_SENTINEL_VALUE)
     {
-        ipmi_fru_field_t* field_ptr = NULL;
+        ipmi_fru_field_t* field_ptr = nullptr;
 
         if (board_custom_fields && board_custom_fields_len)
         {
@@ -562,7 +562,7 @@ int ipmi_fru_product_info_area(
     while (area_offset < areabuflen &&
            areabufptr[area_offset] != IPMI_FRU_SENTINEL_VALUE)
     {
-        ipmi_fru_field_t* field_ptr = NULL;
+        ipmi_fru_field_t* field_ptr = nullptr;
 
         if (product_custom_fields && product_custom_fields_len)
         {
@@ -667,7 +667,7 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
     if (bin_in_ascii)
     {
         free(bin_in_ascii);
-        bin_in_ascii = NULL;
+        bin_in_ascii = nullptr;
     }
 }
 
@@ -735,7 +735,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             printf("Board : Buf len = [%d]\n", len);
 #endif
             ipmi_fru_board_info_area(
-                (uint8_t*)msgbuf + 2, len, NULL, &mfg_date_time,
+                (uint8_t*)msgbuf + 2, len, nullptr, &mfg_date_time,
                 &vpd_info[OPENBMC_VPD_KEY_BOARD_MFR],
                 &vpd_info[OPENBMC_VPD_KEY_BOARD_NAME],
                 &vpd_info[OPENBMC_VPD_KEY_BOARD_SERIAL_NUM],
@@ -767,7 +767,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             printf("Product : Buf len = [%d]\n", len);
 #endif
             ipmi_fru_product_info_area(
-                (uint8_t*)msgbuf + 2, len, NULL,
+                (uint8_t*)msgbuf + 2, len, nullptr,
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_MFR],
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_NAME],
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM],
