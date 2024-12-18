@@ -1,0 +1,19 @@
+# Clang checks based on version '19.1.7'
+# Enable specific checks by category (alphabetical order)
+# Recommended categories:
+#         bugprone-, cert-, clang-analyzer-, cppcoreguidelines-,
+#         misc-, modernize-, performance-, readability-
+
+Checks: '
+-*,
+bugprone-unchecked-optional-access,
+modernize-use-nullptr,
+'
+
+# Treat all warnings as errors
+WarningsAsErrors: '*'
+
+# Apply checks to all files
+HeaderFilterRegex: '(?!^subprojects).*'
+
+CheckOptions: []
