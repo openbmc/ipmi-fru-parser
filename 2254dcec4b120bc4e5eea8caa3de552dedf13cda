@@ -16,6 +16,24 @@
       "message": "Added additional reviewers to assist in finalizing the initial version of the clang-tidy file for repositories that have not yet enabled clang-tidy.",
       "revId": "2254dcec4b120bc4e5eea8caa3de552dedf13cda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d01dfcb_ede60742",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000086
+      },
+      "writtenOn": "2025-02-04T08:31:37Z",
+      "side": 1,
+      "message": "Please refer https://gerrit.openbmc.org/c/openbmc/docs/+/76345 for background discussion related to this topic.",
+      "parentUuid": "e7ea6a81_d2620105",
+      "revId": "2254dcec4b120bc4e5eea8caa3de552dedf13cda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
