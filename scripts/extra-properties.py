@@ -25,7 +25,7 @@ def main():
         yamlDict = yaml.safe_load(fd)
 
         # Render the mako template
-        template = os.path.join(script_dir, "extra-properties.mako.cpp")
+        template = os.path.join(script_dir, "extra-properties.cpp.mako")
         t = Template(filename=template)
         with open("extra-properties-gen.cpp", "w") as fd:
             fd.write(t.render(dict=yamlDict))

@@ -16,7 +16,7 @@ def generate_cpp(inventory_yaml, output_dir):
 
         # Render the mako template
 
-        t = Template(filename=os.path.join(script_dir, "writefru.mako.cpp"))
+        t = Template(filename=os.path.join(script_dir, "writefru.cpp.mako"))
 
         output_hpp = os.path.join(output_dir, "fru-gen.cpp")
         with open(output_hpp, "w") as fd:
