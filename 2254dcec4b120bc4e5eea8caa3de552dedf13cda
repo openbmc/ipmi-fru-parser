@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "828f4f90_eddfd87a",
+        "filename": ".clang-tidy",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000086
+      },
+      "writtenOn": "2025-02-06T15:46:14Z",
+      "side": 1,
+      "message": "This  Information helps developers to indicates the categories suitable for this Repository.",
+      "parentUuid": "927ebce3_c6c0f70c",
+      "revId": "2254dcec4b120bc4e5eea8caa3de552dedf13cda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e7ea6a81_d2620105",
@@ -66,6 +84,24 @@
       "writtenOn": "2025-02-04T23:35:20Z",
       "side": 1,
       "message": "This should probably pass CI before we look at it too much?",
+      "revId": "2254dcec4b120bc4e5eea8caa3de552dedf13cda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d7ac3b3_93e8b2c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000086
+      },
+      "writtenOn": "2025-02-06T15:46:14Z",
+      "side": 1,
+      "message": "Fixed : Looks like triggered this failure with new CI updates.",
+      "parentUuid": "b3be83bf_2d30a326",
       "revId": "2254dcec4b120bc4e5eea8caa3de552dedf13cda",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
