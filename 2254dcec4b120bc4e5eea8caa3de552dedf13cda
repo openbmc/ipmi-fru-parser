@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1fb7c214_d2aa680a",
+        "filename": ".clang-tidy",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000086
+      },
+      "writtenOn": "2025-02-08T08:14:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "828f4f90_eddfd87a",
+      "revId": "2254dcec4b120bc4e5eea8caa3de552dedf13cda",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e7ea6a81_d2620105",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
