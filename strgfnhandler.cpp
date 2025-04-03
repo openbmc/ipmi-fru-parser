@@ -3,6 +3,7 @@
 #include <ipmid/api.h>
 #include <unistd.h>
 
+#include <ipmid/api-types.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
@@ -113,9 +114,9 @@ ipmi_ret_t ipmiStorageWriteFruData(
 //-------------------------------------------------------
 void register_netfn_storage_write_fru()
 {
-    std::printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_STORAGE,
+    std::printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", ipmi::netFnStorage,
                 IPMI_CMD_WRITE_FRU_DATA);
 
-    ipmi_register_callback(NETFUN_STORAGE, IPMI_CMD_WRITE_FRU_DATA, nullptr,
+    ipmi_register_callback(ipmi::netFnStorage, IPMI_CMD_WRITE_FRU_DATA, nullptr,
                            ipmiStorageWriteFruData, SYSTEM_INTERFACE);
 }
