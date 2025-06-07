@@ -190,7 +190,7 @@ static int _parse_type_length(const void* areabuf, unsigned int areabuflen,
                               uint8_t* number_of_data_bytes,
                               ipmi_fru_field_t* field)
 {
-    const uint8_t* areabufptr = (const uint8_t*)areabuf;
+    const uint8_t* areabufptr = static_cast<const uint8_t*>(areabuf);
     uint8_t type_length;
     uint8_t type_code;
 
@@ -252,7 +252,7 @@ int ipmi_fru_chassis_info_area(
     ipmi_fru_field_t* chassis_custom_fields,
     unsigned int chassis_custom_fields_len)
 {
-    const uint8_t* areabufptr = (const uint8_t*)areabuf;
+    const uint8_t* areabufptr = static_cast<const uint8_t*>(areabuf);
     unsigned int area_offset = 0;
     unsigned int custom_fields_index = 0;
     uint8_t number_of_data_bytes;
@@ -330,7 +330,7 @@ int ipmi_fru_board_info_area(
     ipmi_fru_field_t* board_part_number, ipmi_fru_field_t* board_fru_file_id,
     ipmi_fru_field_t* board_custom_fields, unsigned int board_custom_fields_len)
 {
-    const uint8_t* areabufptr = (const uint8_t*)areabuf;
+    const uint8_t* areabufptr = static_cast<const uint8_t*>(areabuf);
     unsigned int area_offset = 0;
     unsigned int custom_fields_index = 0;
     uint8_t number_of_data_bytes;
@@ -460,7 +460,7 @@ int ipmi_fru_product_info_area(
     ipmi_fru_field_t* product_custom_fields,
     unsigned int product_custom_fields_len)
 {
-    const uint8_t* areabufptr = (const uint8_t*)areabuf;
+    const uint8_t* areabufptr = static_cast<const uint8_t*>(areabuf);
     unsigned int area_offset = 0;
     unsigned int custom_fields_index = 0;
     uint8_t number_of_data_bytes;
@@ -608,12 +608,12 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
     char bin_in_ascii_len = vpd_val_len * 2 + 3;
 
     /* Binary converted to ascii in array */
-    char* bin_in_ascii = (char*)malloc(bin_in_ascii_len);
+    char* bin_in_ascii = static_cast<char*>(malloc(bin_in_ascii_len));
 
     /* For reading byte from the area */
     int val = 0;
 
-    char* bin_copy = &((char*)bin_in_ascii)[2];
+    char* bin_copy = &(static_cast<char*>(bin_in_ascii)[2]);
 
     switch (type_code)
     {
@@ -707,7 +707,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             printf("Chassis : Buf len = [%d]\n", len);
 #endif
             ipmi_fru_chassis_info_area(
-                (uint8_t*)msgbuf + 2, len, &chassis_type,
+                static_cast<const uint8_t*>(msgbuf) + 2, len, &chassis_type,
                 &vpd_info[OPENBMC_VPD_KEY_CHASSIS_PART_NUM],
                 &vpd_info[OPENBMC_VPD_KEY_CHASSIS_SERIAL_NUM],
                 &vpd_info[OPENBMC_VPD_KEY_CHASSIS_CUSTOM1],
@@ -734,8 +734,8 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             printf("Board : Buf len = [%d]\n", len);
 #endif
             ipmi_fru_board_info_area(
-                (uint8_t*)msgbuf + 2, len, nullptr, &mfg_date_time,
-                &vpd_info[OPENBMC_VPD_KEY_BOARD_MFR],
+                static_cast<const uint8_t*>(msgbuf) + 2, len, nullptr,
+                &mfg_date_time, &vpd_info[OPENBMC_VPD_KEY_BOARD_MFR],
                 &vpd_info[OPENBMC_VPD_KEY_BOARD_NAME],
                 &vpd_info[OPENBMC_VPD_KEY_BOARD_SERIAL_NUM],
                 &vpd_info[OPENBMC_VPD_KEY_BOARD_PART_NUM],
@@ -766,7 +766,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             printf("Product : Buf len = [%d]\n", len);
 #endif
             ipmi_fru_product_info_area(
-                (uint8_t*)msgbuf + 2, len, nullptr,
+                static_cast<const uint8_t*>(msgbuf) + 2, len, nullptr,
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_MFR],
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_NAME],
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM],
