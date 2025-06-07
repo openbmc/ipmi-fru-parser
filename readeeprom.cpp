@@ -32,8 +32,7 @@ int main(int argc, char** argv)
     // Now that we have the file that contains the eeprom data, go read it
     // and update the Inventory DB.
     auto bus = sdbusplus::bus::new_default();
-    bool bmc_fru = true;
-    rc = validateFRUArea(fruid, eeprom_file.c_str(), bus, bmc_fru);
+    rc = validateFRUArea(fruid, eeprom_file.c_str(), bus);
 
     return (rc < 0 ? EXIT_FAILURE : EXIT_SUCCESS);
 }

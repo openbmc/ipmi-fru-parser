@@ -25,10 +25,8 @@ class IPMIFruArea
      *
      * @param[in] fruID - FRU identifier value
      * @param[in] type - the type of FRU area.
-     * @param[in] bmcOnlyFru - Is this FRU only accessible via the BMC
      */
-    IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type,
-                bool bmcOnlyFru = false);
+    IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type);
 
     /**
      * Set whether the FRU is present.
@@ -108,14 +106,8 @@ class IPMIFruArea
     // Name of the FRU area. ( BOARD/CHASSIS/PRODUCT )
     std::string name;
 
-    // Special bit for BMC readable eeprom only.
-    bool bmcOnlyFru = false;
-
     // If a FRU is physically present.
     bool isPresent = false;
-
-    // Whether a particular area is valid ?
-    bool isValid = false;
 
     // Actual area data.
     std::vector<uint8_t> data;

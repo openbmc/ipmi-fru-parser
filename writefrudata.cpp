@@ -628,7 +628,7 @@ int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
 }
 
 int validateFRUArea(const uint8_t fruid, const char* fruFilename,
-                    sdbusplus::bus_t& bus, const bool bmcOnlyFru)
+                    sdbusplus::bus_t& bus)
 {
     size_t dataLen = 0;
     size_t bytesRead = 0;
@@ -642,8 +642,8 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
          fruEntry < (sizeof(struct common_header) - 2); fruEntry++)
     {
         // Create an object and push onto a vector.
-        std::unique_ptr<IPMIFruArea> fruArea = std::make_unique<IPMIFruArea>(
-            fruid, getFruAreaType(fruEntry), bmcOnlyFru);
+        std::unique_ptr<IPMIFruArea> fruArea =
+            std::make_unique<IPMIFruArea>(fruid, getFruAreaType(fruEntry));
 
         // Physically being present
         bool present = access(fruFilename, F_OK) == 0;
