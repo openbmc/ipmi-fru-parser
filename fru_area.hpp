@@ -114,9 +114,6 @@ class IPMIFruArea
     // If a FRU is physically present.
     bool isPresent = false;
 
-    // Whether a particular area is valid ?
-    bool isValid = false;
-
     // Actual area data.
     std::vector<uint8_t> data;
 };
