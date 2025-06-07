@@ -109,13 +109,13 @@ class IPMIFruArea
     std::string name;
 
     // Special bit for BMC readable eeprom only.
-    bool bmcOnlyFru = false;
+    [[maybe_unused]] bool bmcOnlyFru = false;
 
     // If a FRU is physically present.
     bool isPresent = false;
 
     // Whether a particular area is valid ?
-    bool isValid = false;
+    [[maybe_unused]] bool isValid = false;
 
     // Actual area data.
     std::vector<uint8_t> data;
