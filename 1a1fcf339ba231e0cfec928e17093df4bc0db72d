@@ -16,6 +16,24 @@
       "message": "How is this any better?",
       "revId": "1a1fcf339ba231e0cfec928e17093df4bc0db72d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d296ec94_b60cf855",
+        "filename": "fru_area.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-06-16T18:25:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeccd48c_927d136e",
+      "revId": "1a1fcf339ba231e0cfec928e17093df4bc0db72d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
