@@ -3,12 +3,6 @@
 
 #include <sdbusplus/bus.hpp>
 
-// IPMI commands for Storage net functions.
-enum ipmi_netfn_storage_cmds
-{
-    IPMI_CMD_WRITE_FRU_DATA = 0x12
-};
-
 // Format of write fru data command
 struct write_fru_data_t
 {
