@@ -19,16 +19,15 @@ using namespace phosphor::logging;
 ///-------------------------------------------------------
 // Called by IPMI netfn router for write fru data command
 //--------------------------------------------------------
-ipmi_ret_t ipmiStorageWriteFruData(
-    ipmi_netfn_t /*netfn*/, ipmi_cmd_t /*cmd*/, ipmi_request_t request,
-    ipmi_response_t response, ipmi_data_len_t dataLen,
-    ipmi_context_t /*context*/)
+Cc ipmiStorageWriteFruData(ipmi_netfn_t /*netfn*/, ipmi_cmd_t /*cmd*/,
+                           ipmi_request_t request, ipmi_response_t response,
+                           ipmi_data_len_t dataLen, ipmi_context_t /*context*/)
 {
     FILE* fp = nullptr;
     char fruFilename[16] = {0};
     size_t offset = 0;
     size_t len = 0;
-    ipmi_ret_t rc = IPMI_CC_INVALID;
+    Cc rc = ipmi::ccInvalidCommand;
     const char* mode = nullptr;
 
     // From the payload, extract the header that has fruid and the offsets
@@ -95,7 +94,7 @@ ipmi_ret_t ipmiStorageWriteFruData(
     // to the number of bytes written
     std::memcpy(response, &len, 1);
     *dataLen = 1;
-    rc = IPMI_CC_OK;
+    rc = ipmi::ccSuccess;
 
     // Get the reference to global sd_bus object
     sd_bus* bus_type = ipmid_get_sd_bus_connection();
