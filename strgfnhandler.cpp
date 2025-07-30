@@ -99,9 +99,7 @@ ipmi_ret_t ipmiStorageWriteFruData(
     // We received some bytes. It may be full or partial. Send a valid
     // FRU file to the inventory controller on DBus for the correct number
     sdbusplus::bus_t bus{bus_type};
-    validateFRUArea(reqptr->frunum, fruFilename, bus);
-
-    return rc;
+    return validateFRUArea(reqptr->frunum, fruFilename, bus);
 }
 
 //-------------------------------------------------------
