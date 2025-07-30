@@ -91,7 +91,6 @@ ipmi_ret_t ipmiStorageWriteFruData(
     // to the number of bytes written
     std::memcpy(response, &len, 1);
     *dataLen = 1;
-    rc = ipmi::ccSuccess;
 
     // Get the reference to global sd_bus object
     sd_bus* bus_type = ipmid_get_sd_bus_connection();
@@ -99,9 +98,7 @@ ipmi_ret_t ipmiStorageWriteFruData(
     // We received some bytes. It may be full or partial. Send a valid
     // FRU file to the inventory controller on DBus for the correct number
     sdbusplus::bus_t bus{bus_type};
-    validateFRUArea(reqptr->frunum, fruFilename, bus);
-
-    return rc;
+    return validateFRUArea(reqptr->frunum, fruFilename, bus);
 }
 
 //-------------------------------------------------------
