@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 #include <ipmid/api-types.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 
 #include <cstdio>
@@ -13,8 +13,6 @@
 void register_netfn_storage_write_fru() __attribute__((constructor));
 
 sd_bus* ipmid_get_sd_bus_connection(void);
-
-using namespace phosphor::logging;
 
 ///-------------------------------------------------------
 // Called by IPMI netfn router for write fru data command
@@ -48,10 +46,9 @@ ipmi_ret_t ipmiStorageWriteFruData(
     // On error there is no response data for this command.
     *dataLen = 0;
 
-#ifdef __IPMI__DEBUG__
-    log<level::DEBUG>("IPMI WRITE-FRU-DATA", entry("FILE=%s", fruFilename),
-                      entry("OFFSET=%d", offset), entry("LENGTH=%d", len));
-#endif
+    lg2::debug(
+        "IPMI WRITE-FRU-DATA, file name: {FILE}, offset: {OFFSET}, length: {LENGTH}",
+        "FILE", fruFilename, "OFFSET", offset, "LENGTH", len);
 
     if (access(fruFilename, F_OK) == -1)
     {
@@ -66,18 +63,18 @@ ipmi_ret_t ipmiStorageWriteFruData(
     {
         if (std::fseek(fp, offset, SEEK_SET))
         {
-            log<level::ERR>("Seek into fru file failed",
-                            entry("FILE=%s", fruFilename),
-                            entry("ERRNO=%s", std::strerror(errno)));
+            lg2::error(
+                "Seek into fru file failed, file name: {FILE}, errno: {ERRNO}",
+                "FILE", fruFilename, "ERRNO", std::strerror(errno));
             std::fclose(fp);
             return rc;
         }
 
         if (std::fwrite(&reqptr->data, len, 1, fp) != 1)
         {
-            log<level::ERR>("Write into fru file failed",
-                            entry("FILE=%s", fruFilename),
-                            entry("ERRNO=%s", std::strerror(errno)));
+            lg2::error(
+                "Write into fru file failed, file name: {FILE}, errno: {ERRNO}",
+                "FILE", fruFilename, "ERRNO", std::strerror(errno));
             std::fclose(fp);
             return rc;
         }
@@ -86,8 +83,7 @@ ipmi_ret_t ipmiStorageWriteFruData(
     }
     else
     {
-        log<level::ERR>("Error trying to write to fru file",
-                        entry("FILE=%s", fruFilename));
+        lg2::error("Error trying to write to {FILE}", "FILE", fruFilename);
         return rc;
     }
 
@@ -113,8 +109,10 @@ ipmi_ret_t ipmiStorageWriteFruData(
 //-------------------------------------------------------
 void register_netfn_storage_write_fru()
 {
-    std::printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", ipmi::netFnStorage,
-                ipmi::storage::cmdWriteFruData);
+    lg2::info(
+        "Registering WRITE FRU DATA command handler, netfn:{NETFN}, cmd:{CMD}",
+        "NETFN", lg2::hex, ipmi::netFnStorage, "CMD", lg2::hex,
+        ipmi::storage::cmdWriteFruData);
 
     ipmi_register_callback(ipmi::netFnStorage, ipmi::storage::cmdWriteFruData,
                            nullptr, ipmiStorageWriteFruData, SYSTEM_INTERFACE);
