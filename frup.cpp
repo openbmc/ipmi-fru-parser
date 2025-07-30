@@ -49,6 +49,8 @@
 #include <time.h>
 #include <unistd.h>
 
+#include <phosphor-logging/lg2.hpp>
+
 #define TEXTSTR(a) #a
 #define ASSERT(x)                                                              \
     do                                                                         \
@@ -642,21 +644,21 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
             {
                 memcpy(bin_in_ascii, "0x", 2);
             }
-#if IPMI_FRU_PARSER_DEBUG
-            printf("_append_to_dict: VPD Key = [%s] : Type Code = [BINARY] :"
-                   " Len = [%d] : Val = [%s]\n",
-                   vpd_key_names[vpd_key_id], vpd_val_len, bin_in_ascii);
-#endif
+
+            lg2::debug(
+                "_append_to_dict: VPD Key = [{KEY}] : Type Code = [BINARY] : Len = [{LEN}] : Val = [{VAL}]",
+                "KEY", vpd_key_names[vpd_key_id], "LEN", vpd_val_len, "VAL",
+                bin_in_ascii);
+
             info[vpd_key_id] =
                 std::make_pair(vpd_key_names[vpd_key_id], bin_in_ascii);
             break;
 
         case 3:
-#if IPMI_FRU_PARSER_DEBUG
-            printf("_append_to_dict: VPD Key = [%s] : Type Code=[ASCII+Latin]"
-                   " : Len = [%d] : Val = [%s]\n",
-                   vpd_key_names[vpd_key_id], vpd_val_len, &vpd_key_val[1]);
-#endif
+            lg2::debug(
+                "_append_to_dict: VPD Key = [{KEY}] : Type Code = [ASCII+Latin] : Len = [{LEN}] : Val = [{VAL}]",
+                "KEY", vpd_key_names[vpd_key_id], "LEN", vpd_val_len, "VAL",
+                &vpd_key_val[1]);
             info[vpd_key_id] = std::make_pair(
                 vpd_key_names[vpd_key_id],
                 std::string(vpd_key_val + 1, vpd_key_val + 1 + type_length));
@@ -703,9 +705,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
     switch (area)
     {
         case IPMI_FRU_AREA_CHASSIS_INFO:
-#if IPMI_FRU_PARSER_DEBUG
-            printf("Chassis : Buf len = [%d]\n", len);
-#endif
+            lg2::debug("Chassis : Buf len = [{LEN}]", "LEN", len);
             ipmi_fru_chassis_info_area(
                 static_cast<const uint8_t*>(msgbuf) + 2, len, &chassis_type,
                 &vpd_info[OPENBMC_VPD_KEY_CHASSIS_PART_NUM],
@@ -718,10 +718,8 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             {
                 if (i == OPENBMC_VPD_KEY_CHASSIS_TYPE)
                 {
-#if IPMI_FRU_PARSER_DEBUG
-                    printf("Chassis : Appending [%s] = [%d]\n",
-                           vpd_key_names[i], chassis_type);
-#endif
+                    lg2::debug("Chassis : Appending [{KEY}] = [{TYPE}]", "KEY",
+                               vpd_key_names[i], "TYPE", chassis_type);
                     info[i] = std::make_pair(vpd_key_names[i],
                                              std::to_string(chassis_type));
                     continue;
@@ -730,9 +728,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             }
             break;
         case IPMI_FRU_AREA_BOARD_INFO:
-#if IPMI_FRU_PARSER_DEBUG
-            printf("Board : Buf len = [%d]\n", len);
-#endif
+            lg2::debug("Board : Buf len = [{LEN}]", "LEN", len);
             ipmi_fru_board_info_area(
                 static_cast<const uint8_t*>(msgbuf) + 2, len, nullptr,
                 &mfg_date_time, &vpd_info[OPENBMC_VPD_KEY_BOARD_MFR],
@@ -750,10 +746,8 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
                 if (i == OPENBMC_VPD_KEY_BOARD_MFG_DATE)
                 {
                     _to_time_str(mfg_date_time, timestr, OPENBMC_VPD_VAL_LEN);
-#if IPMI_FRU_PARSER_DEBUG
-                    printf("Board : Appending [%s] = [%s]\n", vpd_key_names[i],
-                           timestr);
-#endif
+                    lg2::debug("Board : Appending [{KEY}] = [{VAL}]", "KEY",
+                               vpd_key_names[i], "VAL", timestr);
                     info[i] =
                         std::make_pair(vpd_key_names[i], std::string(timestr));
                     continue;
@@ -762,9 +756,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             }
             break;
         case IPMI_FRU_AREA_PRODUCT_INFO:
-#if IPMI_FRU_PARSER_DEBUG
-            printf("Product : Buf len = [%d]\n", len);
-#endif
+            lg2::debug("Product : Buf len = [{LEN}]", "LEN", len);
             ipmi_fru_product_info_area(
                 static_cast<const uint8_t*>(msgbuf) + 2, len, nullptr,
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_MFR],
@@ -788,9 +780,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
             break;
     }
 
-#if IPMI_FRU_PARSER_DEBUG
-    printf("parse_fru_area : Dictionary Packing Complete\n");
-#endif
+    lg2::debug("parse_fru_area : Dictionary Packing Complete");
     rv = 0;
     return (rv);
 }
