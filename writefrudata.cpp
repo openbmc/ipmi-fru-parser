@@ -7,7 +7,7 @@
 #include <ipmid/api.h>
 #include <unistd.h>
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 
 #include <algorithm>
@@ -24,7 +24,6 @@
 #include <vector>
 
 using namespace ipmi::vpd;
-using namespace phosphor::logging;
 
 extern const FruMap frus;
 extern const std::map<Path, InterfaceMap> extras;
@@ -149,8 +148,7 @@ auto getService(sdbusplus::bus_t& bus, const std::string& intf,
     }
     catch (const sdbusplus::exception_t& ex)
     {
-        log<level::ERR>("Exception from sdbus call",
-                        entry("WHAT=%s", ex.what()));
+        lg2::error("Exception from sdbus call: {ERROR}", "ERROR", ex);
         throw;
     }
 
@@ -188,7 +186,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus_t& bus)
                             fruArea->getLength(), fruData);
         if (rc < 0)
         {
-            log<level::ERR>("Error parsing FRU records");
+            lg2::error("Error parsing FRU records: {RC}", "RC", rc);
             return rc;
         }
     } // END walking the vector of areas and updating
@@ -210,23 +208,23 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus_t& bus)
     }
     catch (const std::exception& e)
     {
-        std::cerr << e.what() << "\n";
+        lg2::error("Failed to get service: {ERROR}", "ERROR", e);
         return -1;
     }
 
     auto iter = frus.find(fruid);
     if (iter == frus.end())
     {
-        log<level::ERR>("Unable to find FRUID in generated list",
-                        entry("FRU=%d", static_cast<int>(fruid)));
+        lg2::error("Unable to find fru id:({FRUID}) in generated list", "FRUID",
+                   fruid);
         return -1;
     }
 
     auto& instanceList = iter->second;
     if (instanceList.size() <= 0)
     {
-        log<level::DEBUG>("Object list empty for this FRU",
-                          entry("FRU=%d", static_cast<int>(fruid)));
+        lg2::debug("Object list empty for this fru id:({FRUID})", "FRUID",
+                   fruid);
     }
 
     ObjectMap objects;
@@ -293,9 +291,9 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus_t& bus)
     }
     catch (const sdbusplus::exception_t& ex)
     {
-        log<level::ERR>("Error in notify call", entry("WHAT=%s", ex.what()),
-                        entry("SERVICE=%s", service.c_str()),
-                        entry("PATH=%s", path.c_str()));
+        lg2::error(
+            "Error in notify call, service: {SERVICE}, path: {PATH}, error: {ERROR}",
+            "SERVICE", service, "PATH", path, "ERROR", ex);
         return -1;
     }
 
@@ -388,20 +386,10 @@ int verifyFruMultiRecData(const uint8_t* data, const size_t len,
     checksum = calculateCRC(data, len);
     if (checksum != data[3])
     {
-#ifdef __IPMI_DEBUG__
-        log<level::ERR>(
-            "Checksum mismatch",
-            entry("Calculated=0x%X", static_cast<uint32_t>(checksum)),
-            entry("Embedded=0x%X", static_cast<uint32_t>(data[3])));
-#endif
+        lg2::debug("Checksum mismatch, Calculated={CALC}, Embedded={EMBED}",
+                   "CALC", lg2::hex, checksum, "EMBED", lg2::hex, data[3]);
         return rc;
     }
-#ifdef __IPMI_DEBUG__
-    else
-    {
-        log<level::DEBUG>("Checksum matches");
-    }
-#endif
 
     return EXIT_SUCCESS;
 }
@@ -422,17 +410,12 @@ int verifyFruData(const uint8_t* data, const size_t len, bool validateCrc)
     // Validate for first byte to always have a value of [1]
     if (data[0] != IPMI_FRU_HDR_BYTE_ZERO)
     {
-        log<level::ERR>("Invalid entry in byte-0",
-                        entry("ENTRY=0x%X", static_cast<uint32_t>(data[0])));
+        lg2::error("Invalid entry in byte-0, entry: {ENTRY}", "ENTRY", lg2::hex,
+                   data[0]);
         return rc;
     }
-#ifdef __IPMI_DEBUG__
-    else
-    {
-        log<level::DEBUG>("Validated in entry_1 of fruData",
-                          entry("ENTRY=0x%X", static_cast<uint32_t>(data[0])));
-    }
-#endif
+    lg2::debug("Validated in entry_1 of fruData,entry: {ENTRY}", "ENTRY",
+               lg2::hex, data[0]);
 
     if (!validateCrc)
     {
@@ -445,20 +428,10 @@ int verifyFruData(const uint8_t* data, const size_t len, bool validateCrc)
     checksum = calculateCRC(data, len - 1);
     if (checksum != data[len - 1])
     {
-#ifdef __IPMI_DEBUG__
-        log<level::ERR>(
-            "Checksum mismatch",
-            entry("Calculated=0x%X", static_cast<uint32_t>(checksum)),
-            entry("Embedded=0x%X", static_cast<uint32_t>(data[len])));
-#endif
+        lg2::debug("Checksum mismatch, Calculated={CALC}, Embedded={EMBED}",
+                   "CALC", lg2::hex, checksum, "EMBED", lg2::hex, data[len]);
         return rc;
     }
-#ifdef __IPMI_DEBUG__
-    else
-    {
-        log<level::DEBUG>("Checksum matches");
-    }
-#endif
 
     return EXIT_SUCCESS;
 }
@@ -505,8 +478,7 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
         {
             // Our file size is less than what it needs to be. +2 because we are
             // using area len that is at 2 byte off areaOffset
-            log<level::ERR>("FRU file is incomplete",
-                            entry("SIZE=%d", dataLen));
+            lg2::error("FRU file is incomplete, size: {SIZE}", "SIZE", dataLen);
             return rc;
         }
         else if (areaOffset)
@@ -527,16 +499,16 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
                 areaLen = areaHeader[1] * IPMI_EIGHT_BYTES;
             }
 
-            log<level::DEBUG>("FRU Data", entry("SIZE=%d", dataLen),
-                              entry("AREA OFFSET=%d", areaOffset),
-                              entry("AREA_SIZE=%d", areaLen));
+            lg2::debug(
+                "FRU Data, size: {SIZE}, area offset: {OFFSET}, area size: {AREA_SIZE}",
+                "SIZE", dataLen, "OFFSET", areaOffset, "AREA_SIZE", areaLen);
 
             // See if we really have that much buffer. We have area offset amd
             // from there, the actual len.
             if (dataLen < (areaLen + areaOffset))
             {
-                log<level::ERR>("Incomplete FRU file",
-                                entry("SIZE=%d", dataLen));
+                lg2::error("Incomplete FRU file, size: {SIZE}", "SIZE",
+                           dataLen);
                 return rc;
             }
 
@@ -562,15 +534,12 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
 
             if (rc < 0)
             {
-                log<level::ERR>("Err validating FRU area",
-                                entry("OFFSET=%d", areaOffset));
+                lg2::error("Err validating FRU area, offset: {OFFSET}",
+                           "OFFSET", areaOffset);
                 return rc;
             }
-            else
-            {
-                log<level::DEBUG>("Successfully verified area.",
-                                  entry("OFFSET=%d", areaOffset));
-            }
+            lg2::debug("Successfully verified area, offset: {OFFSET}", "OFFSET",
+                       areaOffset);
 
             // We already have a vector that is passed to us containing all
             // of the fields populated. Update the data portion now.
@@ -612,7 +581,7 @@ int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
     }
     else
     {
-        log<level::ERR>("Incomplete FRU data file", entry("SIZE=%d", dataLen));
+        lg2::error("Incomplete FRU data file, size: {SIZE}", "SIZE", dataLen);
         return rc;
     }
 
@@ -620,7 +589,7 @@ int ipmiValidateCommonHeader(const uint8_t* fruData, const size_t dataLen)
     rc = verifyFruData(commonHdr, sizeof(commonHdr), true);
     if (rc < 0)
     {
-        log<level::ERR>("Failed to validate common header");
+        lg2::error("Failed to validate common header");
         return rc;
     }
 
@@ -655,18 +624,16 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     FILE* fruFilePointer = std::fopen(fruFilename, "rb");
     if (fruFilePointer == nullptr)
     {
-        log<level::ERR>("Unable to open FRU file",
-                        entry("FILE=%s", fruFilename),
-                        entry("ERRNO=%s", std::strerror(errno)));
+        lg2::error("Unable to open {FILE}, error: {ERRNO}", "FILE", fruFilename,
+                   "ERRNO", std::strerror(errno));
         return cleanupError(fruFilePointer, fruAreaVec);
     }
 
     // Get the size of the file to see if it meets minimum requirement
     if (std::fseek(fruFilePointer, 0, SEEK_END))
     {
-        log<level::ERR>("Unable to seek FRU file",
-                        entry("FILE=%s", fruFilename),
-                        entry("ERRNO=%s", std::strerror(errno)));
+        lg2::error("Unable to seek {FILE}, error: {ERRNO}", "FILE", fruFilename,
+                   "ERRNO", std::strerror(errno));
         return cleanupError(fruFilePointer, fruAreaVec);
     }
 
@@ -679,9 +646,9 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     bytesRead = std::fread(fruData.data(), dataLen, 1, fruFilePointer);
     if (bytesRead != 1)
     {
-        log<level::ERR>("Failed reading FRU data.",
-                        entry("BYTESREAD=%d", bytesRead),
-                        entry("ERRNO=%s", std::strerror(errno)));
+        lg2::error(
+            "Failed to reading FRU data, bytesRead: {BYTESREAD}, errno: {ERRNO}",
+            "BYTESREAD", bytesRead, "ERRNO", std::strerror(errno));
         return cleanupError(fruFilePointer, fruAreaVec);
     }
 
@@ -700,35 +667,28 @@ int validateFRUArea(const uint8_t fruid, const char* fruFilename,
     rc = ipmiPopulateFruAreas(fruData.data(), dataLen, fruAreaVec);
     if (rc < 0)
     {
-        log<level::ERR>("Populating FRU areas failed", entry("FRU=%d", fruid));
+        lg2::error("Populating fru id:({FRUID}) areas failed", "FRUID", fruid);
         return cleanupError(fruFilePointer, fruAreaVec);
     }
-    else
-    {
-        log<level::DEBUG>("Populated FRU areas", entry("FILE=%s", fruFilename));
-    }
+    lg2::debug("Populated FRU areas, file name: {FILE}", "FILE", fruFilename);
 
-#ifdef __IPMI_DEBUG__
     for (const auto& iter : fruAreaVec)
     {
-        std::printf("FRU ID : [%d]\n", iter->getFruID());
-        std::printf("AREA NAME : [%s]\n", iter->getName());
-        std::printf("TYPE : [%d]\n", iter->getType());
-        std::printf("LEN : [%d]\n", iter->getLength());
+        lg2::debug("fru id: {FRUID}", "FRUID", iter->getFruID());
+        lg2::debug("area name: {AREA}", "AREA", iter->getName());
+        lg2::debug("type: {TYPE}", "TYPE", iter->getType());
+        lg2::debug("length: {LEN}", "LEN", iter->getLength());
     }
-#endif
 
     // If the vector is populated with everything, then go ahead and update the
     // inventory.
     if (!(fruAreaVec.empty()))
     {
-#ifdef __IPMI_DEBUG__
-        std::printf("\n SIZE of vector is : [%d] \n", fruAreaVec.size());
-#endif
+        lg2::debug("fruAreaVec size: {SIZE}", "SIZE", fruAreaVec.size());
         rc = updateInventory(fruAreaVec, bus);
         if (rc < 0)
         {
-            log<level::ERR>("Error updating inventory.");
+            lg2::error("Error updating inventory.");
         }
     }
 

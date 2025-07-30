@@ -2,12 +2,10 @@
 
 #include "frup.hpp"
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <cstdint>
 #include <cstring>
-
-using namespace phosphor::logging;
 
 IPMIFruArea::IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type) :
     fruID(fruID), type(type)
@@ -35,7 +33,7 @@ IPMIFruArea::IPMIFruArea(const uint8_t fruID, const ipmi_fru_area_type type) :
     else
     {
         name = IPMI_FRU_AREA_TYPE_MAX;
-        log<level::ERR>("Invalid Area", entry("TYPE=%d", type));
+        lg2::error("type: {TYPE} is an invalid Area", "TYPE", type);
     }
 }
 
