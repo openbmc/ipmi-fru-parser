@@ -10,7 +10,7 @@
 #include <cstdio>
 #include <cstring>
 
-void register_netfn_storage_write_fru() __attribute__((constructor));
+void registerNetFnStorageWriteFru() __attribute__((constructor));
 
 sd_bus* ipmid_get_sd_bus_connection(void);
 
@@ -107,7 +107,7 @@ ipmi_ret_t ipmiStorageWriteFruData(
 //-------------------------------------------------------
 // Registering WRITE FRU DATA command handler with daemon
 //-------------------------------------------------------
-void register_netfn_storage_write_fru()
+void registerNetFnStorageWriteFru()
 {
     lg2::info(
         "Registering WRITE FRU DATA command handler, netfn:{NETFN}, cmd:{CMD}",
