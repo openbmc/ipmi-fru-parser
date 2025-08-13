@@ -22,6 +22,30 @@
       },
       "revId": "99f66f67151dd01cad981417fdda9c4f9c6df44c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8afd3ed_fde77c11",
+        "filename": "strgfnhandler.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2025-08-13T02:14:29Z",
+      "side": 1,
+      "message": "Ack.\nUsing `const char*` avoids the extra `std::string` overhead.",
+      "parentUuid": "0324928c_9e372bfb",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "99f66f67151dd01cad981417fdda9c4f9c6df44c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
