@@ -266,7 +266,7 @@ int updateInventory(FruAreaVector& areaVector, sdbusplus::bus_t& bus)
         }
 
         // Call the inventory manager
-        sdbusplus::message::object_path objectPath = instance.path;
+        sdbusplus::object_path objectPath = instance.path;
         // Check and update extra properties
         if (extras.end() != extrasIter)
         {
