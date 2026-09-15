@@ -376,6 +376,11 @@ int verifyFruMultiRecData(const uint8_t* data, const size_t len,
     uint8_t checksum = 0;
     int rc = -1;
 
+    if (!data || len < 4)
+    {
+        return rc;
+    }
+
     if (!validateCrc)
     {
         // There's nothing else to do for this area.
@@ -407,6 +412,11 @@ int verifyFruData(const uint8_t* data, const size_t len, bool validateCrc)
     uint8_t checksum = 0;
     int rc = -1;
 
+    if (!data || len < 2)
+    {
+        return rc;
+    }
+
     // Validate for first byte to always have a value of [1]
     if (data[0] != IPMI_FRU_HDR_BYTE_ZERO)
     {
@@ -429,7 +439,7 @@ int verifyFruData(const uint8_t* data, const size_t len, bool validateCrc)
     if (checksum != data[len - 1])
     {
         lg2::debug("Checksum mismatch, Calculated={CALC}, Embedded={EMBED}",
-                   "CALC", lg2::hex, checksum, "EMBED", lg2::hex, data[len]);
+                   "CALC", lg2::hex, checksum, "EMBED", lg2::hex, data[len - 1]);
         return rc;
     }
 
@@ -474,10 +484,9 @@ int ipmiPopulateFruAreas(uint8_t* fruData, const size_t dataLen,
         // Actual offset in the payload is the offset mentioned in common header
         // multiplied by 8. Common header is always the first 8 bytes.
         size_t areaOffset = fruData[fruEntry] * IPMI_EIGHT_BYTES;
-        if (areaOffset && (dataLen < (areaOffset + 2)))
+        if (areaOffset && (dataLen < (areaOffset + 3)))
         {
-            // Our file size is less than what it needs to be. +2 because we are
-            // using area len that is at 2 byte off areaOffset
+            // Our file size is less than what it needs to be.
             lg2::error("FRU file is incomplete, size: {SIZE}", "SIZE", dataLen);
             return rc;
         }
