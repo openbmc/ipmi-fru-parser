@@ -71,7 +71,6 @@ enum openbmc_vpd_key_id
 
     OPENBMC_VPD_KEY_MAX,
     OPENBMC_VPD_KEY_CUSTOM_FIELDS_MAX = 8,
-
 };
 
 using IPMIFruInfo =
