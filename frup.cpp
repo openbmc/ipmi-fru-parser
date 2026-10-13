@@ -607,10 +607,14 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
      * Max number of characters needed to represent 1 unsigned byte in string
      * is number of bytes multiplied by 2. Extra 3 for 0x and a ending '\0';
      */
-    char bin_in_ascii_len = vpd_val_len * 2 + 3;
+    size_t bin_in_ascii_len = vpd_val_len * 2 + 3;
 
     /* Binary converted to ascii in array */
     char* bin_in_ascii = static_cast<char*>(malloc(bin_in_ascii_len));
+    if (!bin_in_ascii)
+    {
+        return;
+    }
 
     /* For reading byte from the area */
     int val = 0;
@@ -661,7 +665,7 @@ void _append_to_dict(uint8_t vpd_key_id, uint8_t* vpd_key_val,
                 &vpd_key_val[1]);
             info[vpd_key_id] = std::make_pair(
                 vpd_key_names[vpd_key_id],
-                std::string(vpd_key_val + 1, vpd_key_val + 1 + type_length));
+                std::string(vpd_key_val + 1, vpd_key_val + 1 + vpd_val_len));
             break;
     }
 
