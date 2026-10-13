@@ -200,6 +200,11 @@ static int _parse_type_length(const void* areabuf, unsigned int areabuflen,
     ASSERT(areabuflen);
     ASSERT(number_of_data_bytes);
 
+    if (current_area_offset >= areabuflen)
+    {
+        return (-1);
+    }
+
     type_length = areabufptr[current_area_offset];
 
     /* ipmi workaround
@@ -260,7 +265,7 @@ int ipmi_fru_chassis_info_area(
     uint8_t number_of_data_bytes;
     int rv = -1;
 
-    if (!areabuf || !areabuflen)
+    if (!areabuf || areabuflen < 2)
     {
         return (-1);
     }
@@ -277,7 +282,8 @@ int ipmi_fru_chassis_info_area(
         (*chassis_type) = areabufptr[area_offset];
     area_offset++;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -286,7 +292,8 @@ int ipmi_fru_chassis_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -338,7 +345,7 @@ int ipmi_fru_board_info_area(
     uint8_t number_of_data_bytes;
     int rv = -1;
 
-    if (!areabuf || !areabuflen)
+    if (!areabuf || areabuflen < 5)
     {
         return (-1);
     }
@@ -378,7 +385,8 @@ int ipmi_fru_board_info_area(
     else
         area_offset += 3;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -387,7 +395,8 @@ int ipmi_fru_board_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -396,7 +405,8 @@ int ipmi_fru_board_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -405,7 +415,8 @@ int ipmi_fru_board_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -414,7 +425,8 @@ int ipmi_fru_board_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -468,7 +480,7 @@ int ipmi_fru_product_info_area(
     uint8_t number_of_data_bytes;
     int rv = -1;
 
-    if (!areabuf || !areabuflen)
+    if (!areabuf || areabuflen < 2)
     {
         return (-1);
     }
@@ -495,7 +507,8 @@ int ipmi_fru_product_info_area(
         (*language_code) = areabufptr[area_offset];
     area_offset++;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -505,7 +518,8 @@ int ipmi_fru_product_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -514,7 +528,8 @@ int ipmi_fru_product_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -524,7 +539,8 @@ int ipmi_fru_product_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -533,7 +549,8 @@ int ipmi_fru_product_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -542,7 +559,8 @@ int ipmi_fru_product_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -551,7 +569,8 @@ int ipmi_fru_product_info_area(
     area_offset += 1; /* type/length byte */
     area_offset += number_of_data_bytes;
 
-    if (areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
+    if (area_offset >= areabuflen ||
+        areabufptr[area_offset] == IPMI_FRU_SENTINEL_VALUE)
         goto out;
 
     if (_parse_type_length(areabufptr, areabuflen, area_offset,
@@ -681,7 +700,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
     /* Chassis */
     uint8_t chassis_type;
     /* Board */
-    uint32_t mfg_date_time;
+    uint32_t mfg_date_time = 0;
     /* Product */
     // unsigned int product_custom_fields_len;
 
@@ -695,6 +714,11 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
 
     ASSERT(msgbuf);
 
+    if (len < 2)
+    {
+        return rv;
+    }
+
     for (i = 0; i < OPENBMC_VPD_KEY_MAX; i++)
     {
         memset(vpd_info[i].type_length_field, '\0',
@@ -707,7 +731,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
         case IPMI_FRU_AREA_CHASSIS_INFO:
             lg2::debug("Chassis : Buf len = [{LEN}]", "LEN", len);
             ipmi_fru_chassis_info_area(
-                static_cast<const uint8_t*>(msgbuf) + 2, len, &chassis_type,
+                static_cast<const uint8_t*>(msgbuf) + 2, len - 2, &chassis_type,
                 &vpd_info[OPENBMC_VPD_KEY_CHASSIS_PART_NUM],
                 &vpd_info[OPENBMC_VPD_KEY_CHASSIS_SERIAL_NUM],
                 &vpd_info[OPENBMC_VPD_KEY_CHASSIS_CUSTOM1],
@@ -730,7 +754,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
         case IPMI_FRU_AREA_BOARD_INFO:
             lg2::debug("Board : Buf len = [{LEN}]", "LEN", len);
             ipmi_fru_board_info_area(
-                static_cast<const uint8_t*>(msgbuf) + 2, len, nullptr,
+                static_cast<const uint8_t*>(msgbuf) + 2, len - 2, nullptr,
                 &mfg_date_time, &vpd_info[OPENBMC_VPD_KEY_BOARD_MFR],
                 &vpd_info[OPENBMC_VPD_KEY_BOARD_NAME],
                 &vpd_info[OPENBMC_VPD_KEY_BOARD_SERIAL_NUM],
@@ -758,7 +782,7 @@ int parse_fru_area(const uint8_t area, const void* msgbuf, const size_t len,
         case IPMI_FRU_AREA_PRODUCT_INFO:
             lg2::debug("Product : Buf len = [{LEN}]", "LEN", len);
             ipmi_fru_product_info_area(
-                static_cast<const uint8_t*>(msgbuf) + 2, len, nullptr,
+                static_cast<const uint8_t*>(msgbuf) + 2, len - 2, nullptr,
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_MFR],
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_NAME],
                 &vpd_info[OPENBMC_VPD_KEY_PRODUCT_PART_MODEL_NUM],
